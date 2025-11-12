@@ -232,7 +232,7 @@ publishMods {
     modLoaders.add("quilt")
     dryRun = providers.environmentVariable("MODRINTH_TOKEN").getOrNull() == null || providers.environmentVariable("CURSEFORGE_TOKEN").getOrNull() == null
     modrinth {
-        projectId = "MjD9CI06" //TODO: change
+        projectId = "1AIR4y6L"
         accessToken = providers.environmentVariable("MODRINTH_TOKEN")
         for (version in BuildConfig.supportedVersions)
             minecraftVersions.add(version)
@@ -242,7 +242,7 @@ publishMods {
     modrinth("modrinthNeoforge") {
         modLoaders.empty()
         modLoaders.add("neoforge")
-        projectId = "MjD9CI06" //TODO: change
+        projectId = "1AIR4y6L"
         accessToken = providers.environmentVariable("MODRINTH_TOKEN")
         for (version in BuildConfig.supportedVersions)
             minecraftVersions.add(version)
@@ -251,7 +251,7 @@ publishMods {
         requires("connector")
     }
     curseforge {
-        projectId = "1361094" //TODO: change
+        projectId = "1383739"
         changelogType = "markdown"
         accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
         for (version in BuildConfig.supportedVersions)
@@ -259,7 +259,7 @@ publishMods {
         javaVersions.add(JavaVersion.VERSION_21)
         clientRequired = true
         serverRequired = true
-        projectSlug = "guitas-backpacks" //TODO: change
+        projectSlug = "obese-crops"
         requires("fabric-api")
         requires("macu-lib")
     }
