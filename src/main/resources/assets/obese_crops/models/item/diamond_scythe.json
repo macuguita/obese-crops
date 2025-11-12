@@ -1,0 +1,38 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "obese_crops:item/diamond_scythe"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "obese_crops:thirdperson_lefthand": 1
+      },
+      "model": "obese_crops:item/diamond_scythe_handheld"
+    },
+    {
+      "predicate": {
+        "obese_crops:thirdperson_righthand": 1
+      },
+      "model": "obese_crops:item/diamond_scythe_handheld"
+    },
+    {
+      "predicate": {
+        "obese_crops:firstperson_lefthand": 1
+      },
+      "model": "obese_crops:item/diamond_scythe_handheld"
+    },
+    {
+      "predicate": {
+        "obese_crops:firstperson_righthand": 1
+      },
+      "model": "obese_crops:item/diamond_scythe_handheld"
+    },
+    {
+      "predicate": {
+        "obese_crops:fixed": 1
+      },
+      "model": "obese_crops:item/diamond_scythe_handheld"
+    }
+  ]
+}

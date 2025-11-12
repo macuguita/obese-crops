@@ -1,0 +1,6 @@
+{
+  "parent": "obese_crops:item/scythe_handheld",
+  "textures": {
+    "layer0": "obese_crops:item/golden_scythe_handheld"
+  }
+}

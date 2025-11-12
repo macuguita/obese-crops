@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "obese_crops:block/obese_carrot_foliage"
+  }
+}

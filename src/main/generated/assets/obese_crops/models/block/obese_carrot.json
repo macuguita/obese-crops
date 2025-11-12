@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "obese_crops:block/obese_carrot",
+    "east": "obese_crops:block/obese_carrot",
+    "north": "obese_crops:block/obese_carrot",
+    "particle": "obese_crops:block/obese_carrot",
+    "south": "obese_crops:block/obese_carrot",
+    "up": "obese_crops:block/obese_carrot_top",
+    "west": "obese_crops:block/obese_carrot"
+  }
+}

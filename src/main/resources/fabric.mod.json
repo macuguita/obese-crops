@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "id": "obese_crops",
+  "version": "1.0.0-1.21.1",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-datagen": [
+      "com.macuguita.obese_crops.datagen.ObeseCropsDatagen"
+    ],
+    "client": [
+      "com.macuguita.obese_crops.client.ObeseCropsClient"
+    ],
+    "main": [
+      "com.macuguita.obese_crops.common.ObeseCrops"
+    ]
+  },
+  "mixins": [
+    "obese_crops.mixins.json"
+  ],
+  "accessWidener": "obese_crops.accesswidener",
+  "depends": {
+    "fabricloader": "\u003e\u003d0.17.3",
+    "minecraft": "~1.21.1",
+    "java": "\u003e\u003d21",
+    "fabric-api": "*",
+    "macu_lib": "\u003e\u003d1.0.5-1.21.1"
+  },
+  "name": "Obese crops",
+  "description": "Bigger crops, that bring a bountiful harvest!",
+  "authors": [
+    {
+      "name": "macuguita",
+      "contact": {
+        "discord": "macuguita"
+      }
+    }
+  ],
+  "contact": {
+    "homepage": "https://macuguita.com",
+    "sources": "https://github.com/macuguita/obese-crops"
+  },
+  "license": "MIT",
+  "icon": "assets/obese_crops/icon.png"
+}

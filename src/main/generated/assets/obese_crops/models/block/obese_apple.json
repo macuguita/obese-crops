@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "obese_crops:block/obese_apple",
+    "east": "obese_crops:block/obese_apple",
+    "north": "obese_crops:block/obese_apple",
+    "particle": "obese_crops:block/obese_apple",
+    "south": "obese_crops:block/obese_apple",
+    "up": "obese_crops:block/obese_apple_top",
+    "west": "obese_crops:block/obese_apple"
+  }
+}

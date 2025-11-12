@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "tag": "minecraft:stone_tool_materials"
+    },
+    "|": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "##|",
+    " |#",
+    "|  "
+  ],
+  "result": {
+    "count": 1,
+    "id": "obese_crops:stone_scythe"
+  }
+}

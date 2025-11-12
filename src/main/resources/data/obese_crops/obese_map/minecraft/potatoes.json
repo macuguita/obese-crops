@@ -1,0 +1,14 @@
+{
+  "primary": {
+    "block": "obese_crops:obese_potato",
+    "foliage": "obese_crops:obese_potato_foliage",
+    "chance": 5
+  },
+  "secondaries": [
+    {
+      "block": "obese_crops:obese_poisonous_potato",
+      "foliage": "obese_crops:obese_potato_foliage",
+      "chance": 50
+    }
+  ]
+}

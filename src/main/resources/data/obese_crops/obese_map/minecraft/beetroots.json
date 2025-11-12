@@ -1,0 +1,7 @@
+{
+  "primary": {
+    "block": "obese_crops:obese_beetroot",
+    "foliage": "obese_crops:obese_beetroot_foliage",
+    "chance": 5
+  }
+}

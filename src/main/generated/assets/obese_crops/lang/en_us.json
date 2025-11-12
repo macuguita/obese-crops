@@ -1,0 +1,16 @@
+{
+  "block.obese_crops.obese_apple": "Obese Apple",
+  "block.obese_crops.obese_beetroot": "Obese Beetroot",
+  "block.obese_crops.obese_carrot": "Obese Carrot",
+  "block.obese_crops.obese_poisonous_potato": "Obese Poisonous Potato",
+  "block.obese_crops.obese_potato": "Obese Potato",
+  "enchantment.obese_crops.bountiful_reap": "Bountiful Reap",
+  "enchantment.obese_crops.bountiful_reap.desc": "Allows you scythe to reap in a bigger area.",
+  "item.obese_crops.diamond_scythe": "Diamond Scythe",
+  "item.obese_crops.golden_scythe": "Golden Scythe",
+  "item.obese_crops.iron_scythe": "Iron Scythe",
+  "item.obese_crops.netherite_scythe": "Netherite Scythe",
+  "item.obese_crops.stone_scythe": "Stone Scythe",
+  "item.obese_crops.wooden_scythe": "Wooden Scythe",
+  "itemGroup.obese_crops.obese_crops": "Obese Crops"
+}

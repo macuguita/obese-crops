@@ -1,0 +1,95 @@
+/*
+ * Copyright (c) 2025 macuguita
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+ * OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+package com.macuguita.obese_crops.common;
+
+import java.util.Map;
+import java.util.Optional;
+
+import com.macuguita.obese_crops.common.item.ScytheItem;
+import com.macuguita.obese_crops.common.reg.OCComponents;
+import com.macuguita.obese_crops.common.reg.OCCreativeTabs;
+import com.macuguita.obese_crops.common.reg.OCEnchantmentTags;
+import com.macuguita.obese_crops.common.reg.OCEnchantments;
+import com.macuguita.obese_crops.common.reg.OCEnchantmentComponents;
+import com.macuguita.obese_crops.common.reg.OCObjects;
+import com.macuguita.obese_crops.common.reg.OCWorldgen;
+import com.macuguita.obese_crops.common.resourcereloader.ObeseMapResourceReloadListener;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.world.level.block.Block;
+
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.item.v1.EnchantmentEvents;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.util.TriState;
+
+public class ObeseCrops implements ModInitializer {
+
+	public static final String MOD_ID = "obese_crops";
+	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+
+	public static final Map<Block, ObeseMapResourceReloadListener.ObeseBlockData> OBESE_MAP = new Object2ObjectOpenHashMap<>();
+
+	public static @NotNull Optional<ObeseMapResourceReloadListener.ObeseBlockData> getObeseBlockData(Block block) {
+		return Optional.ofNullable(OBESE_MAP.get(block));
+	}
+
+	@Contract("_ -> new")
+	public static @NotNull ResourceLocation id(String name) {
+		return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
+	}
+
+	@Override
+	public void onInitialize() {
+		initRegistries();
+		initEvents();
+		ResourceManagerHelper.get(PackType.SERVER_DATA)
+				.registerReloadListener(new ObeseMapResourceReloadListener());
+	}
+
+	private void initRegistries() {
+		OCObjects.init();
+		OCComponents.init();
+		OCCreativeTabs.init();
+		OCWorldgen.init();
+		OCEnchantments.init();
+		OCEnchantmentComponents.init();
+	}
+
+	private void initEvents() {
+		//this doesn't show up in recipe viewers but whatever
+		EnchantmentEvents.ALLOW_ENCHANTING.register((enchantment, target, context) -> {
+			if (target.getItem() instanceof ScytheItem && enchantment.is(OCEnchantmentTags.SCYTHE_ALLOWED)) {
+				return TriState.TRUE;
+			}
+			return TriState.DEFAULT;
+		});
+	}
+}
