@@ -84,56 +84,35 @@ dependencies {
         officialMojangMappings()
         parchment("org.parchmentmc.data:parchment-${BuildConfig.minecraftVersion}:${BuildConfig.parchmentMappings}@zip")
     })
-    //mappings("net.fabricmc:yarn:${BuildConfig.yarnMappings}:v2")
     modImplementation("net.fabricmc:fabric-loader:${BuildConfig.loaderVersion}")
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation("net.fabricmc.fabric-api:fabric-api:${BuildConfig.fabricVersion}")
 
-    modImplementation("maven.modrinth:macu-lib:${BuildConfig.maculibVersion}-fabric"){
+    modImplementation("maven.modrinth:macu-lib:${BuildConfig.maculibVersion}-fabric") {
         exclude("net.fabricmc.fabric-api")
     }
 
-    modImplementation("com.terraformersmc:modmenu:${BuildConfig.modMenuVersion}"){
+    modImplementation("com.terraformersmc:modmenu:${BuildConfig.modMenuVersion}") {
         exclude("net.fabricmc.fabric-api")
     }
-    modLocalRuntime("dev.emi:emi-fabric:${BuildConfig.emiVersion}"){
+    modLocalRuntime("dev.emi:emi-fabric:${BuildConfig.emiVersion}") {
         exclude("net.fabricmc.fabric-api")
-    }
-//    if (true) {
-//        modImplementation("dev.emi:trinkets:${BuildConfig.trinketsVersion}") {
-//            exclude("net.fabricmc.fabric-api")
-//        }
-//    } else {
-//        modCompileOnly("dev.emi:trinkets:${BuildConfig.trinketsVersion}") {
-//            exclude("net.fabricmc.fabric-api")
-//        }
-//    }
-
-    modRuntimeOnly("me.shedaniel.cloth:cloth-config-fabric:15.0.140") {
-        exclude("net.fabricmc.fabric-api")
-    }
-    modRuntimeOnly("maven.modrinth:freecam:1.3.0+mc1.21.1") {
-        exclude("net.fabricmc.fabric-api")
-    }
-    modRuntimeOnly("maven.modrinth:enchantment-descriptions:21.1.9") {
-        exclude("net.fabricmc.fabric-api")
-        exclude("mezz.jei")
-    }
-    modRuntimeOnly("net.darkhax.bookshelf:bookshelf-fabric-1.21.1:21.1.2") {
-        exclude("net.fabricmc.fabric-api")
-        exclude("mezz.jei")
-    }
-    modRuntimeOnly("net.darkhax.pricklemc:prickle-fabric-1.21.1:21.1.2") {
-        exclude("net.fabricmc.fabric-api")
-        exclude("mezz.jei")
     }
 
     // Production test
-    add("prodMods", "net.fabricmc.fabric-api:fabric-api:${BuildConfig.fabricVersion}")
-    add("prodMods", "maven.modrinth:macu-lib:${BuildConfig.maculibVersion}-fabric")
-    add("prodMods", "com.terraformersmc:modmenu:${BuildConfig.modMenuVersion}")
-    add("prodMods", "dev.emi:emi-fabric:${BuildConfig.emiVersion}")
+    fun prodMods(name: String) = add("prodMods", name)
+    prodMods("net.fabricmc.fabric-api:fabric-api:${BuildConfig.fabricVersion}")
+    prodMods("maven.modrinth:macu-lib:${BuildConfig.maculibVersion}-fabric")
+    prodMods("com.terraformersmc:modmenu:${BuildConfig.modMenuVersion}")
+    prodMods("dev.emi:emi-fabric:${BuildConfig.emiVersion}")
+    prodMods("maven.modrinth:enchantment-descriptions:21.1.9")
+    prodMods("net.darkhax.bookshelf:bookshelf-fabric-1.21.1:21.1.2")
+    prodMods("net.darkhax.pricklemc:prickle-fabric-1.21.1:21.1.2")
+    prodMods("me.shedaniel.cloth:cloth-config-fabric:15.0.140")
+    prodMods("maven.modrinth:freecam:1.3.0+mc1.21.1")
+    prodMods("maven.modrinth:modelfix:1.21-1.6")
+    prodMods("maven.modrinth:fabrishot:1.14.1")
 }
 
 tasks.register<net.fabricmc.loom.task.prod.ClientProductionRunTask>("runProdClient") {
@@ -142,7 +121,7 @@ tasks.register<net.fabricmc.loom.task.prod.ClientProductionRunTask>("runProdClie
     jvmArgs.add("-Dfabric.client.gametest")
     programArgs.add("--username=macuguita")
     programArgs.add("--uuid=0e56050b-ee27-478a-a345-d2b384919081")
-    runDir.set(file("run"))
+    runDir.set(project.file("run"))
     useXVFB = false
 
     javaLauncher.set(
