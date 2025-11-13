@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "obese_crops",
-  "version": "1.0.0-1.21.1",
+  "version": "1.0.1-1.21.1",
   "environment": "*",
   "entrypoints": {
     "fabric-datagen": [
