@@ -12,5 +12,7 @@
   "item.obese_crops.netherite_scythe": "Netherite Scythe",
   "item.obese_crops.stone_scythe": "Stone Scythe",
   "item.obese_crops.wooden_scythe": "Wooden Scythe",
-  "itemGroup.obese_crops.obese_crops": "Obese Crops"
+  "itemGroup.obese_crops.obese_crops": "Obese Crops",
+  "tag.item.obese_crops.scythe_enchantable": "Scythe Enchantable",
+  "tag.item.obese_crops.scythes": "Scythes"
 }

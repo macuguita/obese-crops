@@ -27,10 +27,12 @@ import java.util.concurrent.CompletableFuture;
 
 import com.macuguita.obese_crops.common.ObeseCrops;
 import com.macuguita.obese_crops.common.reg.OCEnchantments;
+import com.macuguita.obese_crops.common.reg.OCItemTags;
 import com.macuguita.obese_crops.common.reg.OCObjects;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.enchantment.Enchantment;
 
 import org.jetbrains.annotations.Contract;
@@ -61,6 +63,8 @@ public class OCLangProvider extends FabricLanguageProvider {
 		translationBuilder.add("itemGroup." + ObeseCrops.MOD_ID + "." + ObeseCrops.MOD_ID, "Obese Crops");
 		generateEnchantmentTranslations(translationBuilder, OCEnchantments.BOUNTIFUL_REAP);
 		generateEnchantmentDescriptionTranslations(translationBuilder, OCEnchantments.BOUNTIFUL_REAP, "Allows you scythe to reap in a bigger area.");
+		generateItemTagTranslations(translationBuilder, OCItemTags.SCYTHES);
+		generateItemTagTranslations(translationBuilder, OCItemTags.SCYTHE_ENCHANTABLE);
 	}
 
 	@Contract("_ -> new")
@@ -95,5 +99,10 @@ public class OCLangProvider extends FabricLanguageProvider {
 
 	private void generateEnchantmentDescriptionTranslations(@NotNull TranslationBuilder translationBuilder, @NotNull ResourceKey<Enchantment> enchantment, String description) {
 		translationBuilder.add("enchantment." + enchantment.location().getNamespace() + "." + enchantment.location().getPath() + ".desc", description);
+	}
+
+	private void generateItemTagTranslations(@NotNull TranslationBuilder translationBuilder, @NotNull TagKey<Item> itemTag) {
+		String temp = capitalizeString(itemTag.location().getPath().replace("_", " "));
+		translationBuilder.add(itemTag, temp);
 	}
 }
