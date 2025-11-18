@@ -53,10 +53,9 @@ repositories {
     val exclusiveRepos = listOf(
         Triple("ParchmentMC", "https://maven.parchmentmc.org", listOf("org.parchmentmc.data")),
         Triple("Shedaniel", "https://maven.shedaniel.me/", listOf("me.shedaniel.cloth")),
-        Triple("TerraformersMC", "https://maven.terraformersmc.com/", listOf("com.terraformersmc", "dev.emi")),
-        Triple("Ladysnake", "https://maven.ladysnake.org/releases", listOf("org.ladysnake.cardinal-components-api")),
+        Triple("TerraformersMC", "https://maven.terraformersmc.com/", listOf("com.terraformersmc")),
         Triple("Modrinth", "https://api.modrinth.com/maven", listOf("maven.modrinth")),
-        Triple("BlameJared", "https://maven.blamejared.com", listOf("net.darkhax.bookshelf", "net.darkhax.pricklemc", "mezz.jei")),
+        Triple("BlameJared", "https://maven.blamejared.com", listOf("net.darkhax.pricklemc")),
     )
 
     exclusiveRepos.forEach { (name, url, groups) ->
@@ -96,7 +95,7 @@ dependencies {
     modImplementation("com.terraformersmc:modmenu:${BuildConfig.modMenuVersion}") {
         exclude("net.fabricmc.fabric-api")
     }
-    modLocalRuntime("dev.emi:emi-fabric:${BuildConfig.emiVersion}") {
+    modImplementation("maven.modrinth:eiv:${BuildConfig.eivVersion}") {
         exclude("net.fabricmc.fabric-api")
     }
 
@@ -105,14 +104,10 @@ dependencies {
     prodMods("net.fabricmc.fabric-api:fabric-api:${BuildConfig.fabricVersion}")
     prodMods("maven.modrinth:macu-lib:${BuildConfig.maculibVersion}-fabric")
     prodMods("com.terraformersmc:modmenu:${BuildConfig.modMenuVersion}")
-    prodMods("dev.emi:emi-fabric:${BuildConfig.emiVersion}")
-    prodMods("maven.modrinth:enchantment-descriptions:21.1.9")
-    prodMods("net.darkhax.bookshelf:bookshelf-fabric-1.21.1:21.1.2")
-    prodMods("net.darkhax.pricklemc:prickle-fabric-1.21.1:21.1.2")
-    prodMods("me.shedaniel.cloth:cloth-config-fabric:15.0.140")
-    prodMods("maven.modrinth:freecam:1.3.0+mc1.21.1")
-    prodMods("maven.modrinth:modelfix:1.21-1.6")
-    prodMods("maven.modrinth:fabrishot:1.14.1")
+    prodMods("maven.modrinth:eiv:${BuildConfig.eivVersion}")
+    prodMods("maven.modrinth:enchantment-descriptions:21.10.1")
+    prodMods("net.darkhax.pricklemc:prickle-fabric-1.21.10:21.10.2")
+    prodMods("me.shedaniel.cloth:cloth-config-fabric:20.0.149")
 }
 
 tasks.register<net.fabricmc.loom.task.prod.ClientProductionRunTask>("runProdClient") {
@@ -151,7 +146,8 @@ tasks.register<net.fabricmc.loom.task.FabricModJsonV1Task>("genModJson") {
         licenses = listOf(BuildConfig.license)
         icon("assets/${BuildConfig.modId}/icon.png")
         mixin("${BuildConfig.modId}.mixins.json")
-        accessWidener = "${BuildConfig.modId}.accesswidener"
+        if (project.file("src/main/resources/${BuildConfig.modId}.accesswidener").exists())
+            accessWidener = "${BuildConfig.modId}.accesswidener"
         environment = "*"
 
         entrypoint("main", "com.macuguita.obese_crops.common.ObeseCrops")

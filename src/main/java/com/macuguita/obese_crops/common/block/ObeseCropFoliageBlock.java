@@ -23,7 +23,6 @@
 package com.macuguita.obese_crops.common.block;
 
 import com.macuguita.obese_crops.common.reg.OCBlockTags;
-import com.mojang.serialization.MapCodec;
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.BlockPos;
@@ -37,12 +36,10 @@ import net.minecraft.world.level.material.PushReaction;
 
 public class ObeseCropFoliageBlock extends BushBlock {
 
-	public static final MapCodec<ObeseCropFoliageBlock> CODEC = simpleCodec(ObeseCropFoliageBlock::new);
-
 	public ObeseCropFoliageBlock(@NotNull Properties settings) {
 		super(settings
 				.pushReaction(PushReaction.DESTROY)
-				.noCollission()
+				.noCollision()
 				.instabreak()
 				.sound(SoundType.GRASS)
 				.ignitedByLava()
@@ -52,10 +49,5 @@ public class ObeseCropFoliageBlock extends BushBlock {
 	@Override
 	protected boolean mayPlaceOn(BlockState state, BlockGetter level, BlockPos pos) {
 		return state.is(BlockTags.DIRT) || state.is(Blocks.FARMLAND) || state.is(OCBlockTags.OBESE_CROP);
-	}
-
-	@Override
-	protected @NotNull MapCodec<? extends BushBlock> codec() {
-		return CODEC;
 	}
 }

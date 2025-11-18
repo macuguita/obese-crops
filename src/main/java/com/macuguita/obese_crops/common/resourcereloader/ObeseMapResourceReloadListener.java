@@ -41,11 +41,10 @@ import org.jetbrains.annotations.NotNull;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.level.block.Block;
 
-import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
-
-public class ObeseMapResourceReloadListener implements SimpleSynchronousResourceReloadListener {
+public class ObeseMapResourceReloadListener implements ResourceManagerReloadListener {
 
 	public static final ResourceLocation ID = ObeseCrops.id("obese_block_map_reload_listener");
 	private static final ResourceLocation OBESE_MAP_DIR = ObeseCrops.id("obese_map");
@@ -66,8 +65,8 @@ public class ObeseMapResourceReloadListener implements SimpleSynchronousResource
 									.substring(identifier.getPath().indexOf("/") + 1, identifier.getPath().length() - 5)
 									.replace("/", ":")
 					);
-					Block cropBlock = BuiltInRegistries.BLOCK.get(cropBlockId);
-					if (cropBlock == BuiltInRegistries.BLOCK.get(BuiltInRegistries.BLOCK.getDefaultKey()) && !cropBlockId.equals(BuiltInRegistries.BLOCK.getDefaultKey())) {
+					Block cropBlock = BuiltInRegistries.BLOCK.getValue(cropBlockId);
+					if (cropBlock == BuiltInRegistries.BLOCK.getValue(BuiltInRegistries.BLOCK.getDefaultKey()) && !cropBlockId.equals(BuiltInRegistries.BLOCK.getDefaultKey())) {
 						continue;
 					}
 
@@ -80,11 +79,6 @@ public class ObeseMapResourceReloadListener implements SimpleSynchronousResource
 				}
 			}
 		});
-	}
-
-	@Override
-	public ResourceLocation getFabricId() {
-		return ID;
 	}
 
 	public record ObeseBlockData(BlockAndChance primary, List<BlockAndChance> secondaries) {
@@ -109,10 +103,10 @@ public class ObeseMapResourceReloadListener implements SimpleSynchronousResource
 		public record BlockAndChance(Block block, Block foliage, int chance) {
 
 			public static final Codec<Block> BLOCK_CODEC = ResourceLocation.CODEC.flatXmap(
-					rl -> {
-						Block block = BuiltInRegistries.BLOCK.get(rl);
-						if (!BuiltInRegistries.BLOCK.containsKey(rl)) {
-							return DataResult.error(() -> "Unknown block: " + rl);
+					id -> {
+						Block block = BuiltInRegistries.BLOCK.getValue(id);
+						if (!BuiltInRegistries.BLOCK.containsKey(id)) {
+							return DataResult.error(() -> "Unknown block: " + id);
 						}
 						return DataResult.success(block);
 					},

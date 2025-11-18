@@ -42,7 +42,7 @@ public class OCEnchantmentTagProvider extends FabricTagProvider<Enchantment> {
 
 	@Override
 	protected void addTags(HolderLookup.Provider wrapperLookup) {
-		tag(OCEnchantmentTags.SCYTHE_ALLOWED)
-				.add(Enchantments.LOOTING);
+		getOrCreateRawBuilder(OCEnchantmentTags.SCYTHE_ALLOWED)
+				.addOptionalTag(Enchantments.LOOTING.location());
 	}
 }

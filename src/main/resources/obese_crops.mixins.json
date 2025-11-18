@@ -6,7 +6,6 @@
   "mixins": [
     "CropBlockMixin",
     "HoeItemAccessor",
-    "IngredientAccessor",
     "PlayerMixin"
   ],
   "injectors": {
@@ -17,10 +16,5 @@
   },
   "mixinextras": {
     "minVersion": "0.5.0"
-  },
-  "client": [
-    "client.GuiGraphicsMixin",
-    "client.ItemEntityRendererMixin",
-    "client.ItemRendererMixin"
-  ]
+  }
 }

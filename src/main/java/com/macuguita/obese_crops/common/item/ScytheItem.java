@@ -30,39 +30,24 @@ import com.macuguita.obese_crops.common.reg.OCBlockTags;
 import com.macuguita.obese_crops.common.reg.OCComponents;
 import com.macuguita.obese_crops.common.reg.OCEnchantmentComponents;
 import com.macuguita.obese_crops.mixin.HoeItemAccessor;
-
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.Mth;
-
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-
 import org.apache.commons.lang3.mutable.MutableFloat;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.DiggerItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.component.ItemAttributeModifiers;
-import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CropBlock;
@@ -71,45 +56,18 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 
-public class ScytheItem extends DiggerItem {
+public class ScytheItem extends Item {
 
-	public ScytheItem(Tier material, int damage, float speed, float pullingSpeed, @NotNull Properties settings) {
-		super(material, OCBlockTags.SCYTHE_MINABLE, settings
-				.attributes(createAttributes(material, damage, speed))
-				.component(DataComponents.TOOL, createToolProperties())
-				.component(OCComponents.PULLING_SPEED.get(), pullingSpeed));
-	}
-
-	@Contract(" -> new")
-	private static @NotNull Tool createToolProperties() {
-		return new Tool(
-				List.of(Tool.Rule.overrideSpeed(OCBlockTags.SCYTHE_MINABLE, 1.5F)), 1.0F, 2
-		);
-	}
-
-	public static @NotNull ItemAttributeModifiers createAttributes(@NotNull Tier material, int damage, float speed) {
-		return ItemAttributeModifiers.builder()
-				.add(
-						Attributes.ATTACK_DAMAGE,
-						new AttributeModifier(
-								BASE_ATTACK_DAMAGE_ID, ((float) damage + material.getAttackDamageBonus()), AttributeModifier.Operation.ADD_VALUE
-						),
-						EquipmentSlotGroup.MAINHAND
-				)
-				.add(
-						Attributes.ATTACK_SPEED,
-						new AttributeModifier(BASE_ATTACK_SPEED_ID, speed, AttributeModifier.Operation.ADD_VALUE),
-						EquipmentSlotGroup.MAINHAND
-				)
-				.build();
+	public ScytheItem(@NotNull Properties settings) {
+		super(settings);
 	}
 
 	@Override
-	public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, InteractionHand hand) {
+	public @NotNull InteractionResult use(@NotNull Level level, @NotNull Player player, InteractionHand hand) {
 		ItemStack itemStack = player.getItemInHand(hand);
 		boolean success = false;
 
-		if (!level.isClientSide) {
+		if (!level.isClientSide()) {
 			BlockPos playerSteppingPos = player.getOnPos();
 			BlockPos playerBlockPos = player.blockPosition();
 
@@ -158,13 +116,13 @@ public class ScytheItem extends DiggerItem {
 				}
 			}
 
-			player.getCooldowns().addCooldown(this, 10);
+			player.getCooldowns().addCooldown(itemStack, 10);
 			if (success) {
-				itemStack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
+				itemStack.hurtAndBreak(1, player, hand);
 			}
 		}
 
-		return InteractionResultHolder.success(itemStack);
+		return InteractionResult.SUCCESS;
 	}
 
 	@Override
@@ -172,6 +130,7 @@ public class ScytheItem extends DiggerItem {
 		Level level = context.getLevel();
 		BlockPos centerPos = context.getClickedPos();
 		Player player = context.getPlayer();
+		ItemStack itemStack = context.getItemInHand();
 
 		boolean success = false;
 
@@ -195,13 +154,13 @@ public class ScytheItem extends DiggerItem {
 			}
 		}
 
-		if (success && !level.isClientSide && player != null) {
-			context.getItemInHand().hurtAndBreak(1, player, LivingEntity.getSlotForHand(context.getHand()));
+		if (success && !level.isClientSide() && player != null) {
+			context.getItemInHand().hurtAndBreak(1, player, context.getHand());
 			level.playSound(player, centerPos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
-			player.getCooldowns().addCooldown(this, 10);
+			player.getCooldowns().addCooldown(itemStack, 10);
 		}
 
-		return success ? InteractionResult.sidedSuccess(level.isClientSide) : InteractionResult.PASS;
+		return success ? InteractionResult.SUCCESS : InteractionResult.PASS;
 	}
 
 	private boolean handleCrop(Level level, BlockPos pos, @NotNull BlockState state,
@@ -211,7 +170,7 @@ public class ScytheItem extends DiggerItem {
 			return false;
 		}
 
-		if (!level.isClientSide) {
+		if (!level.isClientSide()) {
 			Block.dropResources(state, level, pos, null, player, context.getItemInHand());
 			return level.setBlock(pos, cropBlock.getStateForAge(1), 2);
 		}
@@ -224,7 +183,7 @@ public class ScytheItem extends DiggerItem {
 			return false;
 		}
 
-		if (!level.isClientSide) {
+		if (!level.isClientSide()) {
 			return level.destroyBlock(pos, true, player);
 		}
 
@@ -246,7 +205,7 @@ public class ScytheItem extends DiggerItem {
 		);
 
 		if (predicate.test(modifiedContext)) {
-			if (!level.isClientSide) {
+			if (!level.isClientSide()) {
 				consumer.accept(modifiedContext);
 			}
 			return true;
@@ -269,10 +228,5 @@ public class ScytheItem extends DiggerItem {
 	@Override
 	public void postHurtEnemy(@NotNull ItemStack stack, LivingEntity target, LivingEntity attacker) {
 		stack.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
-	}
-
-	@Override
-	public boolean canAttackBlock(BlockState state, Level level, BlockPos pos, @NotNull Player miner) {
-		return !miner.isCreative();
 	}
 }

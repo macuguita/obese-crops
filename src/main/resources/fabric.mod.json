@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "obese_crops",
-  "version": "1.0.1-1.21.1",
+  "version": "1.0.1-1.21.10",
   "environment": "*",
   "entrypoints": {
     "fabric-datagen": [
@@ -17,13 +17,12 @@
   "mixins": [
     "obese_crops.mixins.json"
   ],
-  "accessWidener": "obese_crops.accesswidener",
   "depends": {
     "fabricloader": "\u003e\u003d0.17.3",
-    "minecraft": "~1.21.1",
+    "minecraft": "\u003e\u003d1.21.9",
     "java": "\u003e\u003d21",
     "fabric-api": "*",
-    "macu_lib": "\u003e\u003d1.0.5-1.21.1"
+    "macu_lib": "\u003e\u003d1.0.5-1.21.9"
   },
   "name": "Obese crops",
   "description": "Bigger crops, that bring a bountiful harvest!",

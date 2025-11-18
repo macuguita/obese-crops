@@ -28,14 +28,13 @@ import java.util.Optional;
 import com.macuguita.obese_crops.common.item.ScytheItem;
 import com.macuguita.obese_crops.common.reg.OCComponents;
 import com.macuguita.obese_crops.common.reg.OCCreativeTabs;
+import com.macuguita.obese_crops.common.reg.OCEnchantmentComponents;
 import com.macuguita.obese_crops.common.reg.OCEnchantmentTags;
 import com.macuguita.obese_crops.common.reg.OCEnchantments;
-import com.macuguita.obese_crops.common.reg.OCEnchantmentComponents;
 import com.macuguita.obese_crops.common.reg.OCObjects;
 import com.macuguita.obese_crops.common.reg.OCWorldgen;
 import com.macuguita.obese_crops.common.resourcereloader.ObeseMapResourceReloadListener;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -47,7 +46,7 @@ import net.minecraft.world.level.block.Block;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.item.v1.EnchantmentEvents;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 import net.fabricmc.fabric.api.util.TriState;
 
 public class ObeseCrops implements ModInitializer {
@@ -70,8 +69,8 @@ public class ObeseCrops implements ModInitializer {
 	public void onInitialize() {
 		initRegistries();
 		initEvents();
-		ResourceManagerHelper.get(PackType.SERVER_DATA)
-				.registerReloadListener(new ObeseMapResourceReloadListener());
+		ResourceLoader.get(PackType.SERVER_DATA)
+				.registerReloader(ObeseMapResourceReloadListener.ID, new ObeseMapResourceReloadListener());
 	}
 
 	private void initRegistries() {

@@ -42,9 +42,9 @@ public class OCBiomeTagProvider extends FabricTagProvider<Biome> {
 
 	@Override
 	protected void addTags(HolderLookup.Provider wrapperLookup) {
-		tag(OCBiomeTags.OBESE_APPLE)
+		getOrCreateRawBuilder(OCBiomeTags.OBESE_APPLE)
 				.addOptionalTag(ConventionalBiomeTags.IS_FOREST.location());
-		tag(OCBiomeTags.DARK_OBESE_APPLE)
+		getOrCreateRawBuilder(OCBiomeTags.DARK_OBESE_APPLE)
 				.addOptionalTag(ConventionalBiomeTags.IS_SPOOKY.location());
 	}
 }

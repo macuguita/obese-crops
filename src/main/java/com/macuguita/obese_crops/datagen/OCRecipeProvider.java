@@ -22,23 +22,25 @@
 
 package com.macuguita.obese_crops.datagen;
 
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 import com.macuguita.obese_crops.common.item.ScytheItem;
 import com.macuguita.obese_crops.common.reg.OCObjects;
-import com.macuguita.obese_crops.mixin.IngredientAccessor;
 import org.jetbrains.annotations.NotNull;
 
-import net.minecraft.advancements.Criterion;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.enchantment.Repairable;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
@@ -50,35 +52,36 @@ public class OCRecipeProvider extends FabricRecipeProvider {
 	}
 
 	@Override
-	public void buildRecipes(RecipeOutput recipeOutput) {
-		OCObjects.SCYTHE_ITEMS.getEntries().forEach(entry -> {
-			ScytheItem scythe = (ScytheItem) entry.get();
-			if (scythe == OCObjects.NETHERITE_SCYTHE.get()) return;
-			Ingredient repairIngredient = scythe.getTier().getRepairIngredient();
+	protected RecipeProvider createRecipeProvider(HolderLookup.Provider provider, RecipeOutput recipeOutput) {
+		return new RecipeProvider(provider, recipeOutput) {
+			@Override
+			public void buildRecipes() {
+				OCObjects.SCYTHE_ITEMS.getEntries().forEach(entry -> {
+					ScytheItem scythe = (ScytheItem) entry.get();
+					if (scythe == OCObjects.NETHERITE_SCYTHE.get()) return;
+					Optional<Repairable> maybeItems = Optional.ofNullable(scythe.components().get(DataComponents.REPAIRABLE));
+					if (maybeItems.isEmpty()) return;
+					Optional<TagKey<Item>> maybeTag = maybeItems.get().items().unwrapKey();
+					if (maybeTag.isEmpty()) return;
+					Ingredient repairIngredient = Ingredient.of(maybeItems.get().items());
 
-			ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, scythe)
-					.pattern("##|")
-					.pattern(" |#")
-					.pattern("|  ")
-					.define('#', repairIngredient)
-					.define('|', Items.STICK)
-					.unlockedBy("has_repair_material", getIngredientCriterion(repairIngredient))
-					.unlockedBy(getHasName(Items.STICK), has(Items.STICK))
-					.save(recipeOutput);
-		});
-		netheriteSmithing(recipeOutput, OCObjects.DIAMOND_SCYTHE.get(), RecipeCategory.TOOLS, OCObjects.NETHERITE_SCYTHE.get());
+					ShapedRecipeBuilder.shaped(BuiltInRegistries.ITEM, RecipeCategory.TOOLS, scythe)
+							.pattern("##|")
+							.pattern(" |#")
+							.pattern("|  ")
+							.define('#', repairIngredient)
+							.define('|', Items.STICK)
+							.unlockedBy("has_repair_material", has(maybeTag.get()))
+							.unlockedBy(getHasName(Items.STICK), has(Items.STICK))
+							.save(recipeOutput);
+				});
+				netheriteSmithing(OCObjects.DIAMOND_SCYTHE.get(), RecipeCategory.TOOLS, OCObjects.NETHERITE_SCYTHE.get());
+			}
+		};
 	}
 
-	private @NotNull Criterion getIngredientCriterion(Ingredient ingredient) {
-		for (Ingredient.Value value : ((IngredientAccessor) ingredient).obese_crops$getValues()) {
-			if (value instanceof Ingredient.TagValue(TagKey<Item> tag)) {
-				return has(tag);
-			}
-			if (value instanceof Ingredient.ItemValue(ItemStack item)) {
-				return has(item.getItem());
-			}
-		}
-
-		throw new IllegalStateException("Ingredient has no values");
+	@Override
+	public @NotNull String getName() {
+		return "Obese Crops Recipe Provider";
 	}
 }

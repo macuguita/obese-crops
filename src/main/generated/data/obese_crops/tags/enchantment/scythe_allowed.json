@@ -1,5 +1,8 @@
 {
   "values": [
-    "minecraft:looting"
+    {
+      "id": "#minecraft:looting",
+      "required": false
+    }
   ]
 }

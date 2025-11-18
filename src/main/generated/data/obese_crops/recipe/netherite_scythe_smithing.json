@@ -1,16 +1,9 @@
 {
   "type": "minecraft:smithing_transform",
-  "addition": {
-    "item": "minecraft:netherite_ingot"
-  },
-  "base": {
-    "item": "obese_crops:diamond_scythe"
-  },
+  "addition": "#minecraft:netherite_tool_materials",
+  "base": "obese_crops:diamond_scythe",
   "result": {
-    "count": 1,
     "id": "obese_crops:netherite_scythe"
   },
-  "template": {
-    "item": "minecraft:netherite_upgrade_smithing_template"
-  }
+  "template": "minecraft:netherite_upgrade_smithing_template"
 }

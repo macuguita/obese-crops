@@ -22,7 +22,7 @@
 
 package com.macuguita.obese_crops.common.reg;
 
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 import com.macuguita.lib.platform.registry.GuitaRegistries;
 import com.macuguita.lib.platform.registry.GuitaRegistry;
@@ -31,11 +31,14 @@ import com.macuguita.obese_crops.common.ObeseCrops;
 import com.macuguita.obese_crops.common.block.ObeseCropBlock;
 import com.macuguita.obese_crops.common.block.ObeseCropFoliageBlock;
 import com.macuguita.obese_crops.common.item.ScytheItem;
+import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
@@ -46,27 +49,49 @@ public interface OCObjects {
 
 	GuitaRegistry<Item> SCYTHE_ITEMS = GuitaRegistries.create(ITEMS);
 
-	GuitaRegistryEntry<ScytheItem> WOODEN_SCYTHE = SCYTHE_ITEMS.register("wooden_scythe", () -> new ScytheItem(Tiers.WOOD, 5, -2.8f, 0.1f, new Item.Properties()));
-	GuitaRegistryEntry<ScytheItem> STONE_SCYTHE = SCYTHE_ITEMS.register("stone_scythe", () -> new ScytheItem(Tiers.STONE, 5, -2.8f, 0.15f, new Item.Properties()));
-	GuitaRegistryEntry<ScytheItem> IRON_SCYTHE = SCYTHE_ITEMS.register("iron_scythe", () -> new ScytheItem(Tiers.IRON, 5, -2.75f, 0.22f, new Item.Properties()));
-	GuitaRegistryEntry<ScytheItem> GOLDEN_SCYTHE = SCYTHE_ITEMS.register("golden_scythe", () -> new ScytheItem(Tiers.GOLD, 5, -2.7f, 0.5f, new Item.Properties()));
-	GuitaRegistryEntry<ScytheItem> DIAMOND_SCYTHE = SCYTHE_ITEMS.register("diamond_scythe", () -> new ScytheItem(Tiers.DIAMOND, 5, -2.7f, 0.25f, new Item.Properties()));
-	GuitaRegistryEntry<ScytheItem> NETHERITE_SCYTHE = SCYTHE_ITEMS.register("netherite_scythe", () -> new ScytheItem(Tiers.NETHERITE, 5, -2.7f, 0.3f, new Item.Properties()));
+	GuitaRegistryEntry<ScytheItem> WOODEN_SCYTHE = SCYTHE_ITEMS.register("wooden_scythe", () -> new ScytheItem(scythe(new Item.Properties(), ToolMaterial.WOOD, 5, -2.8f, 0.1f).setId(keyOfItem("wooden_scythe"))));
+	GuitaRegistryEntry<ScytheItem> STONE_SCYTHE = SCYTHE_ITEMS.register("stone_scythe", () -> new ScytheItem(scythe(new Item.Properties(), ToolMaterial.STONE, 5, -2.8f, 0.15f).setId(keyOfItem("stone_scythe"))));
+	GuitaRegistryEntry<ScytheItem> IRON_SCYTHE = SCYTHE_ITEMS.register("iron_scythe", () -> new ScytheItem(scythe(new Item.Properties(), ToolMaterial.IRON, 5, -2.75f, 0.22f).setId(keyOfItem("iron_scythe"))));
+	GuitaRegistryEntry<ScytheItem> GOLDEN_SCYTHE = SCYTHE_ITEMS.register("golden_scythe", () -> new ScytheItem(scythe(new Item.Properties(), ToolMaterial.GOLD, 5, -2.7f, 0.5f).setId(keyOfItem("golden_scythe"))));
+	GuitaRegistryEntry<ScytheItem> DIAMOND_SCYTHE = SCYTHE_ITEMS.register("diamond_scythe", () -> new ScytheItem(scythe(new Item.Properties(), ToolMaterial.DIAMOND, 5, -2.7f, 0.25f).setId(keyOfItem("diamond_scythe"))));
+	GuitaRegistryEntry<ScytheItem> NETHERITE_SCYTHE = SCYTHE_ITEMS.register("netherite_scythe", () -> new ScytheItem(scythe(new Item.Properties(), ToolMaterial.NETHERITE, 5, -2.7f, 0.3f).setId(keyOfItem("netherite_scythe"))));
 
-	GuitaRegistryEntry<ObeseCropBlock> OBESE_APPLE = registerWithItem("obese_apple", () -> new ObeseCropBlock(BlockBehaviour.Properties.of()));
-	GuitaRegistryEntry<ObeseCropBlock> OBESE_BEETROOT = registerWithItem("obese_beetroot", () -> new ObeseCropBlock(BlockBehaviour.Properties.of()));
-	GuitaRegistryEntry<ObeseCropBlock> OBESE_CARROT = registerWithItem("obese_carrot", () -> new ObeseCropBlock(BlockBehaviour.Properties.of()));
-	GuitaRegistryEntry<ObeseCropBlock> OBESE_POISONOUS_POTATO = registerWithItem("obese_poisonous_potato", () -> new ObeseCropBlock(BlockBehaviour.Properties.of()));
-	GuitaRegistryEntry<ObeseCropBlock> OBESE_POTATO = registerWithItem("obese_potato", () -> new ObeseCropBlock(BlockBehaviour.Properties.of()));
+	GuitaRegistryEntry<ObeseCropBlock> OBESE_APPLE = registerBlockWithItem("obese_apple", ObeseCropBlock::new, BlockBehaviour.Properties.of());
+	GuitaRegistryEntry<ObeseCropBlock> OBESE_BEETROOT = registerBlockWithItem("obese_beetroot", ObeseCropBlock::new, BlockBehaviour.Properties.of());
+	GuitaRegistryEntry<ObeseCropBlock> OBESE_CARROT = registerBlockWithItem("obese_carrot", ObeseCropBlock::new, BlockBehaviour.Properties.of());
+	GuitaRegistryEntry<ObeseCropBlock> OBESE_POISONOUS_POTATO = registerBlockWithItem("obese_poisonous_potato", ObeseCropBlock::new, BlockBehaviour.Properties.of());
+	GuitaRegistryEntry<ObeseCropBlock> OBESE_POTATO = registerBlockWithItem("obese_potato", ObeseCropBlock::new, BlockBehaviour.Properties.of());
 
-	GuitaRegistryEntry<ObeseCropFoliageBlock> OBESE_BEETROOT_FOLIAGE = BLOCKS.register("obese_beetroot_foliage", () -> new ObeseCropFoliageBlock(BlockBehaviour.Properties.of()));
-	GuitaRegistryEntry<ObeseCropFoliageBlock> OBESE_CARROT_FOLIAGE = BLOCKS.register("obese_carrot_foliage", () -> new ObeseCropFoliageBlock(BlockBehaviour.Properties.of()));
-	GuitaRegistryEntry<ObeseCropFoliageBlock> OBESE_POTATO_FOLIAGE = BLOCKS.register("obese_potato_foliage", () -> new ObeseCropFoliageBlock(BlockBehaviour.Properties.of()));
+	GuitaRegistryEntry<ObeseCropFoliageBlock> OBESE_BEETROOT_FOLIAGE = registerBlock("obese_beetroot_foliage", ObeseCropFoliageBlock::new, BlockBehaviour.Properties.of());
+	GuitaRegistryEntry<ObeseCropFoliageBlock> OBESE_CARROT_FOLIAGE = registerBlock("obese_carrot_foliage", ObeseCropFoliageBlock::new, BlockBehaviour.Properties.of());
+	GuitaRegistryEntry<ObeseCropFoliageBlock> OBESE_POTATO_FOLIAGE = registerBlock("obese_potato_foliage", ObeseCropFoliageBlock::new, BlockBehaviour.Properties.of());
 
-	private static <T extends Block> GuitaRegistryEntry<T> registerWithItem(String name, Supplier<T> block) {
-		GuitaRegistryEntry<T> toReturn = BLOCKS.register(name, block);
-		ITEMS.register(name, () -> new BlockItem(toReturn.get(), new Item.Properties()));
+	static <T extends Block> GuitaRegistryEntry<T> registerBlockWithItem(String name, Function<BlockBehaviour.Properties, T> blockFactory, BlockBehaviour.Properties settings) {
+		GuitaRegistryEntry<T> toReturn = registerBlock(name, blockFactory, settings);
+		registerItem(name, (properties) -> new BlockItem(toReturn.get(), properties), new Item.Properties().setId(keyOfItem(name)).useBlockDescriptionPrefix());
 		return toReturn;
+	}
+
+	static <T extends Block> GuitaRegistryEntry<T> registerBlock(String name, Function<BlockBehaviour.Properties, T> blockFactory, BlockBehaviour.Properties settings) {
+		return BLOCKS.register(name, () -> blockFactory.apply(settings.setId(keyOfBlock(name))));
+	}
+
+	static <T extends Item> GuitaRegistryEntry<T> registerItem(String name, Function<Item.Properties, T> itemFactory, Item.Properties settings) {
+		return ITEMS.register(name, () -> itemFactory.apply(settings.setId(keyOfItem(name))));
+	}
+
+	static Item.@NotNull Properties scythe(Item.Properties properties, @NotNull ToolMaterial material, float attackDamage, float attackSpeed, float pullingSpeed) {
+		return material.applySwordProperties(properties, attackDamage, attackSpeed)
+				.tool(material, OCBlockTags.SCYTHE_MINABLE, attackDamage, attackSpeed, 0.0F)
+				.component(OCComponents.PULLING_SPEED.get(), pullingSpeed);
+	}
+
+	private static @NotNull ResourceKey<Block> keyOfBlock(String name) {
+		return ResourceKey.create(Registries.BLOCK, ObeseCrops.id(name));
+	}
+
+	private static @NotNull ResourceKey<Item> keyOfItem(String name) {
+		return ResourceKey.create(Registries.ITEM, ObeseCrops.id(name));
 	}
 
 	static void init() {

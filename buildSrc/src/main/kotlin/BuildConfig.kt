@@ -1,8 +1,8 @@
 object BuildConfig {
-    val minecraftVersion: String = "1.21.1"
-    val minecraftVersionRange: String = "~1.21.1"
-    val supportedVersions: Array<String> = arrayOf("1.21.1")
-    val parchmentMappings: String = "2024.11.17"
+    val minecraftVersion: String = "1.21.10"
+    val minecraftVersionRange: String = ">=1.21.9"
+    val supportedVersions: Array<String> = arrayOf("1.21.9", "1.21.10")
+    val parchmentMappings: String = "2025.10.12"
     val loaderVersion: String = "0.17.3"
 
     val modVersion: String = "1.0.1-$minecraftVersion"
@@ -12,9 +12,9 @@ object BuildConfig {
     val description: String = "Bigger crops, that bring a bountiful harvest!"
     val license: String = "MIT"
 
-    val fabricVersion: String = "0.116.7+$minecraftVersion"
-    val modMenuVersion: String = "11.0.3"
-    val emiVersion: String = "1.1.22+$minecraftVersion"
+    val fabricVersion: String = "0.138.3+$minecraftVersion"
+    val modMenuVersion: String = "16.0.0-rc.1"
+    val eivVersion: String = "5.2.0+$minecraftVersion"
 
-    val maculibVersion: String = "1.0.5-$minecraftVersion"
+    val maculibVersion: String = "1.0.5-1.21.9"
 }

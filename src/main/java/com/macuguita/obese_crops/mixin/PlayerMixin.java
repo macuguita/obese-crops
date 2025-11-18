@@ -30,8 +30,8 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.macuguita.obese_crops.common.item.ScytheItem;
 import com.macuguita.obese_crops.common.reg.OCComponents;
+import com.macuguita.obese_crops.common.reg.OCItemTags;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -42,7 +42,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.Level;
 
 @Mixin(Player.class)
@@ -65,7 +64,7 @@ public abstract class PlayerMixin extends LivingEntity {
 			Operation<Void> original,
 			@Local(type = ItemStack.class, ordinal = 0) @NotNull ItemStack itemStack
 	) {
-		if (itemStack.getItem() instanceof ScytheItem) {
+		if (itemStack.is(OCItemTags.SCYTHES)) {
 			double strength = 1.0D;
 			if (entityHit instanceof LivingEntity livingEntity) {
 				if (itemStack.has(OCComponents.PULLING_SPEED.get())) {
@@ -79,18 +78,16 @@ public abstract class PlayerMixin extends LivingEntity {
 		}
 	}
 
-	@Definition(id = "itemStack2", local = @Local(type = ItemStack.class, ordinal = 1))
-	@Definition(id = "getItem", method = "Lnet/minecraft/world/item/ItemStack;getItem()Lnet/minecraft/world/item/Item;")
-	@Definition(id = "SwordItem", type = SwordItem.class)
-	@Expression("itemStack2.getItem() instanceof SwordItem")
+	@Definition(id = "bl4", local = @Local(type = boolean.class, ordinal = 3))
+	@Expression("bl4")
 	@ModifyExpressionValue(
 			method = "attack",
 			at = @At("MIXINEXTRAS:EXPRESSION")
 	)
 	private boolean obese_crops$attack(
 			boolean original,
-			@Local(type = ItemStack.class, ordinal = 1) @NotNull ItemStack itemStack
+			@Local(type = ItemStack.class, ordinal = 0) @NotNull ItemStack itemStack
 	) {
-		return original || itemStack.getItem() instanceof ScytheItem;
+		return original || itemStack.is(OCItemTags.SCYTHES);
 	}
 }
