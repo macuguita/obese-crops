@@ -1,0 +1,6 @@
+{
+  "parent": "obese_crops:item/scythe_in_hand",
+  "textures": {
+    "layer0": "obese_crops:item/netherite_scythe_in_hand"
+  }
+}

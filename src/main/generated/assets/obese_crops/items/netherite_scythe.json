@@ -5,7 +5,7 @@
       {
         "model": {
           "type": "minecraft:model",
-          "model": "obese_crops:item/stone_scythe"
+          "model": "obese_crops:item/netherite_scythe"
         },
         "when": [
           "gui",
@@ -17,7 +17,7 @@
     ],
     "fallback": {
       "type": "minecraft:model",
-      "model": "obese_crops:item/stone_scythe_handheld"
+      "model": "obese_crops:item/netherite_scythe_in_hand"
     },
     "property": "minecraft:display_context"
   }
