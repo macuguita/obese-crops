@@ -34,11 +34,13 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
@@ -67,6 +69,11 @@ public class OCRecipeProvider extends FabricRecipeProvider {
 					.save(recipeOutput);
 		});
 		netheriteSmithing(recipeOutput, OCObjects.DIAMOND_SCYTHE.get(), RecipeCategory.TOOLS, OCObjects.NETHERITE_SCYTHE.get());
+		generateObeseBlockDeconstruction(recipeOutput, OCObjects.OBESE_APPLE.get(), Items.APPLE);
+		generateObeseBlockDeconstruction(recipeOutput, OCObjects.OBESE_BEETROOT.get(), Items.BEETROOT);
+		generateObeseBlockDeconstruction(recipeOutput, OCObjects.OBESE_CARROT.get(), Items.CARROT);
+		generateObeseBlockDeconstruction(recipeOutput, OCObjects.OBESE_POISONOUS_POTATO.get(), Items.POISONOUS_POTATO);
+		generateObeseBlockDeconstruction(recipeOutput, OCObjects.OBESE_POTATO.get(), Items.POTATO);
 	}
 
 	private @NotNull Criterion getIngredientCriterion(Ingredient ingredient) {
@@ -80,5 +87,13 @@ public class OCRecipeProvider extends FabricRecipeProvider {
 		}
 
 		throw new IllegalStateException("Ingredient has no values");
+	}
+
+	private void generateObeseBlockDeconstruction(RecipeOutput recipeOutput, ItemLike obeseBlock, ItemLike ozempicCrop) {
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ozempicCrop, 9)
+				.requires(obeseBlock)
+				.group("obese_crop")
+				.unlockedBy(getHasName(obeseBlock), has(obeseBlock))
+				.save(recipeOutput);
 	}
 }
