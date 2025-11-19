@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_obese_poisonous_potato": {
+      "conditions": {
+        "items": [
+          {
+            "items": "obese_crops:obese_poisonous_potato"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "obese_crops:poisonous_potato"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_obese_poisonous_potato"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "obese_crops:poisonous_potato"
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "obese_crop",
+  "ingredients": [
+    {
+      "item": "obese_crops:obese_poisonous_potato"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "id": "minecraft:poisonous_potato"
+  }
+}
