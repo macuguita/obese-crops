@@ -36,11 +36,13 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.enchantment.Repairable;
+import net.minecraft.world.level.ItemLike;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
@@ -76,6 +78,19 @@ public class OCRecipeProvider extends FabricRecipeProvider {
 							.save(recipeOutput);
 				});
 				netheriteSmithing(OCObjects.DIAMOND_SCYTHE.get(), RecipeCategory.TOOLS, OCObjects.NETHERITE_SCYTHE.get());
+				generateObeseBlockDeconstruction(OCObjects.OBESE_APPLE.get(), Items.APPLE);
+				generateObeseBlockDeconstruction(OCObjects.OBESE_BEETROOT.get(), Items.BEETROOT);
+				generateObeseBlockDeconstruction(OCObjects.OBESE_CARROT.get(), Items.CARROT);
+				generateObeseBlockDeconstruction(OCObjects.OBESE_POISONOUS_POTATO.get(), Items.POISONOUS_POTATO);
+				generateObeseBlockDeconstruction(OCObjects.OBESE_POTATO.get(), Items.POTATO);
+			}
+
+			private void generateObeseBlockDeconstruction(ItemLike obeseBlock, ItemLike ozempicCrop) {
+				ShapelessRecipeBuilder.shapeless(BuiltInRegistries.ITEM, RecipeCategory.BUILDING_BLOCKS, ozempicCrop, 9)
+						.requires(obeseBlock)
+						.group("obese_crop")
+						.unlockedBy(getHasName(obeseBlock), has(obeseBlock))
+						.save(recipeOutput);
 			}
 		};
 	}

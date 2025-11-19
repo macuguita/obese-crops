@@ -22,30 +22,27 @@
 
 package com.macuguita.obese_crops.datagen;
 
+import java.util.Optional;
+
 import com.macuguita.obese_crops.common.ObeseCrops;
 import com.macuguita.obese_crops.common.reg.OCObjects;
-
-import net.minecraft.client.data.models.model.ItemModelUtils;
-import net.minecraft.client.data.models.model.ModelLocationUtils;
-import net.minecraft.client.data.models.model.ModelTemplate;
-import net.minecraft.client.renderer.item.ItemModel;
-import net.minecraft.world.item.Item;
-
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.MultiVariant;
+import net.minecraft.client.data.models.model.ItemModelUtils;
+import net.minecraft.client.data.models.model.ModelTemplate;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
+import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-
-import java.util.Optional;
 
 public class OCModelProvider extends FabricModelProvider {
 
@@ -77,14 +74,14 @@ public class OCModelProvider extends FabricModelProvider {
 			Optional.of("_in_hand"),
 			TextureSlot.LAYER0);
 
-	public final void registerObeseTopModel(@NotNull BlockModelGenerators blockModelGenerators, Block obeseCarrot, TextureMapping tm) {
+	public static void registerObeseTopModel(@NotNull BlockModelGenerators blockModelGenerators, Block obeseCarrot, TextureMapping tm) {
 		ResourceLocation id = ModelTemplates.CUBE.create(obeseCarrot, tm, blockModelGenerators.modelOutput);
 		MultiVariant multiVariant = BlockModelGenerators.plainVariant(id);
 		blockModelGenerators.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(obeseCarrot, multiVariant));
 		blockModelGenerators.registerSimpleItemModel(obeseCarrot, id);
 	}
 
-	private @NotNull TextureMapping makeTopMap(Block block) {
+	private static @NotNull TextureMapping makeTopMap(Block block) {
 		return new TextureMapping().put(TextureSlot.PARTICLE, TextureMapping.getBlockTexture(block))
 				.put(TextureSlot.NORTH, TextureMapping.getBlockTexture(block)).put(TextureSlot.SOUTH, TextureMapping.getBlockTexture(block))
 				.put(TextureSlot.EAST, TextureMapping.getBlockTexture(block)).put(TextureSlot.WEST, TextureMapping.getBlockTexture(block))
@@ -92,7 +89,7 @@ public class OCModelProvider extends FabricModelProvider {
 				.put(TextureSlot.UP, TextureMapping.getBlockTexture(block, "_top"));
 	}
 
-	private void generateScythe(ItemModelGenerators itemModelGenerators, Item scythe) {
+	private static void generateScythe(@NotNull ItemModelGenerators itemModelGenerators, Item scythe) {
 		ResourceLocation id = SCYTHE_IN_HAND.create(scythe, new TextureMapping().put(TextureSlot.LAYER0, TextureMapping.getItemTexture(scythe, "_in_hand")), itemModelGenerators.modelOutput);
 		ItemModel.Unbaked unbaked = ItemModelUtils.plainModel(itemModelGenerators.createFlatItemModel(scythe, ModelTemplates.FLAT_ITEM));
 		ItemModel.Unbaked unbaked2 = ItemModelUtils.plainModel(id);
