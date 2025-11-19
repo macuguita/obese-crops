@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_obese_apple": {
+      "conditions": {
+        "items": [
+          {
+            "items": "obese_crops:obese_apple"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "obese_crops:apple"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_obese_apple"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "obese_crops:apple"
+    ]
+  }
+}

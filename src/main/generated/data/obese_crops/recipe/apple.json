@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "obese_crop",
+  "ingredients": [
+    "obese_crops:obese_apple"
+  ],
+  "result": {
+    "count": 9,
+    "id": "minecraft:apple"
+  }
+}

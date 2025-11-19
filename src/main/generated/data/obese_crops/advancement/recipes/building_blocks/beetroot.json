@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_obese_beetroot": {
+      "conditions": {
+        "items": [
+          {
+            "items": "obese_crops:obese_beetroot"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "obese_crops:beetroot"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_obese_beetroot"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "obese_crops:beetroot"
+    ]
+  }
+}
