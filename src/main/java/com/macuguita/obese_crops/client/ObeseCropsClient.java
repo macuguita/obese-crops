@@ -35,7 +35,6 @@ public class ObeseCropsClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-
 		BlockRenderLayerMap.putBlock(OCObjects.OBESE_BEETROOT_FOLIAGE.get(), ChunkSectionLayer.CUTOUT);
 		BlockRenderLayerMap.putBlock(OCObjects.OBESE_CARROT_FOLIAGE.get(), ChunkSectionLayer.CUTOUT);
 		BlockRenderLayerMap.putBlock(OCObjects.OBESE_POTATO_FOLIAGE.get(), ChunkSectionLayer.CUTOUT);

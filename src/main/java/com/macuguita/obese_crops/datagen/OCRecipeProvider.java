@@ -52,7 +52,7 @@ public class OCRecipeProvider extends FabricRecipeProvider {
 	}
 
 	@Override
-	protected RecipeProvider createRecipeProvider(HolderLookup.Provider provider, RecipeOutput recipeOutput) {
+	protected @NotNull RecipeProvider createRecipeProvider(HolderLookup.Provider provider, RecipeOutput recipeOutput) {
 		return new RecipeProvider(provider, recipeOutput) {
 			@Override
 			public void buildRecipes() {

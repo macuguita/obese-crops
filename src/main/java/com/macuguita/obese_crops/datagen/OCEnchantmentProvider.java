@@ -39,7 +39,7 @@ public class OCEnchantmentProvider extends FabricDynamicRegistryProvider {
 	}
 
 	@Override
-	protected void configure(HolderLookup.Provider provider, Entries entries) {
+	protected void configure(HolderLookup.@NotNull Provider provider, @NotNull Entries entries) {
 		entries.addAll(provider.lookupOrThrow(Registries.ENCHANTMENT));
 	}
 

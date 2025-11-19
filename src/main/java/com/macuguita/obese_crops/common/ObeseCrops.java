@@ -31,6 +31,7 @@ import com.macuguita.obese_crops.common.reg.OCCreativeTabs;
 import com.macuguita.obese_crops.common.reg.OCEnchantmentComponents;
 import com.macuguita.obese_crops.common.reg.OCEnchantmentTags;
 import com.macuguita.obese_crops.common.reg.OCEnchantments;
+import com.macuguita.obese_crops.common.reg.OCItemTags;
 import com.macuguita.obese_crops.common.reg.OCObjects;
 import com.macuguita.obese_crops.common.reg.OCWorldgen;
 import com.macuguita.obese_crops.common.resourcereloader.ObeseMapResourceReloadListener;
@@ -85,7 +86,7 @@ public class ObeseCrops implements ModInitializer {
 	private void initEvents() {
 		//this doesn't show up in recipe viewers but whatever
 		EnchantmentEvents.ALLOW_ENCHANTING.register((enchantment, target, context) -> {
-			if (target.getItem() instanceof ScytheItem && enchantment.is(OCEnchantmentTags.SCYTHE_ALLOWED)) {
+			if (target.is(OCItemTags.SCYTHES) && enchantment.is(OCEnchantmentTags.SCYTHE_ALLOWED)) {
 				return TriState.TRUE;
 			}
 			return TriState.DEFAULT;
