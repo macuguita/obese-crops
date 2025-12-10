@@ -22,19 +22,33 @@
 
 package com.macuguita.obese_crops.datagen;
 
-import com.macuguita.obese_crops.common.reg.OCObjects;
-import org.jetbrains.annotations.NotNull;
+import java.util.Arrays;
+import java.util.Optional;
 
+import com.macuguita.obese_crops.common.ObeseCrops;
+import com.macuguita.obese_crops.common.block.AppleBlock;
+import com.macuguita.obese_crops.common.block.ObeseCropBlock;
+import com.macuguita.obese_crops.common.block.ThinLogBlock;
+import com.macuguita.obese_crops.common.reg.OCObjects;
+
+import net.minecraft.core.Direction;
 import net.minecraft.data.models.BlockModelGenerators;
 import net.minecraft.data.models.ItemModelGenerators;
+import net.minecraft.data.models.blockstates.Condition;
+import net.minecraft.data.models.blockstates.MultiPartGenerator;
 import net.minecraft.data.models.blockstates.MultiVariantGenerator;
+import net.minecraft.data.models.blockstates.PropertyDispatch;
 import net.minecraft.data.models.blockstates.Variant;
 import net.minecraft.data.models.blockstates.VariantProperties;
+import net.minecraft.data.models.model.ModelTemplate;
 import net.minecraft.data.models.model.ModelTemplates;
 import net.minecraft.data.models.model.TextureMapping;
 import net.minecraft.data.models.model.TextureSlot;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
@@ -46,13 +60,16 @@ public class OCModelProvider extends FabricModelProvider {
 	}
 
 	@Override
-		blockStateModelGenerator.family(OCObjects.OBESE_BEETROOT.get());
-		blockStateModelGenerator.family(OCObjects.OBESE_POISONOUS_POTATO.get());
-		blockStateModelGenerator.family(OCObjects.OBESE_POTATO.get());
 	public void generateBlockStateModels(BlockModelGenerators blockModelGenerators) {
+		createObeseModel(blockModelGenerators, OCObjects.OBESE_BEETROOT.get());
+		createObeseModel(blockModelGenerators, OCObjects.OBESE_POISONOUS_POTATO.get());
+		createObeseModel(blockModelGenerators, OCObjects.OBESE_POTATO.get());
+		createObeseModel(blockModelGenerators, OCObjects.OBESE_APPLE.get(), true);
+		createObeseModel(blockModelGenerators, OCObjects.OBESE_CARROT.get(), true);
 
-		registerObeseTopModel(blockStateModelGenerator, OCObjects.OBESE_APPLE.get(), makeTopMap(OCObjects.OBESE_APPLE.get()));
-		registerObeseTopModel(blockStateModelGenerator, OCObjects.OBESE_CARROT.get(), makeTopMap(OCObjects.OBESE_CARROT.get()));
+		blockModelGenerators.createCrossBlock(OCObjects.OBESE_BEETROOT_FOLIAGE.get(), BlockModelGenerators.TintState.NOT_TINTED);
+		blockModelGenerators.createCrossBlock(OCObjects.OBESE_CARROT_FOLIAGE.get(), BlockModelGenerators.TintState.NOT_TINTED);
+		blockModelGenerators.createCrossBlock(OCObjects.OBESE_POTATO_FOLIAGE.get(), BlockModelGenerators.TintState.NOT_TINTED);
 
 		createThinLogBlock(blockModelGenerators, OCObjects.FLOWERING_OAK_LOG.get());
 		createThinLogBlock(blockModelGenerators, OCObjects.STRIPPED_FLOWERING_OAK_LOG.get());
@@ -64,12 +81,99 @@ public class OCModelProvider extends FabricModelProvider {
 
 	@Override
 	public void generateItemModels(ItemModelGenerators itemModelGenerator) {
+		itemModelGenerator.generateFlatItem(OCObjects.APPLE_SEED.get(), ModelTemplates.FLAT_ITEM);
 	}
 
-	public final void registerObeseTopModel(@NotNull BlockModelGenerators blockStateModelGenerator, Block obeseCarrot, TextureMapping textureMap) {
-		ResourceLocation id = ModelTemplates.CUBE.create(obeseCarrot, textureMap, blockStateModelGenerator.modelOutput);
-		blockStateModelGenerator.blockStateOutput.accept(MultiVariantGenerator.multiVariant(obeseCarrot, Variant.variant().with(VariantProperties.MODEL, id)));
-		blockStateModelGenerator.delegateItemModel(obeseCarrot, id);
+	private static final ModelTemplate CARVED_BLOCK_1_4 = new ModelTemplate(
+			Optional.of(ObeseCrops.id("block/1_4_carved_block")),
+			Optional.of("_1_4"),
+			TextureSlot.SIDE, TextureSlot.TOP, TextureSlot.INSIDE);
+
+	private static final ModelTemplate CARVED_BLOCK_2_4 = new ModelTemplate(
+			Optional.of(ObeseCrops.id("block/2_4_carved_block")),
+			Optional.of("_2_4"),
+			TextureSlot.SIDE, TextureSlot.TOP, TextureSlot.INSIDE);
+
+	private static final ModelTemplate CARVED_BLOCK_3_4 = new ModelTemplate(
+			Optional.of(ObeseCrops.id("block/3_4_carved_block")),
+			Optional.of("_3_4"),
+			TextureSlot.SIDE, TextureSlot.TOP, TextureSlot.INSIDE);
+
+	private static final ModelTemplate OBESE_CROP = new ModelTemplate(
+			Optional.of(ObeseCrops.id("block/obese_crop")),
+			Optional.empty(),
+			TextureSlot.SIDE, TextureSlot.TOP, TextureSlot.INSIDE);
+
+	private static final ModelTemplate THIN_LOG_CORE = new ModelTemplate(
+			Optional.of(ObeseCrops.id("block/thin_log_core")),
+			Optional.of("_core"),
+			TextureSlot.SIDE);
+
+	private static final ModelTemplate THIN_LOG_DOWN = new ModelTemplate(
+			Optional.of(ObeseCrops.id("block/thin_log_down")),
+			Optional.of("_down"),
+			TextureSlot.SIDE, TextureSlot.TOP);
+
+	private static final ModelTemplate THIN_LOG_UP = new ModelTemplate(
+			Optional.of(ObeseCrops.id("block/thin_log_up")),
+			Optional.of("_up"),
+			TextureSlot.SIDE, TextureSlot.TOP);
+
+	private static final ModelTemplate THIN_LOG_INVENTORY = new ModelTemplate(
+			Optional.of(ObeseCrops.id("block/thin_log_inventory")),
+			Optional.of("_inventory"),
+			TextureSlot.SIDE, TextureSlot.TOP);
+
+	private static final ModelTemplate FLOWERING_LEAVES = new ModelTemplate(
+			Optional.of(ObeseCrops.id("block/flowering_leaves")),
+			Optional.of(""),
+			TextureSlot.ALL, TextureSlot.LAYER0);
+
+	private static final ModelTemplate FRUIT_STAGE0 = new ModelTemplate(
+			Optional.of(ObeseCrops.id("block/fruit_stage0")),
+			Optional.of("_stage0"),
+			TextureSlot.PLANT);
+
+	private static final ModelTemplate FRUIT_STAGE1 = new ModelTemplate(
+			Optional.of(ObeseCrops.id("block/fruit_stage1")),
+			Optional.of("_stage1"),
+			TextureSlot.PLANT);
+
+	private static final ModelTemplate FRUIT_STAGE2 = new ModelTemplate(
+			Optional.of(ObeseCrops.id("block/fruit_stage2")),
+			Optional.of("_stage2"),
+			TextureSlot.PLANT);
+
+	private void createObeseModel(BlockModelGenerators blockModelGenerators, Block obeseCrop) {
+		createObeseModel(blockModelGenerators, obeseCrop, false);
+	}
+
+	private void createObeseModel(BlockModelGenerators blockModelGenerators, Block obeseCrop, boolean hasTop) {
+		TextureMapping tm = makeObeseMap(obeseCrop, hasTop);
+		ResourceLocation id_1_4 = CARVED_BLOCK_1_4.create(obeseCrop, tm, blockModelGenerators.modelOutput);
+		ResourceLocation id_2_4 = CARVED_BLOCK_2_4.create(obeseCrop, tm, blockModelGenerators.modelOutput);
+		ResourceLocation id_3_4 = CARVED_BLOCK_3_4.create(obeseCrop, tm, blockModelGenerators.modelOutput);
+		ResourceLocation id_full = OBESE_CROP.create(obeseCrop, tm, blockModelGenerators.modelOutput);
+		ResourceLocation[] models = {
+				id_full,
+				id_3_4,
+				id_2_4,
+				id_1_4
+		};
+		var map = PropertyDispatch.properties(ObeseCropBlock.CARVED, HorizontalDirectionalBlock.FACING);
+		for (int i = 0; i < models.length; i++) {
+			ResourceLocation model = models[i];
+			for (Direction direction : Arrays.stream(Direction.values()).filter(direction -> direction.getAxis().isHorizontal()).toArray(Direction[]::new)) {
+				map.select(i, direction, Variant.variant()
+						.with(VariantProperties.MODEL, model)
+						.with(
+								VariantProperties.Y_ROT,
+								VariantProperties.Rotation.valueOf("R" + (int) (direction.toYRot() + 180) % 360)
+						));
+			}
+		}
+		blockModelGenerators.blockStateOutput.accept(MultiVariantGenerator.multiVariant(obeseCrop).with(map));
+		blockModelGenerators.delegateItemModel(obeseCrop, id_full);
 	}
 
 	private void createThinLogBlock(BlockModelGenerators blockModelGenerators, Block thinLog) {

@@ -20,31 +20,41 @@
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.macuguita.obese_crops.common.reg;
+package com.macuguita.obese_crops.common.utils;
 
-import com.macuguita.obese_crops.common.ObeseCrops;
+import net.minecraft.core.Direction;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
+public class OCUtils {
 
-public interface OCItemTags {
+	public static VoxelShape rotateVoxelShape(VoxelShape shape, Direction.Axis axis, int degrees) {
+		int times = ((degrees % 360) + 360) % 360 / 90;
+		if (times == 0 || shape.isEmpty()) return shape;
 
-	TagKey<Item> SCYTHES = createTag("scythes");
-	TagKey<Item> SCYTHE_ENCHANTABLE = createTag("scythe_enchantable");
-	TagKey<Item> THIN_LOGS = createTag("thin_logs");
-	TagKey<Item> FLOWERING_OAK_LOGS = createTag("flowering_oak_logs");
-	TagKey<Item> FLOWERING_LEAVES = createTag("flowering_leaves");
-	TagKey<Item> SHARP_TOOLS = createTag("sharp_tools");
-
-	TagKey<Item> C_KNIFE = createCommonTag("tool/knife");
-
-	private static TagKey<Item> createTag(String name) {
-		return TagKey.create(Registries.ITEM, ObeseCrops.id(name));
-	}
-
-	private static TagKey<Item> createCommonTag(String name) {
-		return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", name));
+		VoxelShape result = shape;
+		for (int i = 0; i < times; ++i) {
+			VoxelShape rotated = Shapes.empty();
+			for (AABB aabb : result.toAabbs()) {
+				AABB rotatedBox = switch (axis) {
+					case Y -> new AABB(
+							1 - aabb.maxZ, aabb.minY, aabb.minX,
+							1 - aabb.minZ, aabb.maxY, aabb.maxX
+					);
+					case X -> new AABB(
+							aabb.minX, 1 - aabb.maxZ, aabb.minY,
+							aabb.maxX, 1 - aabb.minZ, aabb.maxY
+					);
+					case Z -> new AABB(
+							aabb.minY, aabb.minX, aabb.minZ,
+							aabb.maxY, aabb.maxX, aabb.maxZ
+					);
+				};
+				rotated = Shapes.or(rotated, Shapes.create(rotatedBox));
+			}
+			result = rotated;
+		}
+		return result;
 	}
 }

@@ -68,5 +68,11 @@ public class OCItemTagProvider extends FabricTagProvider.ItemTagProvider {
 				.addOptionalTag(OCItemTags.FLOWERING_LEAVES.location());
 		getOrCreateRawBuilder(ItemTags.SAPLINGS)
 				.addElement(OCObjects.FLOWERING_OAK_SAPLING.getId());
+
+		getOrCreateRawBuilder(OCItemTags.SHARP_TOOLS)
+				.addOptionalTag(OCItemTags.C_KNIFE.location())
+				.addTag(OCItemTags.SCYTHES.location())
+				.addOptionalTag(ItemTags.SWORDS.location())
+				.addOptionalTag(ItemTags.AXES.location());
 	}
 }

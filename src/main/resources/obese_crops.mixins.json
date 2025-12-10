@@ -4,6 +4,7 @@
   "package": "com.macuguita.obese_crops.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "BlockLootSubProviderAccessor",
     "CropBlockMixin",
     "HoeItemAccessor",
     "IngredientAccessor",

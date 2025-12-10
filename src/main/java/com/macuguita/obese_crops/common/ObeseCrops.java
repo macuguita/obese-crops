@@ -29,25 +29,26 @@ import com.macuguita.obese_crops.common.block.ThinLogBlock;
 import com.macuguita.obese_crops.common.item.ScytheItem;
 import com.macuguita.obese_crops.common.reg.OCComponents;
 import com.macuguita.obese_crops.common.reg.OCCreativeTabs;
+import com.macuguita.obese_crops.common.reg.OCEnchantmentComponents;
 import com.macuguita.obese_crops.common.reg.OCEnchantmentTags;
 import com.macuguita.obese_crops.common.reg.OCEnchantments;
-import com.macuguita.obese_crops.common.reg.OCEnchantmentComponents;
 import com.macuguita.obese_crops.common.reg.OCObjects;
 import com.macuguita.obese_crops.common.reg.OCWorldgen;
+import com.macuguita.obese_crops.common.resourcereloader.ObeseDropsMapResourceReloadListener;
 import com.macuguita.obese_crops.common.resourcereloader.ObeseMapResourceReloadListener;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.item.v1.EnchantmentEvents;
+import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
+import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.util.TriState;
 
@@ -57,9 +58,14 @@ public class ObeseCrops implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
 	public static final Map<Block, ObeseMapResourceReloadListener.ObeseBlockData> OBESE_MAP = new Object2ObjectOpenHashMap<>();
+	public static final Map<Block, Item> OBESE_DROPS = new Object2ObjectOpenHashMap<>();
 
 	public static Optional<ObeseMapResourceReloadListener.ObeseBlockData> getObeseBlockData(Block block) {
 		return Optional.ofNullable(OBESE_MAP.get(block));
+	}
+
+	public static Optional<Item> getObeseDrops(Block block) {
+		return Optional.ofNullable(OBESE_DROPS.get(block));
 	}
 
 	public static ResourceLocation id(String name) {
@@ -73,6 +79,9 @@ public class ObeseCrops implements ModInitializer {
 		floweringOakLogSetup();
 		ResourceManagerHelper.get(PackType.SERVER_DATA)
 				.registerReloadListener(new ObeseMapResourceReloadListener());
+		ResourceManagerHelper.get(PackType.SERVER_DATA)
+				.registerReloadListener(new ObeseDropsMapResourceReloadListener());
+		FuelRegistry.INSTANCE.add(OCObjects.WOODEN_SCYTHE.get(), 10);
 	}
 
 	private void initRegistries() {
