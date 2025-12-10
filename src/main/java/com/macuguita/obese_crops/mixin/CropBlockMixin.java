@@ -35,7 +35,6 @@ import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.macuguita.obese_crops.common.ObeseCrops;
 import com.macuguita.obese_crops.common.reg.OCBlockTags;
 import com.macuguita.obese_crops.common.resourcereloader.ObeseMapResourceReloadListener;
-import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -72,17 +71,14 @@ public abstract class CropBlockMixin {
 			at = @At("MIXINEXTRAS:EXPRESSION")
 	)
 	protected BlockState obese_crops$randomTickObeseBlockReplacement(
-			@NotNull BlockState blockState,
+			BlockState blockState,
 			@Local(argsOnly = true) RandomSource random,
 			@Local(type = float.class, ordinal = 0) float growthSpeed,
-			@Share("blockState") @NotNull LocalRef<BlockState> stateRef,
 			@Share("turnsToObese") LocalBooleanRef turnsToObese,
 			@Share("blockAndChance") LocalRef<ObeseMapResourceReloadListener.ObeseBlockData.BlockAndChance> obeseBACRef
 	) {
 		Optional<ObeseMapResourceReloadListener.ObeseBlockData> obeseBlockData =
 				ObeseCrops.getObeseBlockData(blockState.getBlock());
-
-		stateRef.set(blockState);
 
 		if (obeseBlockData.isPresent() && this.getAge(blockState) == this.getMaxAge() - 1) {
 
@@ -113,10 +109,9 @@ public abstract class CropBlockMixin {
 			BlockPos blockPos,
 			BlockState blockState,
 			int i,
-			@NotNull Operation<Boolean> original,
-			@Share("blockState") @NotNull LocalRef<BlockState> stateRef,
-			@Share("turnsToObese") @NotNull LocalBooleanRef turnsToObese,
-			@Share("blockAndChance") @NotNull LocalRef<ObeseMapResourceReloadListener.ObeseBlockData.BlockAndChance> obeseBACRef
+			Operation<Boolean> original,
+			@Share("turnsToObese") LocalBooleanRef turnsToObese,
+			@Share("blockAndChance") LocalRef<ObeseMapResourceReloadListener.ObeseBlockData.BlockAndChance> obeseBACRef
 	) {
 		obese_crops$transformBlocks(instance, blockPos, turnsToObese.get(), obeseBACRef.get());
 		return original.call(instance, blockPos, blockState, i);
@@ -133,17 +128,14 @@ public abstract class CropBlockMixin {
 			at = @At("MIXINEXTRAS:EXPRESSION")
 	)
 	protected BlockState obese_crops$applyGrowthObeseBlockReplacement(
-			@NotNull BlockState blockState,
+			BlockState blockState,
 			@Local(argsOnly = true) Level level,
 			@Local(type = int.class, ordinal = 0) int futureAge,
-			@Share("blockState") @NotNull LocalRef<BlockState> stateRef,
 			@Share("turnsToObese") LocalBooleanRef turnsToObese,
 			@Share("blockAndChance") LocalRef<ObeseMapResourceReloadListener.ObeseBlockData.BlockAndChance> obeseBACRef
 	) {
 		Optional<ObeseMapResourceReloadListener.ObeseBlockData> obeseBlockData =
 				ObeseCrops.getObeseBlockData(blockState.getBlock());
-
-		stateRef.set(blockState);
 
 		if (obeseBlockData.isPresent() && futureAge == this.getMaxAge()) {
 			int primaryChance = obeseBlockData.get().primary().chance();
@@ -173,10 +165,10 @@ public abstract class CropBlockMixin {
 			BlockPos pos,
 			BlockState newState,
 			int flags,
-			@NotNull Operation<Boolean> original,
-			@Share("blockState") @NotNull LocalRef<BlockState> stateRef,
-			@Share("turnsToObese") @NotNull LocalBooleanRef turnsToObese,
-			@Share("blockAndChance") @NotNull LocalRef<ObeseMapResourceReloadListener.ObeseBlockData.BlockAndChance> obeseBACRef
+			Operation<Boolean> original,
+			@Share("blockState") LocalRef<BlockState> stateRef,
+			@Share("turnsToObese") LocalBooleanRef turnsToObese,
+			@Share("blockAndChance") LocalRef<ObeseMapResourceReloadListener.ObeseBlockData.BlockAndChance> obeseBACRef
 	) {
 		obese_crops$transformBlocks(instance, pos, turnsToObese.get(), obeseBACRef.get());
 		return original.call(instance, pos, newState, flags);
@@ -184,7 +176,7 @@ public abstract class CropBlockMixin {
 
 	@Unique
 	private Block obese_crops$pickObeseBlock(
-			ObeseMapResourceReloadListener.@NotNull ObeseBlockData data,
+			ObeseMapResourceReloadListener.ObeseBlockData data,
 			RandomSource random,
 			LocalRef<ObeseMapResourceReloadListener.ObeseBlockData.BlockAndChance> obeseBACRef
 	) {
@@ -206,7 +198,7 @@ public abstract class CropBlockMixin {
 			ObeseMapResourceReloadListener.ObeseBlockData.BlockAndChance blockAndChance
 	) {
 		if (turnsToObese) {
-			if (blockAndChance != null && level.getBlockState(pos.below()).getBlock() instanceof FarmBlock) {
+			if (level.getBlockState(pos.below()).getBlock() instanceof FarmBlock) {
 				level.setBlock(pos.below(),
 						blockAndChance.block().defaultBlockState().is(OCBlockTags.DOUBLE_OBESE_CROP) ? blockAndChance.block().defaultBlockState() : Blocks.ROOTED_DIRT.defaultBlockState(),
 						Block.UPDATE_CLIENTS);

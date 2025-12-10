@@ -36,7 +36,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -51,7 +50,7 @@ public class ObeseMapResourceReloadListener implements SimpleSynchronousResource
 	private static final ResourceLocation OBESE_MAP_DIR = ObeseCrops.id("obese_map");
 
 	@Override
-	public void onResourceManagerReload(@NotNull ResourceManager manager) {
+	public void onResourceManagerReload(ResourceManager manager) {
 		ObeseCrops.OBESE_MAP.clear();
 
 		manager.listResourceStacks(OBESE_MAP_DIR.getPath(), path ->

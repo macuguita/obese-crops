@@ -38,7 +38,7 @@ public interface OCItemTags {
 	TagKey<Item> FLOWERING_LEAVES = createTag("flowering_leaves");
 	TagKey<Item> SHARP_TOOLS = createTag("sharp_tools");
 
-	private static @NotNull TagKey<Item> createTag(String name) {
+	private static TagKey<Item> createTag(String name) {
 		return TagKey.create(Registries.ITEM, ObeseCrops.id(name));
 	}
 }

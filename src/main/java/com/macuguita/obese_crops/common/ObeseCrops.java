@@ -58,12 +58,11 @@ public class ObeseCrops implements ModInitializer {
 
 	public static final Map<Block, ObeseMapResourceReloadListener.ObeseBlockData> OBESE_MAP = new Object2ObjectOpenHashMap<>();
 
-	public static @NotNull Optional<ObeseMapResourceReloadListener.ObeseBlockData> getObeseBlockData(Block block) {
+	public static Optional<ObeseMapResourceReloadListener.ObeseBlockData> getObeseBlockData(Block block) {
 		return Optional.ofNullable(OBESE_MAP.get(block));
 	}
 
-	@Contract("_ -> new")
-	public static @NotNull ResourceLocation id(String name) {
+	public static ResourceLocation id(String name) {
 		return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
 	}
 

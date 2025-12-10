@@ -23,7 +23,6 @@
 package com.macuguita.obese_crops.common.reg;
 
 import com.macuguita.obese_crops.common.ObeseCrops;
-import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
@@ -33,7 +32,7 @@ public interface OCEnchantmentTags {
 
 	TagKey<Enchantment> SCYTHE_ALLOWED = createTag("scythe_allowed");
 
-	private static @NotNull TagKey<Enchantment> createTag(String name) {
+	private static TagKey<Enchantment> createTag(String name) {
 		return TagKey.create(Registries.ENCHANTMENT, ObeseCrops.id(name));
 	}
 }

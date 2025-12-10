@@ -22,15 +22,13 @@
 
 package com.macuguita.obese_crops.datagen;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
+import java.util.concurrent.CompletableFuture;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.concurrent.CompletableFuture;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
 
 public class OCEnchantmentProvider extends FabricDynamicRegistryProvider {
 
@@ -44,7 +42,7 @@ public class OCEnchantmentProvider extends FabricDynamicRegistryProvider {
 	}
 
 	@Override
-	public @NotNull String getName() {
+	public String getName() {
 		return "Obese Crops Enchantment Provider";
 	}
 }

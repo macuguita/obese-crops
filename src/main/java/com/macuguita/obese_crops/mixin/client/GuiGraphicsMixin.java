@@ -25,7 +25,6 @@ package com.macuguita.obese_crops.mixin.client;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.macuguita.obese_crops.client.ObeseCropsClient;
-import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -53,7 +52,7 @@ public class GuiGraphicsMixin {
 			Level level,
 			LivingEntity entity,
 			int seed,
-			@NotNull Operation<BakedModel> original
+			Operation<BakedModel> original
 	) {
 		ObeseCropsClient.mode = ItemDisplayContext.GUI;
 		return original.call(instance, stack, level, entity, seed);

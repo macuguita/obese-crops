@@ -32,7 +32,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.macuguita.obese_crops.common.item.ScytheItem;
 import com.macuguita.obese_crops.common.reg.OCComponents;
-import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -63,7 +62,7 @@ public abstract class PlayerMixin extends LivingEntity {
 			Player instance,
 			Entity entityHit,
 			Operation<Void> original,
-			@Local(type = ItemStack.class, ordinal = 0) @NotNull ItemStack itemStack
+			@Local(type = ItemStack.class, ordinal = 0) ItemStack itemStack
 	) {
 		if (itemStack.getItem() instanceof ScytheItem) {
 			double strength = 1.0D;
@@ -89,7 +88,7 @@ public abstract class PlayerMixin extends LivingEntity {
 	)
 	private boolean obese_crops$attack(
 			boolean original,
-			@Local(type = ItemStack.class, ordinal = 1) @NotNull ItemStack itemStack
+			@Local(type = ItemStack.class, ordinal = 1) ItemStack itemStack
 	) {
 		return original || itemStack.getItem() instanceof ScytheItem;
 	}

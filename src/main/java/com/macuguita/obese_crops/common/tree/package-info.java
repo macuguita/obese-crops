@@ -20,29 +20,7 @@
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.macuguita.obese_crops.common.reg;
+@NullMarked
+package com.macuguita.obese_crops.common.tree;
 
-import java.util.function.UnaryOperator;
-
-import com.macuguita.obese_crops.common.ObeseCrops;
-
-import net.minecraft.core.Registry;
-import net.minecraft.core.component.DataComponentType;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.enchantment.effects.EnchantmentValueEffect;
-
-public interface OCEnchantmentComponents {
-
-	DataComponentType<EnchantmentValueEffect> SCYTHE_PULLING_RANGE = register(ObeseCrops.id("scythe_pulling_range"), builder -> builder.persistent(EnchantmentValueEffect.CODEC));
-
-	private static <T> DataComponentType<T> register(ResourceLocation id, UnaryOperator<DataComponentType.Builder<T>> operator) {
-		return Registry.register(
-				BuiltInRegistries.ENCHANTMENT_EFFECT_COMPONENT_TYPE, id, ((DataComponentType.Builder) operator.apply(DataComponentType.builder())).build()
-		);
-	}
-
-	static void init() {
-
-	}
-}
+import org.jspecify.annotations.NullMarked;

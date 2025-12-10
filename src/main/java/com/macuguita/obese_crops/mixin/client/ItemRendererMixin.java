@@ -26,7 +26,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.macuguita.obese_crops.client.ObeseCropsClient;
-import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -52,7 +51,7 @@ public class ItemRendererMixin {
 	private BakedModel obese_crops$render(
 			ModelManager instance,
 			ModelResourceLocation modelLocation,
-			@NotNull Operation<BakedModel> original,
+			Operation<BakedModel> original,
 			@Local(argsOnly = true) ItemDisplayContext displayContext
 	) {
 		ObeseCropsClient.mode = displayContext;
@@ -72,7 +71,7 @@ public class ItemRendererMixin {
 			Level level,
 			LivingEntity entity,
 			int seed,
-			@NotNull Operation<BakedModel> original,
+			Operation<BakedModel> original,
 			@Local(argsOnly = true) ItemDisplayContext displayContext
 	) {
 		ObeseCropsClient.mode = displayContext;

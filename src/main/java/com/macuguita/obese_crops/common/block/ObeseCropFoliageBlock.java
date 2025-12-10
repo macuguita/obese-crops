@@ -24,7 +24,6 @@ package com.macuguita.obese_crops.common.block;
 
 import com.macuguita.obese_crops.common.reg.OCBlockTags;
 import com.mojang.serialization.MapCodec;
-import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
@@ -39,7 +38,7 @@ public class ObeseCropFoliageBlock extends BushBlock {
 
 	public static final MapCodec<ObeseCropFoliageBlock> CODEC = simpleCodec(ObeseCropFoliageBlock::new);
 
-	public ObeseCropFoliageBlock(@NotNull Properties settings) {
+	public ObeseCropFoliageBlock(Properties settings) {
 		super(settings
 				.pushReaction(PushReaction.DESTROY)
 				.noCollission()
@@ -55,7 +54,7 @@ public class ObeseCropFoliageBlock extends BushBlock {
 	}
 
 	@Override
-	protected @NotNull MapCodec<? extends BushBlock> codec() {
+	protected MapCodec<? extends BushBlock> codec() {
 		return CODEC;
 	}
 }

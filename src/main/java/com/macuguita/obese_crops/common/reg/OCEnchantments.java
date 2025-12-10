@@ -23,7 +23,6 @@
 package com.macuguita.obese_crops.common.reg;
 
 import com.macuguita.obese_crops.common.ObeseCrops;
-import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
@@ -39,7 +38,7 @@ public interface OCEnchantments {
 
 	ResourceKey<Enchantment> BOUNTIFUL_REAP = key("bountiful_reap");
 
-	static void bootstrap(@NotNull BootstrapContext<Enchantment> context) {
+	static void bootstrap(BootstrapContext<Enchantment> context) {
 		HolderGetter<Item> items = context.lookup(Registries.ITEM);
 
 		register(
@@ -62,11 +61,11 @@ public interface OCEnchantments {
 		);
 	}
 
-	private static void register(@NotNull BootstrapContext<Enchantment> context, ResourceKey<Enchantment> key, Enchantment.@NotNull Builder builder) {
+	private static void register(BootstrapContext<Enchantment> context, ResourceKey<Enchantment> key, Enchantment.Builder builder) {
 		context.register(key, builder.build(key.location()));
 	}
 
-	private static @NotNull ResourceKey<Enchantment> key(String name) {
+	private static ResourceKey<Enchantment> key(String name) {
 		return ResourceKey.create(Registries.ENCHANTMENT, ObeseCrops.id(name));
 	}
 

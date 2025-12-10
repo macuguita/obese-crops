@@ -25,9 +25,9 @@ package com.macuguita.obese_crops.datagen;
 import java.util.concurrent.CompletableFuture;
 
 import com.macuguita.obese_crops.common.item.ScytheItem;
+import com.macuguita.obese_crops.common.reg.OCItemTags;
 import com.macuguita.obese_crops.common.reg.OCObjects;
 import com.macuguita.obese_crops.mixin.IngredientAccessor;
-import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.advancements.Criterion;
 import net.minecraft.core.HolderLookup;
@@ -41,10 +41,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Blocks;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 
+@SuppressWarnings("rawtypes")
 public class OCRecipeProvider extends FabricRecipeProvider {
 
 	public OCRecipeProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
@@ -78,7 +80,7 @@ public class OCRecipeProvider extends FabricRecipeProvider {
 		planksFromLog(recipeOutput, Blocks.OAK_PLANKS, OCItemTags.FLOWERING_OAK_LOGS, 4);
 	}
 
-	private @NotNull Criterion getIngredientCriterion(Ingredient ingredient) {
+	private Criterion getIngredientCriterion(Ingredient ingredient) {
 		for (Ingredient.Value value : ((IngredientAccessor) ingredient).obese_crops$getValues()) {
 			if (value instanceof Ingredient.TagValue(TagKey<Item> tag)) {
 				return has(tag);

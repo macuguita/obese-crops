@@ -30,17 +30,12 @@ import com.macuguita.obese_crops.common.reg.OCEnchantments;
 import com.macuguita.obese_crops.common.reg.OCItemTags;
 import com.macuguita.obese_crops.common.reg.OCObjects;
 
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.enchantment.Enchantment;
-
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Block;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -79,8 +74,7 @@ public class OCLangProvider extends FabricLanguageProvider {
 		generateItemTagTranslations(translationBuilder, OCItemTags.FLOWERING_LEAVES);
 	}
 
-	@Contract("_ -> new")
-	private @NotNull String capitalizeString(@NotNull String string) {
+	private String capitalizeString(String string) {
 		char[] chars = string.toLowerCase(Locale.getDefault()).toCharArray();
 		boolean found = false;
 		for (int i = 0; i < chars.length; ++i) {
@@ -94,26 +88,26 @@ public class OCLangProvider extends FabricLanguageProvider {
 		return new String(chars);
 	}
 
-	private void generateBlockTranslations(@NotNull TranslationBuilder translationBuilder, Block block) {
+	private void generateBlockTranslations(TranslationBuilder translationBuilder, Block block) {
 		String temp = capitalizeString(BuiltInRegistries.BLOCK.getKey(block).getPath().replace("_", " "));
 		translationBuilder.add(block, temp);
 	}
 
-	private void generateItemTranslations(@NotNull TranslationBuilder translationBuilder, Item item) {
+	private void generateItemTranslations(TranslationBuilder translationBuilder, Item item) {
 		String temp = capitalizeString(BuiltInRegistries.ITEM.getKey(item).getPath().replace("_", " "));
 		translationBuilder.add(item, temp);
 	}
 
-	private void generateEnchantmentTranslations(@NotNull TranslationBuilder translationBuilder, @NotNull ResourceKey<Enchantment> enchantment) {
+	private void generateEnchantmentTranslations(TranslationBuilder translationBuilder, ResourceKey<Enchantment> enchantment) {
 		String temp = capitalizeString(enchantment.location().getPath().replace("_", " "));
 		translationBuilder.add("enchantment." + enchantment.location().getNamespace() + "." + enchantment.location().getPath(), temp);
 	}
 
-	private void generateEnchantmentDescriptionTranslations(@NotNull TranslationBuilder translationBuilder, @NotNull ResourceKey<Enchantment> enchantment, String description) {
+	private void generateEnchantmentDescriptionTranslations(TranslationBuilder translationBuilder, ResourceKey<Enchantment> enchantment, String description) {
 		translationBuilder.add("enchantment." + enchantment.location().getNamespace() + "." + enchantment.location().getPath() + ".desc", description);
 	}
 
-	private void generateItemTagTranslations(@NotNull TranslationBuilder translationBuilder, @NotNull TagKey<Item> itemTag) {
+	private void generateItemTagTranslations(TranslationBuilder translationBuilder, TagKey<Item> itemTag) {
 		String temp = capitalizeString(itemTag.location().getPath().replace("_", " "));
 		translationBuilder.add(itemTag, temp);
 	}

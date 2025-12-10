@@ -46,10 +46,10 @@ public class OCModelProvider extends FabricModelProvider {
 	}
 
 	@Override
-	public void generateBlockStateModels(@NotNull BlockModelGenerators blockStateModelGenerator) {
 		blockStateModelGenerator.family(OCObjects.OBESE_BEETROOT.get());
 		blockStateModelGenerator.family(OCObjects.OBESE_POISONOUS_POTATO.get());
 		blockStateModelGenerator.family(OCObjects.OBESE_POTATO.get());
+	public void generateBlockStateModels(BlockModelGenerators blockModelGenerators) {
 
 		registerObeseTopModel(blockStateModelGenerator, OCObjects.OBESE_APPLE.get(), makeTopMap(OCObjects.OBESE_APPLE.get()));
 		registerObeseTopModel(blockStateModelGenerator, OCObjects.OBESE_CARROT.get(), makeTopMap(OCObjects.OBESE_CARROT.get()));

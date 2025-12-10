@@ -36,6 +36,7 @@ public interface OCCreativeTabs {
 
 	GuitaRegistry<CreativeModeTab> ITEM_GROUPS = GuitaRegistries.create(BuiltInRegistries.CREATIVE_MODE_TAB, ObeseCrops.MOD_ID);
 
+	// TODO: maybe add enchantments to the creative tab
 	GuitaRegistryEntry<CreativeModeTab> GW_TAB = ITEM_GROUPS.register(ObeseCrops.MOD_ID, () ->
 			CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
 					.title(Component.translatable("itemGroup." + ObeseCrops.MOD_ID + "." + ObeseCrops.MOD_ID))
