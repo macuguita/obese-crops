@@ -1,9 +1,15 @@
 {
+  "block.obese_crops.apple": "Apple Seed",
+  "block.obese_crops.flowering_oak_leaves": "Flowering Oak Leaves",
+  "block.obese_crops.flowering_oak_log": "Flowering Oak Log",
+  "block.obese_crops.flowering_oak_sapling": "Flowering Oak Sapling",
   "block.obese_crops.obese_apple": "Obese Apple",
   "block.obese_crops.obese_beetroot": "Obese Beetroot",
   "block.obese_crops.obese_carrot": "Obese Carrot",
   "block.obese_crops.obese_poisonous_potato": "Obese Poisonous Potato",
   "block.obese_crops.obese_potato": "Obese Potato",
+  "block.obese_crops.potted_flowering_oak_sapling": "Potted Flowering Oak Sapling",
+  "block.obese_crops.stripped_flowering_oak_log": "Stripped Flowering Oak Log",
   "enchantment.obese_crops.bountiful_reap": "Bountiful Reap",
   "enchantment.obese_crops.bountiful_reap.desc": "Allows you scythe to reap in a bigger area.",
   "item.obese_crops.diamond_scythe": "Diamond Scythe",
@@ -13,6 +19,9 @@
   "item.obese_crops.stone_scythe": "Stone Scythe",
   "item.obese_crops.wooden_scythe": "Wooden Scythe",
   "itemGroup.obese_crops.obese_crops": "Obese Crops",
+  "tag.item.obese_crops.flowering_leaves": "Flowering Leaves",
+  "tag.item.obese_crops.flowering_oak_logs": "Flowering Oak Logs",
   "tag.item.obese_crops.scythe_enchantable": "Scythe Enchantable",
-  "tag.item.obese_crops.scythes": "Scythes"
+  "tag.item.obese_crops.scythes": "Scythes",
+  "tag.item.obese_crops.thin_logs": "Thin Logs"
 }

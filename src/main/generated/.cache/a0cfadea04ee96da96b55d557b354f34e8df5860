@@ -1,0 +1,13 @@
+// 1.21.1	2025-12-10T14:23:31.494563	Obese crops/Tags for minecraft:block
+b76a222f95ddd095be4d1ff8d7d14ec3057a2923 data/obese_crops/tags/block/obese_crop.json
+fad2b338e53bed00df99c78561c87e2cedbf8392 data/obese_crops/tags/block/double_obese_crop.json
+8d7340b6619944e92aaf818f3c181f1a473c6caf data/minecraft/tags/block/flower_pots.json
+9b0c717dcaed3277d74a778691cf8bd35869d660 data/obese_crops/tags/block/scythe_efficient.json
+2539d352e9b584f51fea03131d1f930908609f79 data/minecraft/tags/block/saplings.json
+570aa17e4c8c75c9100fd4e44ffa45e0d89ff99b data/obese_crops/tags/block/flowering_oak_logs.json
+ebf627c04698885b908a0aaee40027f7dab65fdb data/obese_crops/tags/block/thin_logs.json
+4037260124f6e2332001aaed5572af64d9972655 data/obese_crops/tags/block/scythe_weeds.json
+e91f313e0dbf7c024d8319f97fb7e4d2c11c948c data/minecraft/tags/block/logs.json
+622d0b9785e1409aef1c199d7cb18db877e226f2 data/obese_crops/tags/block/mineable/scythe.json
+3a951206ebc1dbd8b8e77ac71a9cbedaf4add550 data/obese_crops/tags/block/flowering_leaves.json
+a152713314090894ec751124df592f5f964aaf5a data/minecraft/tags/block/leaves.json

@@ -1,0 +1,6 @@
+{
+  "parent": "obese_crops:block/fruit_stage0",
+  "textures": {
+    "plant": "obese_crops:block/apple_stage0"
+  }
+}

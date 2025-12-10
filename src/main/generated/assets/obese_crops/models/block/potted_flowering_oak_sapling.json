@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/flower_pot_cross",
+  "textures": {
+    "plant": "obese_crops:block/flowering_oak_sapling"
+  }
+}

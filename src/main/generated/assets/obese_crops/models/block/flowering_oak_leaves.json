@@ -1,0 +1,7 @@
+{
+  "parent": "obese_crops:block/flowering_leaves",
+  "textures": {
+    "all": "minecraft:block/oak_leaves",
+    "layer0": "obese_crops:block/flowering_oak_leaves"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "textures": {
+    "particle": "#plant"
+  },
+	"elements": [
+		{
+			"from": [6, 10, 6],
+			"to": [10, 14, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7, 10, 7]},
+			"faces": {
+				"north": {"uv": [10, 0, 14, 4], "texture": "#plant"},
+				"east": {"uv": [14, 0, 10, 4], "texture": "#plant"},
+				"south": {"uv": [10, 0, 14, 4], "texture": "#plant"},
+				"west": {"uv": [14, 0, 10, 4], "texture": "#plant"},
+				"up": {"uv": [6, 4, 2, 0], "texture": "#plant"},
+				"down": {"uv": [10, 0, 6, 4], "texture": "#plant"}
+			}
+		},
+		{
+			"from": [7, 14, 8],
+			"to": [9, 16, 8],
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 14, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 2, 2], "texture": "#plant"},
+				"south": {"uv": [2, 0, 0, 2], "texture": "#plant"}
+			}
+		},
+		{
+			"from": [8, 14, 7],
+			"to": [8, 16, 9],
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 14, 8]},
+			"faces": {
+				"east": {"uv": [0, 0, 2, 2], "texture": "#plant"},
+				"west": {"uv": [2, 0, 0, 2], "texture": "#plant"}
+			}
+		}
+	]
+}

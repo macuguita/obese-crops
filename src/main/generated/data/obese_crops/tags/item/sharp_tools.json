@@ -1,0 +1,17 @@
+{
+  "values": [
+    {
+      "id": "#c:tool/knife",
+      "required": false
+    },
+    "#obese_crops:scythes",
+    {
+      "id": "#minecraft:swords",
+      "required": false
+    },
+    {
+      "id": "#minecraft:axes",
+      "required": false
+    }
+  ]
+}

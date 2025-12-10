@@ -1,7 +1,68 @@
 {
   "variants": {
-    "": {
-      "model": "obese_crops:block/obese_apple"
+    "carved=0,facing=east": {
+      "model": "obese_crops:block/obese_apple",
+      "y": 90
+    },
+    "carved=0,facing=north": {
+      "model": "obese_crops:block/obese_apple",
+      "y": 0
+    },
+    "carved=0,facing=south": {
+      "model": "obese_crops:block/obese_apple",
+      "y": 180
+    },
+    "carved=0,facing=west": {
+      "model": "obese_crops:block/obese_apple",
+      "y": 270
+    },
+    "carved=1,facing=east": {
+      "model": "obese_crops:block/obese_apple_3_4",
+      "y": 90
+    },
+    "carved=1,facing=north": {
+      "model": "obese_crops:block/obese_apple_3_4",
+      "y": 0
+    },
+    "carved=1,facing=south": {
+      "model": "obese_crops:block/obese_apple_3_4",
+      "y": 180
+    },
+    "carved=1,facing=west": {
+      "model": "obese_crops:block/obese_apple_3_4",
+      "y": 270
+    },
+    "carved=2,facing=east": {
+      "model": "obese_crops:block/obese_apple_2_4",
+      "y": 90
+    },
+    "carved=2,facing=north": {
+      "model": "obese_crops:block/obese_apple_2_4",
+      "y": 0
+    },
+    "carved=2,facing=south": {
+      "model": "obese_crops:block/obese_apple_2_4",
+      "y": 180
+    },
+    "carved=2,facing=west": {
+      "model": "obese_crops:block/obese_apple_2_4",
+      "y": 270
+    },
+    "carved=3,facing=east": {
+      "model": "obese_crops:block/obese_apple_1_4",
+      "y": 90
+    },
+    "carved=3,facing=north": {
+      "model": "obese_crops:block/obese_apple_1_4",
+      "y": 0
+    },
+    "carved=3,facing=south": {
+      "model": "obese_crops:block/obese_apple_1_4",
+      "y": 180
+    },
+    "carved=3,facing=west": {
+      "model": "obese_crops:block/obese_apple_1_4",
+      "y": 270
     }
   }
 }

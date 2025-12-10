@@ -1,0 +1,253 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "obese_crops:block/stripped_flowering_oak_log_core"
+      },
+      "when": {
+        "AND": [
+          {
+            "OR": [
+              {
+                "up": "!true"
+              },
+              {
+                "down": "!true"
+              },
+              {
+                "north": "!true"
+              },
+              {
+                "south": "!true"
+              },
+              {
+                "east": "!true"
+              },
+              {
+                "west": "!true"
+              }
+            ]
+          },
+          {
+            "OR": [
+              {
+                "up": "true"
+              },
+              {
+                "down": "true"
+              },
+              {
+                "AND": [
+                  {
+                    "up": "false"
+                  },
+                  {
+                    "down": "false"
+                  },
+                  {
+                    "north": "false"
+                  },
+                  {
+                    "south": "false"
+                  },
+                  {
+                    "east": "false"
+                  },
+                  {
+                    "west": "false"
+                  }
+                ]
+              },
+              {
+                "AND": [
+                  {
+                    "up": "false"
+                  },
+                  {
+                    "down": "false"
+                  },
+                  {
+                    "OR": [
+                      {
+                        "north": "false"
+                      },
+                      {
+                        "south": "false"
+                      }
+                    ]
+                  },
+                  {
+                    "OR": [
+                      {
+                        "west": "false"
+                      },
+                      {
+                        "east": "false"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "AND": [
+                  {
+                    "up": "false"
+                  },
+                  {
+                    "down": "false"
+                  },
+                  {
+                    "north": "true"
+                  },
+                  {
+                    "south": "true"
+                  },
+                  {
+                    "east": "true"
+                  },
+                  {
+                    "west": "true"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "obese_crops:block/stripped_flowering_oak_log_core",
+        "x": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "up": "false"
+          },
+          {
+            "down": "false"
+          },
+          {
+            "AND": [
+              {
+                "AND": [
+                  {
+                    "north": "true"
+                  },
+                  {
+                    "south": "true"
+                  }
+                ]
+              },
+              {
+                "OR": [
+                  {
+                    "east": "false"
+                  },
+                  {
+                    "west": "false"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "obese_crops:block/stripped_flowering_oak_log_core",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "AND": [
+          {
+            "up": "false"
+          },
+          {
+            "down": "false"
+          },
+          {
+            "AND": [
+              {
+                "AND": [
+                  {
+                    "east": "true"
+                  },
+                  {
+                    "west": "true"
+                  }
+                ]
+              },
+              {
+                "OR": [
+                  {
+                    "north": "false"
+                  },
+                  {
+                    "south": "false"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "obese_crops:block/stripped_flowering_oak_log_down",
+        "x": 90
+      },
+      "when": {
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "obese_crops:block/stripped_flowering_oak_log_up",
+        "x": 270
+      },
+      "when": {
+        "up": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "obese_crops:block/stripped_flowering_oak_log_up"
+      },
+      "when": {
+        "north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "obese_crops:block/stripped_flowering_oak_log_down",
+        "y": 180
+      },
+      "when": {
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "obese_crops:block/stripped_flowering_oak_log_down",
+        "y": 270
+      },
+      "when": {
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "obese_crops:block/stripped_flowering_oak_log_up",
+        "y": 90
+      },
+      "when": {
+        "east": "true"
+      }
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "obese_crops:block/1_4_carved_block",
+  "textures": {
+    "inside": "obese_crops:block/obese_apple_inside",
+    "side": "obese_crops:block/obese_apple",
+    "top": "obese_crops:block/obese_apple_top"
+  }
+}

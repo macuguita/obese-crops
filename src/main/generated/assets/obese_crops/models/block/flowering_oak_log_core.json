@@ -1,0 +1,6 @@
+{
+  "parent": "obese_crops:block/thin_log_core",
+  "textures": {
+    "side": "obese_crops:block/flowering_oak_log"
+  }
+}

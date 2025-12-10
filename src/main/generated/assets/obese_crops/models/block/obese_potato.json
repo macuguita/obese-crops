@@ -1,6 +1,8 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "obese_crops:block/obese_crop",
   "textures": {
-    "all": "obese_crops:block/obese_potato"
+    "inside": "obese_crops:block/obese_potato_inside",
+    "side": "obese_crops:block/obese_potato",
+    "top": "obese_crops:block/obese_potato"
   }
 }
