@@ -59,9 +59,20 @@ public interface OCObjects {
 	GuitaRegistryEntry<ObeseCropBlock> OBESE_POISONOUS_POTATO = registerWithItem("obese_poisonous_potato", () -> new ObeseCropBlock(BlockBehaviour.Properties.of()));
 	GuitaRegistryEntry<ObeseCropBlock> OBESE_POTATO = registerWithItem("obese_potato", () -> new ObeseCropBlock(BlockBehaviour.Properties.of()));
 
-	GuitaRegistryEntry<ObeseCropFoliageBlock> OBESE_BEETROOT_FOLIAGE = BLOCKS.register("obese_beetroot_foliage", () -> new ObeseCropFoliageBlock(BlockBehaviour.Properties.of()));
-	GuitaRegistryEntry<ObeseCropFoliageBlock> OBESE_CARROT_FOLIAGE = BLOCKS.register("obese_carrot_foliage", () -> new ObeseCropFoliageBlock(BlockBehaviour.Properties.of()));
-	GuitaRegistryEntry<ObeseCropFoliageBlock> OBESE_POTATO_FOLIAGE = BLOCKS.register("obese_potato_foliage", () -> new ObeseCropFoliageBlock(BlockBehaviour.Properties.of()));
+	GuitaRegistryEntry<Block> FLOWERING_OAK_LOG = registerWithItem("flowering_oak_log", () -> new ThinLogBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG).mapColor(Blocks.OAK_LOG.defaultMapColor()), true));
+	GuitaRegistryEntry<Block> STRIPPED_FLOWERING_OAK_LOG = registerWithItem("stripped_flowering_oak_log", () -> new ThinLogBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG).mapColor(Blocks.OAK_LOG.defaultMapColor())));
+	GuitaRegistryEntry<Block> FLOWERING_OAK_LEAVES = registerWithItem("flowering_oak_leaves", () -> Blocks.leaves(SoundType.GRASS));
+	GuitaRegistryEntry<Block> FLOWERING_OAK_SAPLING = registerWithItem("flowering_oak_sapling", () -> new FloweringOakSaplingBlock(
+			new TreeGrower(
+					"flowering_oak",
+					Optional.empty(),
+					Optional.of(OCWorldgen.FLOWERING_OAK_CONFIGURED),
+					Optional.of(OCWorldgen.FLOWERING_OAK_BEES_CONFIGURED)
+			), BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SAPLING)));
+	GuitaRegistryEntry<Block> POTTED_FLOWERING_OAK_SAPLING = BLOCKS.register("potted_flowering_oak_sapling", () -> Blocks.flowerPot(FLOWERING_OAK_SAPLING.get()));
+
+	GuitaRegistryEntry<Block> APPLE = BLOCKS.register("apple", () -> new AppleBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.COCOA).mapColor(MapColor.COLOR_RED)));
+	GuitaRegistryEntry<Item> APPLE_SEED = ITEMS.register("apple_seed", () -> new BlockItem(APPLE.get(), new Item.Properties()));
 
 	private static <T extends Block> GuitaRegistryEntry<T> registerWithItem(String name, Supplier<T> block) {
 		GuitaRegistryEntry<T> toReturn = BLOCKS.register(name, block);

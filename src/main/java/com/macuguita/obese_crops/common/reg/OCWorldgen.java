@@ -25,10 +25,16 @@ package com.macuguita.obese_crops.common.reg;
 import java.util.List;
 import java.util.OptionalInt;
 
+import com.macuguita.lib.platform.registry.GuitaRegistries;
+import com.macuguita.lib.platform.registry.GuitaRegistry;
+import com.macuguita.lib.platform.registry.GuitaRegistryEntry;
 import com.macuguita.obese_crops.common.ObeseCrops;
-import com.macuguita.obese_crops.common.treedecorator.SingleObeseAppleTreeDecorator;
-import org.jetbrains.annotations.NotNull;
+import com.macuguita.obese_crops.common.block.AppleBlock;
+import com.macuguita.obese_crops.common.block.ThinLogBlock;
+import com.macuguita.obese_crops.common.tree.SingleObeseAppleTreeDecorator;
+import com.macuguita.obese_crops.common.tree.ThinTrunkPlacer;
 
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -38,6 +44,7 @@ import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.valueproviders.ConstantInt;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -45,17 +52,14 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.WeightedPlacedFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.RandomFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
-import net.minecraft.world.level.levelgen.feature.featuresize.ThreeLayersFeatureSize;
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
-import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer;
-import net.minecraft.world.level.levelgen.feature.foliageplacers.DarkOakFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FancyFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
+import net.minecraft.world.level.levelgen.feature.stateproviders.RandomizedIntStateProvider;
+import net.minecraft.world.level.levelgen.feature.treedecorators.AttachedToLeavesDecorator;
 import net.minecraft.world.level.levelgen.feature.treedecorators.BeehiveDecorator;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
-import net.minecraft.world.level.levelgen.feature.trunkplacers.DarkOakTrunkPlacer;
-import net.minecraft.world.level.levelgen.feature.trunkplacers.FancyTrunkPlacer;
-import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlacer;
+import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 import net.minecraft.world.level.levelgen.placement.BiomeFilter;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.placement.RarityFilter;
@@ -67,115 +71,97 @@ import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
 
 public interface OCWorldgen {
 
-	ResourceKey<ConfiguredFeature<?, ?>> APPLE_OAK_CONFIGURED = registerConfiguredFeature("apple_oak");
-	ResourceKey<ConfiguredFeature<?, ?>> APPLE_DARK_OAK_CONFIGURED = registerConfiguredFeature("apple_dark_oak");
-	ResourceKey<ConfiguredFeature<?, ?>> APPLE_FANCY_OAK_CONFIGURED = registerConfiguredFeature("apple_fancy_oak");
-	ResourceKey<ConfiguredFeature<?, ?>> APPLE_OAK_BEES_CONFIGURED = registerConfiguredFeature("apple_oak_bees");
-	ResourceKey<ConfiguredFeature<?, ?>> APPLE_FANCY_OAK_BEES_CONFIGURED = registerConfiguredFeature("apple_fancy_oak_bees");
-	ResourceKey<ConfiguredFeature<?, ?>> APPLE_TREES_CONFIGURED = registerConfiguredFeature("apple_trees");
-	ResourceKey<ConfiguredFeature<?, ?>> APPLE_DARK_TREES_CONFIGURED = registerConfiguredFeature("apple_dark_trees");
+	GuitaRegistry<TrunkPlacerType<?>> TRUNK_PLACER = GuitaRegistries.create(BuiltInRegistries.TRUNK_PLACER_TYPE, ObeseCrops.MOD_ID);
 
-	ResourceKey<PlacedFeature> APPLE_OAK_CHECKED_PLACED = registerPlacedFeature("apple_oak_checked");
-	ResourceKey<PlacedFeature> APPLE_DARK_OAK_CHECKED_PLACED = registerPlacedFeature("apple_dark_oak_checked");
-	ResourceKey<PlacedFeature> APPLE_FANCY_OAK_CHECKED_PLACED = registerPlacedFeature("apple_fancy_oak_checked");
-	ResourceKey<PlacedFeature> APPLE_OAK_BEES_PLACED = registerPlacedFeature("apple_oak_bees");
-	ResourceKey<PlacedFeature> APPLE_FANCY_OAK_BEES_PLACED = registerPlacedFeature("apple_fancy_oak_bees");
-	ResourceKey<PlacedFeature> APPLE_TREES_PLACED = registerPlacedFeature("apple_trees");
-	ResourceKey<PlacedFeature> APPLE_DARK_TREES_PLACED = registerPlacedFeature("apple_dark_trees");
+	GuitaRegistryEntry<TrunkPlacerType<?>> THIN_TRUNK_PLACER = TRUNK_PLACER.register("thin_trunk_placer", () -> new TrunkPlacerType<>(ThinTrunkPlacer.CODEC));
+
+	ResourceKey<ConfiguredFeature<?, ?>> FLOWERING_OAK_CONFIGURED = registerConfiguredFeature("flowering_oak");
+	ResourceKey<ConfiguredFeature<?, ?>> FLOWERING_OAK_BEES_CONFIGURED = registerConfiguredFeature("flowering_oak_bees");
+	ResourceKey<ConfiguredFeature<?, ?>> OBESE_FLOWERING_OAK_CONFIGURED = registerConfiguredFeature("obese_flowering_oak");
+	ResourceKey<ConfiguredFeature<?, ?>> OBESE_FLOWERING_OAK_BEES_CONFIGURED = registerConfiguredFeature("obese_flowering_oak_bees");
+	ResourceKey<ConfiguredFeature<?, ?>> FLOWERING_OAKS_CONFIGURED = registerConfiguredFeature("flowering_oaks");
+
+	ResourceKey<PlacedFeature> FLOWERING_OAK_PLACED = registerPlacedFeature("flowering_oak");
+	ResourceKey<PlacedFeature> FLOWERING_OAK_BEES_PLACED = registerPlacedFeature("flowering_oak_bees");
+	ResourceKey<PlacedFeature> OBESE_FLOWERING_OAK_PLACED = registerPlacedFeature("obese_flowering_oak");
+	ResourceKey<PlacedFeature> OBESE_FLOWERING_OAK_BEES_PLACED = registerPlacedFeature("obese_flowering_oak_bees");
+	ResourceKey<PlacedFeature> FLOWERING_OAKS_PLACED = registerPlacedFeature("flowering_oaks");
 
 	TreeDecoratorType<SingleObeseAppleTreeDecorator> APPLE_DECORATOR = Registry.register(BuiltInRegistries.TREE_DECORATOR_TYPE, ObeseCrops.id("single_obese_apple_decorator"), new TreeDecoratorType<>(SingleObeseAppleTreeDecorator.CODEC));
 
-	private static @NotNull ResourceKey<ConfiguredFeature<?, ?>> registerConfiguredFeature(String id) {
+	private static ResourceKey<ConfiguredFeature<?, ?>> registerConfiguredFeature(String id) {
 		return ResourceKey.create(Registries.CONFIGURED_FEATURE, ObeseCrops.id(id));
 	}
 
-	private static @NotNull ResourceKey<PlacedFeature> registerPlacedFeature(String id) {
+	private static ResourceKey<PlacedFeature> registerPlacedFeature(String id) {
 		return ResourceKey.create(Registries.PLACED_FEATURE, ObeseCrops.id(id));
 	}
 
 	static void init() {
 		BiomeModifications.create(ObeseCrops.id("obese_apple_biome_modifications"))
 				.add(ModificationPhase.ADDITIONS,
-						BiomeSelectors.tag(OCBiomeTags.OBESE_APPLE),
-						context -> context.getGenerationSettings().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, APPLE_TREES_PLACED)
-				)
-				.add(ModificationPhase.ADDITIONS,
-						BiomeSelectors.tag(OCBiomeTags.OBESE_APPLE).and(BiomeSelectors.tag(OCBiomeTags.DARK_OBESE_APPLE)),
-						context -> context.getGenerationSettings().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, APPLE_DARK_TREES_PLACED)
+						BiomeSelectors.tag(OCBiomeTags.FLOWERING_OAK_TREE),
+						context -> context.getGenerationSettings().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, FLOWERING_OAKS_PLACED)
 				);
 	}
 
 	static void bootstrapConfiguredFeatures(BootstrapContext<ConfiguredFeature<?, ?>> registerable) {
-		SingleObeseAppleTreeDecorator appleDecorator = new SingleObeseAppleTreeDecorator();
-		BeehiveDecorator beehiveTreeDecorator = new BeehiveDecorator(0.05F);
-
-		FeatureUtils.register(registerable, APPLE_OAK_CONFIGURED, Feature.TREE, oak().decorators(List.of(appleDecorator)).build());
-		FeatureUtils.register(registerable, APPLE_DARK_OAK_CONFIGURED, Feature.TREE,
-				new TreeConfiguration.TreeConfigurationBuilder(
-						BlockStateProvider.simple(Blocks.DARK_OAK_LOG),
-						new DarkOakTrunkPlacer(6, 2, 1),
-						BlockStateProvider.simple(Blocks.DARK_OAK_LEAVES),
-						new DarkOakFoliagePlacer(ConstantInt.of(0), ConstantInt.of(0)),
-						new ThreeLayersFeatureSize(1, 1, 0, 1, 2, OptionalInt.empty())
-				)
-						.ignoreVines()
-						.decorators(List.of(appleDecorator)).build());
-		FeatureUtils.register(registerable, APPLE_FANCY_OAK_CONFIGURED, Feature.TREE, fancyOak().decorators(List.of(appleDecorator)).build());
-		FeatureUtils.register(registerable, APPLE_OAK_BEES_CONFIGURED, Feature.TREE, oak().decorators(List.of(appleDecorator, beehiveTreeDecorator)).build());
-		FeatureUtils.register(registerable, APPLE_FANCY_OAK_BEES_CONFIGURED, Feature.TREE, fancyOak().decorators(List.of(appleDecorator, beehiveTreeDecorator)).build());
-
 		HolderGetter<PlacedFeature> placedFeatures = registerable.lookup(Registries.PLACED_FEATURE);
 
-		FeatureUtils.register(registerable, APPLE_TREES_CONFIGURED, Feature.RANDOM_SELECTOR,
+		SingleObeseAppleTreeDecorator appleDecorator = new SingleObeseAppleTreeDecorator();
+		BeehiveDecorator beehiveTreeDecorator = new BeehiveDecorator(0.05F);
+		AttachedToLeavesDecorator attachedToLeavesDecorator = new AttachedToLeavesDecorator(0.14f, 1, 0,
+				new RandomizedIntStateProvider(
+						BlockStateProvider.simple(OCObjects.APPLE.get().defaultBlockState()),
+						AppleBlock.AGE,
+						UniformInt.of(0, AppleBlock.MAX_AGE)
+				),
+				2,
+				List.of(Direction.DOWN));
+
+		FeatureUtils.register(registerable, FLOWERING_OAK_CONFIGURED, Feature.TREE,
+				floweringOak().decorators(List.of(attachedToLeavesDecorator)).build());
+		FeatureUtils.register(registerable, FLOWERING_OAK_BEES_CONFIGURED, Feature.TREE,
+				floweringOak().decorators(List.of(attachedToLeavesDecorator, beehiveTreeDecorator)).build());
+		FeatureUtils.register(registerable, OBESE_FLOWERING_OAK_CONFIGURED, Feature.TREE,
+				floweringOak().decorators(List.of(attachedToLeavesDecorator, appleDecorator)).build());
+		FeatureUtils.register(registerable, OBESE_FLOWERING_OAK_BEES_CONFIGURED, Feature.TREE,
+				floweringOak().decorators(List.of(attachedToLeavesDecorator, beehiveTreeDecorator, appleDecorator)).build());
+
+		FeatureUtils.register(registerable, FLOWERING_OAKS_CONFIGURED, Feature.RANDOM_SELECTOR,
 				new RandomFeatureConfiguration(
 						List.of(
-								new WeightedPlacedFeature(placedFeatures.getOrThrow(APPLE_OAK_CHECKED_PLACED), 0.2F),
-								new WeightedPlacedFeature(placedFeatures.getOrThrow(APPLE_OAK_BEES_PLACED), 0.2F),
-								new WeightedPlacedFeature(placedFeatures.getOrThrow(APPLE_FANCY_OAK_BEES_PLACED), 0.2F)
-						), placedFeatures.getOrThrow(APPLE_FANCY_OAK_CHECKED_PLACED)
-				));
-		FeatureUtils.register(registerable, APPLE_DARK_TREES_CONFIGURED, Feature.RANDOM_SELECTOR,
-				new RandomFeatureConfiguration(
-						List.of(
-						), placedFeatures.getOrThrow(APPLE_DARK_OAK_CHECKED_PLACED)
+								new WeightedPlacedFeature(placedFeatures.getOrThrow(FLOWERING_OAK_BEES_PLACED), 0.2F),
+								new WeightedPlacedFeature(placedFeatures.getOrThrow(OBESE_FLOWERING_OAK_PLACED), 0.05F),
+								new WeightedPlacedFeature(placedFeatures.getOrThrow(OBESE_FLOWERING_OAK_BEES_PLACED), 0.025F)
+						), placedFeatures.getOrThrow(FLOWERING_OAK_PLACED)
 				));
 	}
 
-	static void bootstrapPlacedFeatures(@NotNull BootstrapContext<PlacedFeature> registerable) {
+	static void bootstrapPlacedFeatures(BootstrapContext<PlacedFeature> registerable) {
 		HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures = registerable.lookup(Registries.CONFIGURED_FEATURE);
 
-		PlacementUtils.register(registerable, APPLE_OAK_CHECKED_PLACED, configuredFeatures.getOrThrow(APPLE_OAK_CONFIGURED), PlacementUtils.filteredByBlockSurvival(Blocks.OAK_SAPLING));
-		PlacementUtils.register(registerable, APPLE_DARK_OAK_CHECKED_PLACED, configuredFeatures.getOrThrow(APPLE_DARK_OAK_CONFIGURED), PlacementUtils.filteredByBlockSurvival(Blocks.DARK_OAK_SAPLING));
-		PlacementUtils.register(registerable, APPLE_FANCY_OAK_CHECKED_PLACED, configuredFeatures.getOrThrow(APPLE_FANCY_OAK_CONFIGURED), PlacementUtils.filteredByBlockSurvival(Blocks.OAK_SAPLING));
-		PlacementUtils.register(registerable, APPLE_OAK_BEES_PLACED, configuredFeatures.getOrThrow(APPLE_OAK_BEES_CONFIGURED), PlacementUtils.filteredByBlockSurvival(Blocks.OAK_SAPLING));
-		PlacementUtils.register(registerable, APPLE_FANCY_OAK_BEES_PLACED, configuredFeatures.getOrThrow(APPLE_FANCY_OAK_BEES_CONFIGURED), PlacementUtils.filteredByBlockSurvival(Blocks.OAK_SAPLING));
+		PlacementUtils.register(registerable, FLOWERING_OAK_PLACED, configuredFeatures.getOrThrow(FLOWERING_OAK_CONFIGURED), PlacementUtils.filteredByBlockSurvival(Blocks.OAK_SAPLING));
+		PlacementUtils.register(registerable, FLOWERING_OAK_BEES_PLACED, configuredFeatures.getOrThrow(FLOWERING_OAK_BEES_CONFIGURED), PlacementUtils.filteredByBlockSurvival(Blocks.OAK_SAPLING));
+		PlacementUtils.register(registerable, OBESE_FLOWERING_OAK_PLACED, configuredFeatures.getOrThrow(OBESE_FLOWERING_OAK_CONFIGURED), PlacementUtils.filteredByBlockSurvival(Blocks.OAK_SAPLING));
+		PlacementUtils.register(registerable, OBESE_FLOWERING_OAK_BEES_PLACED, configuredFeatures.getOrThrow(OBESE_FLOWERING_OAK_BEES_CONFIGURED), PlacementUtils.filteredByBlockSurvival(Blocks.OAK_SAPLING));
 
-		PlacementUtils.register(registerable, APPLE_TREES_PLACED, configuredFeatures.getOrThrow(APPLE_TREES_CONFIGURED),
-				RarityFilter.onAverageOnceEvery(40), SurfaceWaterDepthFilter.forMaxDepth(0),
-				PlacementUtils.HEIGHTMAP_OCEAN_FLOOR, BiomeFilter.biome());
-		PlacementUtils.register(registerable, APPLE_DARK_TREES_PLACED, configuredFeatures.getOrThrow(APPLE_DARK_TREES_CONFIGURED),
+		PlacementUtils.register(registerable, FLOWERING_OAKS_PLACED, configuredFeatures.getOrThrow(FLOWERING_OAKS_CONFIGURED),
 				RarityFilter.onAverageOnceEvery(40), SurfaceWaterDepthFilter.forMaxDepth(0),
 				PlacementUtils.HEIGHTMAP_OCEAN_FLOOR, BiomeFilter.biome());
 	}
 
-	private static TreeConfiguration.@NotNull TreeConfigurationBuilder oak() {
+	private static TreeConfiguration.TreeConfigurationBuilder floweringOak() {
 		return new TreeConfiguration.TreeConfigurationBuilder(
-				BlockStateProvider.simple(Blocks.OAK_LOG),
-				new StraightTrunkPlacer(4, 2, 0),
-				BlockStateProvider.simple(Blocks.OAK_LEAVES),
-				new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 3),
-				new TwoLayersFeatureSize(1, 0, 1)
-		).ignoreVines();
-	}
-
-	private static TreeConfiguration.@NotNull TreeConfigurationBuilder fancyOak() {
-		return new TreeConfiguration.TreeConfigurationBuilder(
-				BlockStateProvider.simple(Blocks.OAK_LOG),
-				new FancyTrunkPlacer(3, 11, 0),
-				BlockStateProvider.simple(Blocks.OAK_LEAVES),
+				BlockStateProvider.simple(OCObjects.FLOWERING_OAK_LOG.get().defaultBlockState()
+						.setValue(ThinLogBlock.PROPERTY_BY_DIRECTION.get(Direction.DOWN), true)
+						.setValue(ThinLogBlock.PROPERTY_BY_DIRECTION.get(Direction.UP), true)),
+				new ThinTrunkPlacer(3, 11, 0),
+				BlockStateProvider.simple(OCObjects.FLOWERING_OAK_LEAVES.get()),
 				new FancyFoliagePlacer(ConstantInt.of(2), ConstantInt.of(4), 4),
 				new TwoLayersFeatureSize(0, 0, 0, OptionalInt.of(4))
 		)
-				.ignoreVines();
+				.ignoreVines()
+				.dirt(BlockStateProvider.simple(Blocks.GRASS_BLOCK.defaultBlockState()));
 	}
 }

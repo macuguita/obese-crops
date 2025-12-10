@@ -26,13 +26,19 @@ import com.macuguita.lib.platform.registry.GuitaRegistryEntry;
 import com.macuguita.obese_crops.common.ObeseCrops;
 import com.macuguita.obese_crops.common.reg.OCObjects;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.level.FoliageColor;
+import net.minecraft.world.level.block.state.BlockState;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 
 public class ObeseCropsClient implements ClientModInitializer {
 	public static ItemDisplayContext mode = ItemDisplayContext.NONE;
@@ -49,5 +55,19 @@ public class ObeseCropsClient implements ClientModInitializer {
 		BlockRenderLayerMap.INSTANCE.putBlock(OCObjects.OBESE_BEETROOT_FOLIAGE.get(), RenderType.cutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(OCObjects.OBESE_CARROT_FOLIAGE.get(), RenderType.cutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(OCObjects.OBESE_POTATO_FOLIAGE.get(), RenderType.cutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(OCObjects.APPLE.get(), RenderType.cutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(OCObjects.FLOWERING_OAK_LEAVES.get(), RenderType.cutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(OCObjects.FLOWERING_OAK_SAPLING.get(), RenderType.cutout());
+
+		ColorProviderRegistry.BLOCK.register((state, view, pos, tintIndex) ->
+						view != null && pos != null
+								? BiomeColors.getAverageFoliageColor(view, pos)
+								: FoliageColor.getDefaultColor(),
+				OCObjects.FLOWERING_OAK_LEAVES.get());
+		ColorProviderRegistry.ITEM.register((itemStack, i) -> {
+					BlockState blockState = ((BlockItem) itemStack.getItem()).getBlock().defaultBlockState();
+					return Minecraft.getInstance().getBlockColors().getColor(blockState, null, null, i);
+				},
+				OCObjects.FLOWERING_OAK_LEAVES.get());
 	}
 }

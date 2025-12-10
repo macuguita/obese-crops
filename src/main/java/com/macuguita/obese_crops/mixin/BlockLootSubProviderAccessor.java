@@ -20,29 +20,18 @@
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.macuguita.obese_crops.datagen;
+package com.macuguita.obese_crops.mixin;
 
-import java.util.concurrent.CompletableFuture;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Accessor;
 
-import com.macuguita.obese_crops.common.reg.OCBiomeTags;
+import net.minecraft.data.loot.BlockLootSubProvider;
 
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.world.level.biome.Biome;
+@Mixin(BlockLootSubProvider.class)
+public interface BlockLootSubProviderAccessor {
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBiomeTags;
-
-public class OCBiomeTagProvider extends FabricTagProvider<Biome> {
-
-	public OCBiomeTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-		super(output, Registries.BIOME, registriesFuture);
-	}
-
-	@Override
-	protected void addTags(HolderLookup.Provider wrapperLookup) {
-		tag(OCBiomeTags.FLOWERING_OAK_TREE)
-				.addOptionalTag(ConventionalBiomeTags.IS_FOREST.location());
+	@Accessor("NORMAL_LEAVES_SAPLING_CHANCES")
+	static float[] obese_crops$getNormalLeavesSaplingChances() {
+		throw new AssertionError();
 	}
 }

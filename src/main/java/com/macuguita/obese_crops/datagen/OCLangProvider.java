@@ -59,12 +59,24 @@ public class OCLangProvider extends FabricLanguageProvider {
 		generateBlockTranslations(translationBuilder, OCObjects.OBESE_CARROT.get());
 		generateBlockTranslations(translationBuilder, OCObjects.OBESE_POISONOUS_POTATO.get());
 		generateBlockTranslations(translationBuilder, OCObjects.OBESE_POTATO.get());
+
+		generateBlockTranslations(translationBuilder, OCObjects.FLOWERING_OAK_LOG.get());
+		generateBlockTranslations(translationBuilder, OCObjects.STRIPPED_FLOWERING_OAK_LOG.get());
+		generateBlockTranslations(translationBuilder, OCObjects.FLOWERING_OAK_LEAVES.get());
+		generateBlockTranslations(translationBuilder, OCObjects.FLOWERING_OAK_SAPLING.get());
+		generateBlockTranslations(translationBuilder, OCObjects.POTTED_FLOWERING_OAK_SAPLING.get());
+
+		generateItemTranslations(translationBuilder, OCObjects.APPLE_SEED.get());
+
 		OCObjects.SCYTHE_ITEMS.stream().forEach(item -> generateItemTranslations(translationBuilder, item.get()));
 		translationBuilder.add("itemGroup." + ObeseCrops.MOD_ID + "." + ObeseCrops.MOD_ID, "Obese Crops");
 		generateEnchantmentTranslations(translationBuilder, OCEnchantments.BOUNTIFUL_REAP);
 		generateEnchantmentDescriptionTranslations(translationBuilder, OCEnchantments.BOUNTIFUL_REAP, "Allows you scythe to reap in a bigger area.");
 		generateItemTagTranslations(translationBuilder, OCItemTags.SCYTHES);
 		generateItemTagTranslations(translationBuilder, OCItemTags.SCYTHE_ENCHANTABLE);
+		generateItemTagTranslations(translationBuilder, OCItemTags.THIN_LOGS);
+		generateItemTagTranslations(translationBuilder, OCItemTags.FLOWERING_OAK_LOGS);
+		generateItemTagTranslations(translationBuilder, OCItemTags.FLOWERING_LEAVES);
 	}
 
 	@Contract("_ -> new")

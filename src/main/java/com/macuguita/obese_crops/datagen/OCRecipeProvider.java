@@ -74,6 +74,8 @@ public class OCRecipeProvider extends FabricRecipeProvider {
 		generateObeseBlockDeconstruction(recipeOutput, OCObjects.OBESE_CARROT.get(), Items.CARROT);
 		generateObeseBlockDeconstruction(recipeOutput, OCObjects.OBESE_POISONOUS_POTATO.get(), Items.POISONOUS_POTATO);
 		generateObeseBlockDeconstruction(recipeOutput, OCObjects.OBESE_POTATO.get(), Items.POTATO);
+
+		planksFromLog(recipeOutput, Blocks.OAK_PLANKS, OCItemTags.FLOWERING_OAK_LOGS, 4);
 	}
 
 	private @NotNull Criterion getIngredientCriterion(Ingredient ingredient) {

@@ -23,7 +23,6 @@
 package com.macuguita.obese_crops.common.reg;
 
 import com.macuguita.obese_crops.common.ObeseCrops;
-import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
@@ -31,10 +30,9 @@ import net.minecraft.world.level.biome.Biome;
 
 public interface OCBiomeTags {
 
-	TagKey<Biome> OBESE_APPLE = createTag("obese_apple");
-	TagKey<Biome> DARK_OBESE_APPLE = createTag("dark_obese_apple");
+	TagKey<Biome> FLOWERING_OAK_TREE = createTag("flowering_oak_tree");
 
-	private static @NotNull TagKey<Biome> createTag(String name) {
+	private static TagKey<Biome> createTag(String name) {
 		return TagKey.create(Registries.BIOME, ObeseCrops.id(name));
 	}
 }

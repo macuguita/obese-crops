@@ -79,6 +79,22 @@ public class OCBlockTagProvider extends FabricTagProvider.BlockTagProvider {
 				.addElement(getRes(Blocks.TALL_GRASS))
 				.addElement(getRes(Blocks.LARGE_FERN))
 				.addElement(getRes(Blocks.HANGING_ROOTS));
+
+		getOrCreateRawBuilder(OCBlockTags.FLOWERING_LEAVES)
+				.addElement(OCObjects.FLOWERING_OAK_LEAVES.getId());
+		getOrCreateRawBuilder(OCBlockTags.FLOWERING_OAK_LOGS)
+				.addElement(OCObjects.FLOWERING_OAK_LOG.getId())
+				.addElement(OCObjects.STRIPPED_FLOWERING_OAK_LOG.getId());
+		getOrCreateRawBuilder(OCBlockTags.THIN_LOGS)
+				.addOptionalTag(OCBlockTags.FLOWERING_OAK_LOGS.location());
+		getOrCreateRawBuilder(BlockTags.LOGS)
+				.addOptionalTag(OCBlockTags.THIN_LOGS.location());
+		getOrCreateRawBuilder(BlockTags.LEAVES)
+				.addOptionalTag(OCBlockTags.FLOWERING_LEAVES.location());
+		getOrCreateRawBuilder(BlockTags.SAPLINGS)
+				.addElement(OCObjects.FLOWERING_OAK_SAPLING.getId());
+		getOrCreateRawBuilder(BlockTags.FLOWER_POTS)
+				.addElement(OCObjects.POTTED_FLOWERING_OAK_SAPLING.getId());
 	}
 
 	private ResourceLocation getRes(Block block) {

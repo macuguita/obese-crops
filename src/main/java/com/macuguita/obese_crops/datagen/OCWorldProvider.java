@@ -24,8 +24,6 @@ package com.macuguita.obese_crops.datagen;
 
 import java.util.concurrent.CompletableFuture;
 
-import org.jetbrains.annotations.NotNull;
-
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 
@@ -39,13 +37,13 @@ public class OCWorldProvider extends FabricDynamicRegistryProvider {
 	}
 
 	@Override
-	protected void configure(HolderLookup.@NotNull Provider wrapperLookup, @NotNull Entries entries) {
+	protected void configure(HolderLookup.Provider wrapperLookup, Entries entries) {
 		entries.addAll(wrapperLookup.lookupOrThrow(Registries.PLACED_FEATURE));
 		entries.addAll(wrapperLookup.lookupOrThrow(Registries.CONFIGURED_FEATURE));
 	}
 
 	@Override
-	public @NotNull String getName() {
+	public String getName() {
 		return "Obese Crops Worldgen Provider";
 	}
 }

@@ -23,7 +23,6 @@
 package com.macuguita.obese_crops.common.reg;
 
 import com.macuguita.obese_crops.common.ObeseCrops;
-import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
@@ -36,8 +35,11 @@ public interface OCBlockTags {
 	TagKey<Block> SCYTHE_MINABLE = createTag("mineable/scythe");
 	TagKey<Block> SCYTHE_EFFICIENT = createTag("scythe_efficient");
 	TagKey<Block> SCYTHE_WEEDS = createTag("scythe_weeds");
+	TagKey<Block> THIN_LOGS = createTag("thin_logs");
+	TagKey<Block> FLOWERING_OAK_LOGS = createTag("flowering_oak_logs");
+	TagKey<Block> FLOWERING_LEAVES = createTag("flowering_leaves");
 
-	private static @NotNull TagKey<Block> createTag(String name) {
+	private static TagKey<Block> createTag(String name) {
 		return TagKey.create(Registries.BLOCK, ObeseCrops.id(name));
 	}
 }

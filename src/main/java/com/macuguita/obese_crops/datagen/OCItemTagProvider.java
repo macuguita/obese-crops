@@ -54,5 +54,19 @@ public class OCItemTagProvider extends FabricTagProvider.ItemTagProvider {
 				.addOptionalTag(OCItemTags.SCYTHES.location());
 		getOrCreateRawBuilder(ItemTags.VANISHING_ENCHANTABLE)
 				.addOptionalTag(OCItemTags.SCYTHES.location());
+
+		getOrCreateRawBuilder(OCItemTags.FLOWERING_LEAVES)
+				.addElement(OCObjects.FLOWERING_OAK_LEAVES.getId());
+		getOrCreateRawBuilder(OCItemTags.FLOWERING_OAK_LOGS)
+				.addElement(OCObjects.FLOWERING_OAK_LOG.getId())
+				.addElement(OCObjects.STRIPPED_FLOWERING_OAK_LOG.getId());
+		getOrCreateRawBuilder(OCItemTags.THIN_LOGS)
+				.addOptionalTag(OCItemTags.FLOWERING_OAK_LOGS.location());
+		getOrCreateRawBuilder(ItemTags.LOGS)
+				.addOptionalTag(OCItemTags.THIN_LOGS.location());
+		getOrCreateRawBuilder(ItemTags.LEAVES)
+				.addOptionalTag(OCItemTags.FLOWERING_LEAVES.location());
+		getOrCreateRawBuilder(ItemTags.SAPLINGS)
+				.addElement(OCObjects.FLOWERING_OAK_SAPLING.getId());
 	}
 }

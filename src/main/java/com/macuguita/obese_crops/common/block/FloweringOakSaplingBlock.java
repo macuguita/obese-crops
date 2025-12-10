@@ -20,29 +20,14 @@
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.macuguita.obese_crops.datagen;
+package com.macuguita.obese_crops.common.block;
 
-import java.util.concurrent.CompletableFuture;
+import net.minecraft.world.level.block.SaplingBlock;
+import net.minecraft.world.level.block.grower.TreeGrower;
 
-import com.macuguita.obese_crops.common.reg.OCBiomeTags;
+public class FloweringOakSaplingBlock extends SaplingBlock {
 
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.world.level.biome.Biome;
-
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBiomeTags;
-
-public class OCBiomeTagProvider extends FabricTagProvider<Biome> {
-
-	public OCBiomeTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-		super(output, Registries.BIOME, registriesFuture);
-	}
-
-	@Override
-	protected void addTags(HolderLookup.Provider wrapperLookup) {
-		tag(OCBiomeTags.FLOWERING_OAK_TREE)
-				.addOptionalTag(ConventionalBiomeTags.IS_FOREST.location());
+	public FloweringOakSaplingBlock(TreeGrower treeGrower, Properties properties) {
+		super(treeGrower, properties);
 	}
 }

@@ -20,14 +20,13 @@
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.macuguita.obese_crops.common.treedecorator;
+package com.macuguita.obese_crops.common.tree;
 
 import java.util.List;
 
 import com.macuguita.obese_crops.common.reg.OCObjects;
 import com.macuguita.obese_crops.common.reg.OCWorldgen;
 import com.mojang.serialization.MapCodec;
-import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -41,12 +40,12 @@ public class SingleObeseAppleTreeDecorator extends TreeDecorator {
 	public static final MapCodec<SingleObeseAppleTreeDecorator> CODEC = MapCodec.unit(SingleObeseAppleTreeDecorator::new);
 
 	@Override
-	protected @NotNull TreeDecoratorType<?> type() {
+	protected TreeDecoratorType<?> type() {
 		return OCWorldgen.APPLE_DECORATOR;
 	}
 
 	@Override
-	public void place(@NotNull Context generator) {
+	public void place(Context generator) {
 		RandomSource random = generator.random();
 
 		List<BlockPos> leaves = Util.shuffledCopy(generator.leaves(), random);

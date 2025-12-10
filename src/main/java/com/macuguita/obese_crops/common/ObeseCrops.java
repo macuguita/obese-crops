@@ -25,6 +25,7 @@ package com.macuguita.obese_crops.common;
 import java.util.Map;
 import java.util.Optional;
 
+import com.macuguita.obese_crops.common.block.ThinLogBlock;
 import com.macuguita.obese_crops.common.item.ScytheItem;
 import com.macuguita.obese_crops.common.reg.OCComponents;
 import com.macuguita.obese_crops.common.reg.OCCreativeTabs;
@@ -70,6 +71,7 @@ public class ObeseCrops implements ModInitializer {
 	public void onInitialize() {
 		initRegistries();
 		initEvents();
+		floweringOakLogSetup();
 		ResourceManagerHelper.get(PackType.SERVER_DATA)
 				.registerReloadListener(new ObeseMapResourceReloadListener());
 	}
@@ -91,5 +93,16 @@ public class ObeseCrops implements ModInitializer {
 			}
 			return TriState.DEFAULT;
 		});
+	}
+
+	private void floweringOakLogSetup() {
+		FlammableBlockRegistry.getDefaultInstance().add(OCObjects.FLOWERING_OAK_LEAVES.get(), 30, 60);
+		FlammableBlockRegistry.getDefaultInstance().add(OCObjects.FLOWERING_OAK_LOG.get(), 5, 5);
+		FlammableBlockRegistry.getDefaultInstance().add(OCObjects.STRIPPED_FLOWERING_OAK_LOG.get(), 5, 5);
+
+		FuelRegistry.INSTANCE.add(OCObjects.FLOWERING_OAK_LOG.get(), 300);
+		FuelRegistry.INSTANCE.add(OCObjects.STRIPPED_FLOWERING_OAK_LOG.get(), 300);
+
+		ThinLogBlock.STRIPPED_THIN_LOGS.put(OCObjects.FLOWERING_OAK_LOG.get(), OCObjects.STRIPPED_FLOWERING_OAK_LOG.get());
 	}
 }

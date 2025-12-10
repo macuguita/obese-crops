@@ -1,1 +1,2 @@
 - Update scythe textures
+- Added flowering oaks, which will grow apples, and they also have an interesting log

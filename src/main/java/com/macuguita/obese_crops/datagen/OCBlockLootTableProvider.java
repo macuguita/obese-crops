@@ -25,8 +25,18 @@ package com.macuguita.obese_crops.datagen;
 import java.util.concurrent.CompletableFuture;
 
 import com.macuguita.obese_crops.common.reg.OCObjects;
+import com.macuguita.obese_crops.mixin.BlockLootSubProviderAccessor;
 
+import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.CocoaBlock;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
@@ -44,5 +54,33 @@ public class OCBlockLootTableProvider extends FabricBlockLootTableProvider {
 		dropSelf(OCObjects.OBESE_CARROT.get());
 		dropSelf(OCObjects.OBESE_POISONOUS_POTATO.get());
 		dropSelf(OCObjects.OBESE_POTATO.get());
+
+		dropSelf(OCObjects.FLOWERING_OAK_LOG.get());
+		dropSelf(OCObjects.STRIPPED_FLOWERING_OAK_LOG.get());
+		createOakLeavesDrops(OCObjects.FLOWERING_OAK_LEAVES.get(), OCObjects.FLOWERING_OAK_SAPLING.get(), BlockLootSubProviderAccessor.obese_crops$getNormalLeavesSaplingChances());
+		dropSelf(OCObjects.FLOWERING_OAK_SAPLING.get());
+		dropPottedContents(OCObjects.POTTED_FLOWERING_OAK_SAPLING.get());
+		add(OCObjects.APPLE.get(), this::createOakLeavesDrops);
+	}
+
+	private LootTable.Builder createOakLeavesDrops(Block block) {
+		return LootTable.lootTable()
+				.withPool(
+						LootPool.lootPool()
+								.setRolls(ConstantValue.exactly(1.0F))
+								.add(
+										this.applyExplosionDecay(
+												block,
+												LootItem.lootTableItem(OCObjects.APPLE_SEED.get())
+														.apply(
+																SetItemCountFunction.setCount(ConstantValue.exactly(1.0F))
+																		.when(
+																				LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+																						.setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(CocoaBlock.AGE, 2))
+																		)
+														)
+										)
+								)
+				);
 	}
 }
