@@ -67,9 +67,10 @@ repositories {
                     setUrl(url)
                 }
             }
-            filter {
-                groups.forEach { includeGroup(it) }
-            }
+            if (groups.isNotEmpty())
+                filter {
+                    groups.forEach { includeGroup(it) }
+                }
         }
     }
 }
@@ -85,6 +86,7 @@ dependencies {
         parchment("org.parchmentmc.data:parchment-${BuildConfig.minecraftVersion}:${BuildConfig.parchmentMappings}@zip")
     })
     modImplementation("net.fabricmc:fabric-loader:${BuildConfig.loaderVersion}")
+    api("org.jspecify:jspecify:1.0.0")
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation("net.fabricmc.fabric-api:fabric-api:${BuildConfig.fabricVersion}")
@@ -202,19 +204,15 @@ publishMods {
     additionalFiles.from(tasks.remapSourcesJar.get().archiveFile)
     displayName = BuildConfig.modName + " " + BuildConfig.modVersion
     version = BuildConfig.modVersion
-    if (BuildConfig.modVersion.contains("beta")) {
-        type = BETA
-    } else {
-        type = STABLE
-    }
+    type = if (BuildConfig.modVersion.contains("beta")) BETA else STABLE
+
     modLoaders.add("fabric")
     modLoaders.add("quilt")
     dryRun = providers.environmentVariable("MODRINTH_TOKEN").getOrNull() == null || providers.environmentVariable("CURSEFORGE_TOKEN").getOrNull() == null
     modrinth {
         projectId = "1AIR4y6L"
         accessToken = providers.environmentVariable("MODRINTH_TOKEN")
-        for (version in BuildConfig.supportedVersions)
-            minecraftVersions.add(version)
+        BuildConfig.supportedVersions.forEach { minecraftVersions.add(it) }
         requires("fabric-api")
         requires("macu-lib")
     }
@@ -223,8 +221,7 @@ publishMods {
         modLoaders.add("neoforge")
         projectId = "1AIR4y6L"
         accessToken = providers.environmentVariable("MODRINTH_TOKEN")
-        for (version in BuildConfig.supportedVersions)
-            minecraftVersions.add(version)
+        BuildConfig.supportedVersions.forEach { minecraftVersions.add(it) }
         requires("forgified-fabric-api")
         requires("macu-lib")
         requires("connector")
@@ -233,22 +230,13 @@ publishMods {
         projectId = "1383739"
         changelogType = "markdown"
         accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
-        for (version in BuildConfig.supportedVersions)
-            minecraftVersions.add(version)
+        BuildConfig.supportedVersions.forEach { minecraftVersions.add(it) }
         javaVersions.add(JavaVersion.VERSION_21)
         clientRequired = true
         serverRequired = true
         projectSlug = "obese-crops"
         requires("fabric-api")
         requires("macu-lib")
-    }
-    github {
-        accessToken = providers.environmentVariable("GITHUB_TOKEN")
-        repository = providers.environmentVariable("GITHUB_REPOSITORY").getOrElse("macuguita/dryRun")
-        commitish = providers.environmentVariable("GITHUB_REF_NAME").getOrElse("dryrun")
-
-        tagName = "release/${BuildConfig.modVersion}"
-        allowEmptyFiles = true
     }
 }
 
