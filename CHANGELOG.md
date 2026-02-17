@@ -3,3 +3,4 @@
 - Obese crops can now be sliced
 - Added flowering oaks, which will grow apples, and they also have an interesting log
 - Change foliage block voxel shape
+- Updated macu_lib

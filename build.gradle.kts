@@ -1,5 +1,5 @@
 plugins {
-    id("fabric-loom").version("1.13-SNAPSHOT")
+    id("fabric-loom").version("1.15-SNAPSHOT")
     id("maven-publish")
     id("me.modmuss50.mod-publish-plugin").version("1.0.0")
 }
@@ -51,6 +51,7 @@ base {
 
 repositories {
     val exclusiveRepos = listOf(
+        Triple("macuguita", "https://maven.macuguita.com/releases", listOf("com.macuguita", "folk.sisby", "org.quiltmc.parsers")),
         Triple("ParchmentMC", "https://maven.parchmentmc.org", listOf("org.parchmentmc.data")),
         Triple("Shedaniel", "https://maven.shedaniel.me/", listOf("me.shedaniel.cloth")),
         Triple("TerraformersMC", "https://maven.terraformersmc.com/", listOf("com.terraformersmc", "dev.emi")),
@@ -69,7 +70,7 @@ repositories {
             }
             if (groups.isNotEmpty())
                 filter {
-                    groups.forEach { includeGroup(it) }
+                    groups.forEach { includeGroupAndSubgroups(it) }
                 }
         }
     }
@@ -91,7 +92,7 @@ dependencies {
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation("net.fabricmc.fabric-api:fabric-api:${BuildConfig.fabricVersion}")
 
-    modImplementation("maven.modrinth:macu-lib:${BuildConfig.maculibVersion}-fabric") {
+    modImplementation("com.macuguita:macu_lib-fabric:${BuildConfig.maculibVersion}") {
         exclude("net.fabricmc.fabric-api")
     }
 
@@ -105,7 +106,7 @@ dependencies {
     // Production test
     fun prodMods(name: String) = add("prodMods", name)
     prodMods("net.fabricmc.fabric-api:fabric-api:${BuildConfig.fabricVersion}")
-    prodMods("maven.modrinth:macu-lib:${BuildConfig.maculibVersion}-fabric")
+    prodMods("com.macuguita:macu_lib-fabric:${BuildConfig.maculibVersion}")
     prodMods("com.terraformersmc:modmenu:${BuildConfig.modMenuVersion}")
     prodMods("dev.emi:emi-fabric:${BuildConfig.emiVersion}")
     prodMods("maven.modrinth:enchantment-descriptions:21.1.9")

@@ -19,11 +19,11 @@
   ],
   "accessWidener": "obese_crops.accesswidener",
   "depends": {
-    "fabricloader": "\u003e\u003d0.17.3",
+    "fabricloader": "\u003e\u003d0.18.4",
     "minecraft": "~1.21.1",
     "java": "\u003e\u003d21",
     "fabric-api": "*",
-    "macu_lib": "\u003e\u003d1.0.5-1.21.1"
+    "macu_lib": "\u003e\u003d2.0.2+1.21.1"
   },
   "name": "Obese crops",
   "description": "Bigger crops, that bring a bountiful harvest!",

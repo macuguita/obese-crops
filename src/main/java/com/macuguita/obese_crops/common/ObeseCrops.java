@@ -36,7 +36,12 @@ import com.macuguita.obese_crops.common.reg.OCObjects;
 import com.macuguita.obese_crops.common.reg.OCWorldgen;
 import com.macuguita.obese_crops.common.resourcereloader.ObeseMapResourceReloadListener;
 import com.macuguita.obese_crops.common.resourcereloader.Source;
+import folk.sisby.kaleido.api.WrappedConfig;
+import folk.sisby.kaleido.lib.quiltconfig.api.annotations.Comment;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+
+import net.fabricmc.loader.api.FabricLoader;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,6 +62,13 @@ public class ObeseCrops implements ModInitializer {
 	public static final String MOD_ID = "obese_crops";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
+	public static final OCConfig CONFIG = WrappedConfig.createToml(FabricLoader.getInstance().getConfigDir(), "", MOD_ID, OCConfig.class);
+
+	public static class OCConfig extends WrappedConfig {
+		@Comment("Whether apple/flowering oak trees should spawn naturally.")
+		public boolean floweringOakSpawn = true;
+	}
+
 	public static final Map<Source, ObeseMapResourceReloadListener.ObeseBlockData> SOURCE_TO_OBESE_DATA = new Object2ObjectOpenHashMap<>();
 	public static final Map<Block, ObeseMapResourceReloadListener.ObeseBlockData.Entry> OBESE_TO_ENTRY = new Object2ObjectOpenHashMap<>();
 
@@ -70,11 +82,6 @@ public class ObeseCrops implements ModInitializer {
 
 	public static Optional<ObeseMapResourceReloadListener.ObeseBlockData.Entry> getObeseBlockEntry(Block block) {
 		return Optional.ofNullable(OBESE_TO_ENTRY.get(block));
-	}
-
-	@Deprecated(forRemoval = true, since = "1.0.1")
-	public static Optional<Item> getObeseDrops(Block block) {
-		return getObeseBlockEntry(block).map(ObeseMapResourceReloadListener.ObeseBlockData.Entry::drop);
 	}
 
 	public static ResourceLocation id(String name) {

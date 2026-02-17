@@ -25,9 +25,9 @@ package com.macuguita.obese_crops.common.reg;
 import java.util.List;
 import java.util.OptionalInt;
 
-import com.macuguita.lib.platform.registry.GuitaRegistries;
-import com.macuguita.lib.platform.registry.GuitaRegistry;
-import com.macuguita.lib.platform.registry.GuitaRegistryEntry;
+import com.macuguita.lib.reg.GuitaRegistries;
+import com.macuguita.lib.reg.GuitaRegistry;
+import com.macuguita.lib.reg.GuitaRegistryEntry;
 import com.macuguita.obese_crops.common.ObeseCrops;
 import com.macuguita.obese_crops.common.block.AppleBlock;
 import com.macuguita.obese_crops.common.block.ThinLogBlock;
@@ -98,11 +98,13 @@ public final class OCWorldgen {
 	}
 
 	public static void init() {
-		BiomeModifications.create(ObeseCrops.id("obese_apple_biome_modifications"))
-				.add(ModificationPhase.ADDITIONS,
-						BiomeSelectors.tag(OCBiomeTags.FLOWERING_OAK_TREE),
-						context -> context.getGenerationSettings().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, FLOWERING_OAKS_PLACED)
-				);
+		if (ObeseCrops.CONFIG.floweringOakSpawn) {
+			BiomeModifications.create(ObeseCrops.id("obese_apple_biome_modifications"))
+					.add(ModificationPhase.ADDITIONS,
+							BiomeSelectors.tag(OCBiomeTags.FLOWERING_OAK_TREE),
+							context -> context.getGenerationSettings().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, FLOWERING_OAKS_PLACED)
+					);
+		}
 	}
 
 	public static void bootstrapConfiguredFeatures(BootstrapContext<ConfiguredFeature<?, ?>> registerable) {
