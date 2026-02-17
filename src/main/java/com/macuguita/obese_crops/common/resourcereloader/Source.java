@@ -27,7 +27,10 @@ import net.minecraft.world.level.block.Block;
 
 public sealed interface Source permits Source.BlockSource, Source.ItemSource {
 
-	record BlockSource(Block block) implements Source {}
-	record ItemSource(Item item) implements Source {}
+	record BlockSource(Block block) implements Source {
+	}
+
+	record ItemSource(Item item) implements Source {
+	}
 
 }

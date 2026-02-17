@@ -24,10 +24,8 @@ package com.macuguita.obese_crops.datagen;
 
 import java.util.concurrent.CompletableFuture;
 
-import com.macuguita.obese_crops.common.ObeseCrops;
 import com.macuguita.obese_crops.common.block.ObeseCropBlock;
 import com.macuguita.obese_crops.common.reg.OCObjects;
-import com.macuguita.obese_crops.common.resourcereloader.ObeseMapResourceReloadListener;
 import com.macuguita.obese_crops.mixin.BlockLootSubProviderAccessor;
 
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
@@ -43,11 +41,10 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
-
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 public class OCBlockLootTableProvider extends FabricBlockLootTableProvider {
 
@@ -57,7 +54,7 @@ public class OCBlockLootTableProvider extends FabricBlockLootTableProvider {
 
 	@Override
 	public void generate() {
-		add(OCObjects.OBESE_APPLE.get(),  block -> createObeseBlockDrop(block, Items.APPLE));
+		add(OCObjects.OBESE_APPLE.get(), block -> createObeseBlockDrop(block, Items.APPLE));
 		add(OCObjects.OBESE_BEETROOT.get(), block -> createObeseBlockDrop(block, Items.BEETROOT));
 		add(OCObjects.OBESE_CARROT.get(), block -> createObeseBlockDrop(block, Items.CARROT));
 		add(OCObjects.OBESE_POISONOUS_POTATO.get(), block -> createObeseBlockDrop(block, Items.POISONOUS_POTATO));

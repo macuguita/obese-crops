@@ -37,15 +37,12 @@ import com.macuguita.obese_crops.common.block.ObeseCropFoliageBlock;
 import com.macuguita.obese_crops.common.block.ThinLogBlock;
 import com.macuguita.obese_crops.common.item.ScytheItem;
 
-import net.minecraft.client.gui.Gui;
-import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;

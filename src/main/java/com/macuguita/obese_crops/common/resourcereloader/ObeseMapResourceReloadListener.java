@@ -39,10 +39,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
-
-import net.minecraft.world.level.block.Blocks;
 
 public class ObeseMapResourceReloadListener implements SimpleSynchronousResourceReloadListener {
 

@@ -156,7 +156,7 @@ public final class OCWorldgen {
 				BlockStateProvider.simple(OCObjects.FLOWERING_OAK_LOG.get().defaultBlockState()
 						.setValue(ThinLogBlock.PROPERTY_BY_DIRECTION.get(Direction.DOWN), true)
 						.setValue(ThinLogBlock.PROPERTY_BY_DIRECTION.get(Direction.UP), true)),
-				new ThinTrunkPlacer(3, 11, 0),
+				new ThinTrunkPlacer(3, 11, 0, 0.618, 1.382, 0.381, 0.328),
 				BlockStateProvider.simple(OCObjects.FLOWERING_OAK_LEAVES.get()),
 				new FancyFoliagePlacer(ConstantInt.of(2), ConstantInt.of(4), 4),
 				new TwoLayersFeatureSize(0, 0, 0, OptionalInt.of(4))

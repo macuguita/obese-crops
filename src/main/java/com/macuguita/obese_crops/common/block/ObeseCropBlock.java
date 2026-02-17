@@ -27,22 +27,16 @@ import com.macuguita.obese_crops.common.reg.OCItemTags;
 import com.macuguita.obese_crops.common.resourcereloader.ObeseMapResourceReloadListener;
 import com.macuguita.obese_crops.common.utils.OCUtils;
 import com.mojang.serialization.MapCodec;
-
-import net.minecraft.server.level.ServerLevel;
-
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.BonemealableBlock;
-
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -52,14 +46,15 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -140,8 +135,8 @@ public class ObeseCropBlock extends HorizontalDirectionalBlock implements Boneme
 		return state.getValue(CARVED) == 0
 				&& level.getBlockState(pos.above()).canBeReplaced()
 				&& ObeseCrops.getObeseBlockEntry(this)
-					.map(ObeseMapResourceReloadListener.ObeseBlockData.Entry::foliage)
-					.map(it -> !it.defaultBlockState().is(BlockTags.AIR)).orElse(false);
+				.map(ObeseMapResourceReloadListener.ObeseBlockData.Entry::foliage)
+				.map(it -> !it.defaultBlockState().is(BlockTags.AIR)).orElse(false);
 	}
 
 	@Override

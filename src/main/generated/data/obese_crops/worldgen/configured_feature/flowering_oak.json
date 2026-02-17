@@ -69,8 +69,12 @@
     "trunk_placer": {
       "type": "obese_crops:thin_trunk_placer",
       "base_height": 3,
+      "branch_length": 0.328,
+      "branch_slope": 0.381,
+      "cluster_density": 1.382,
       "height_rand_a": 11,
-      "height_rand_b": 0
+      "height_rand_b": 0,
+      "trunk_height_scale": 0.618
     },
     "trunk_provider": {
       "type": "minecraft:simple_state_provider",
