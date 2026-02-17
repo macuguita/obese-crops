@@ -32,9 +32,9 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.enchantment.effects.EnchantmentValueEffect;
 
-public interface OCEnchantmentComponents {
+public final class OCEnchantmentComponents {
 
-	DataComponentType<EnchantmentValueEffect> SCYTHE_PULLING_RANGE = register(ObeseCrops.id("scythe_pulling_range"), builder -> builder.persistent(EnchantmentValueEffect.CODEC));
+	public static final DataComponentType<EnchantmentValueEffect> SCYTHE_PULLING_RANGE = register(ObeseCrops.id("scythe_pulling_range"), builder -> builder.persistent(EnchantmentValueEffect.CODEC));
 
 	private static <T> DataComponentType<T> register(ResourceLocation id, UnaryOperator<DataComponentType.Builder<T>> operator) {
 		return Registry.register(
@@ -42,7 +42,7 @@ public interface OCEnchantmentComponents {
 		);
 	}
 
-	static void init() {
+	public static void init() {
 
 	}
 }

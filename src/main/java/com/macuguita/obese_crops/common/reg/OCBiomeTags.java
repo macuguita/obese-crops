@@ -28,9 +28,9 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
 
-public interface OCBiomeTags {
+public final class OCBiomeTags {
 
-	TagKey<Biome> FLOWERING_OAK_TREE = createTag("flowering_oak_tree");
+	public static final TagKey<Biome> FLOWERING_OAK_TREE = createTag("flowering_oak_tree");
 
 	private static TagKey<Biome> createTag(String name) {
 		return TagKey.create(Registries.BIOME, ObeseCrops.id(name));

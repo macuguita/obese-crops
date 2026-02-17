@@ -28,9 +28,9 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.enchantment.Enchantment;
 
-public interface OCEnchantmentTags {
+public final class OCEnchantmentTags {
 
-	TagKey<Enchantment> SCYTHE_ALLOWED = createTag("scythe_allowed");
+	public static final TagKey<Enchantment> SCYTHE_ALLOWED = createTag("scythe_allowed");
 
 	private static TagKey<Enchantment> createTag(String name) {
 		return TagKey.create(Registries.ENCHANTMENT, ObeseCrops.id(name));

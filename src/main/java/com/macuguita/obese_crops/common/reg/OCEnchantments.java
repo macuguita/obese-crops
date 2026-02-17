@@ -34,11 +34,11 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
 import net.minecraft.world.item.enchantment.effects.AddValue;
 
-public interface OCEnchantments {
+public final class OCEnchantments {
 
-	ResourceKey<Enchantment> BOUNTIFUL_REAP = key("bountiful_reap");
+	public static final ResourceKey<Enchantment> BOUNTIFUL_REAP = key("bountiful_reap");
 
-	static void bootstrap(BootstrapContext<Enchantment> context) {
+	public static void bootstrap(BootstrapContext<Enchantment> context) {
 		HolderGetter<Item> items = context.lookup(Registries.ITEM);
 
 		register(
@@ -69,7 +69,7 @@ public interface OCEnchantments {
 		return ResourceKey.create(Registries.ENCHANTMENT, ObeseCrops.id(name));
 	}
 
-	static void init() {
+	public static void init() {
 
 	}
 }

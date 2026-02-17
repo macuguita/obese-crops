@@ -64,8 +64,8 @@ public class ObeseCrops implements ModInitializer {
 		return Optional.ofNullable(SOURCE_TO_OBESE_DATA.get(new Source.BlockSource(block)));
 	}
 
-	public static Optional<ObeseMapResourceReloadListener.ObeseBlockData> getObeseBlockData(Item block) {
-		return Optional.ofNullable(SOURCE_TO_OBESE_DATA.get(new Source.ItemSource(block)));
+	public static Optional<ObeseMapResourceReloadListener.ObeseBlockData> getObeseBlockData(Item item) {
+		return Optional.ofNullable(SOURCE_TO_OBESE_DATA.get(new Source.ItemSource(item)));
 	}
 
 	public static Optional<ObeseMapResourceReloadListener.ObeseBlockData.Entry> getObeseBlockEntry(Block block) {

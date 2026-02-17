@@ -1,17 +1,103 @@
 {
   "type": "minecraft:block",
+  "functions": [
+    {
+      "function": "minecraft:explosion_decay"
+    }
+  ],
   "pools": [
     {
       "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ],
       "entries": [
         {
-          "type": "minecraft:item",
-          "name": "obese_crops:obese_potato"
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "block": "obese_crops:obese_potato",
+                  "condition": "minecraft:block_state_property",
+                  "properties": {
+                    "carved": "0"
+                  }
+                }
+              ],
+              "name": "obese_crops:obese_potato"
+            },
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "block": "obese_crops:obese_potato",
+                  "condition": "minecraft:block_state_property",
+                  "properties": {
+                    "carved": "1"
+                  }
+                }
+              ],
+              "functions": [
+                {
+                  "add": false,
+                  "count": {
+                    "type": "minecraft:uniform",
+                    "max": 4.0,
+                    "min": 2.0
+                  },
+                  "function": "minecraft:set_count"
+                }
+              ],
+              "name": "minecraft:potato"
+            },
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "block": "obese_crops:obese_potato",
+                  "condition": "minecraft:block_state_property",
+                  "properties": {
+                    "carved": "2"
+                  }
+                }
+              ],
+              "functions": [
+                {
+                  "add": false,
+                  "count": {
+                    "type": "minecraft:uniform",
+                    "max": 4.0,
+                    "min": 2.0
+                  },
+                  "function": "minecraft:set_count"
+                }
+              ],
+              "name": "minecraft:potato"
+            },
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "block": "obese_crops:obese_potato",
+                  "condition": "minecraft:block_state_property",
+                  "properties": {
+                    "carved": "3"
+                  }
+                }
+              ],
+              "functions": [
+                {
+                  "add": false,
+                  "count": {
+                    "type": "minecraft:uniform",
+                    "max": 4.0,
+                    "min": 2.0
+                  },
+                  "function": "minecraft:set_count"
+                }
+              ],
+              "name": "minecraft:potato"
+            }
+          ]
         }
       ],
       "rolls": 1.0

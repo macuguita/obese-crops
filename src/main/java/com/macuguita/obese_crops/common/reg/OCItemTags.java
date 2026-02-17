@@ -29,16 +29,16 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 
-public interface OCItemTags {
+public final class OCItemTags {
 
-	TagKey<Item> SCYTHES = createTag("scythes");
-	TagKey<Item> SCYTHE_ENCHANTABLE = createTag("scythe_enchantable");
-	TagKey<Item> THIN_LOGS = createTag("thin_logs");
-	TagKey<Item> FLOWERING_OAK_LOGS = createTag("flowering_oak_logs");
-	TagKey<Item> FLOWERING_LEAVES = createTag("flowering_leaves");
-	TagKey<Item> SHARP_TOOLS = createTag("sharp_tools");
+	public static final TagKey<Item> SCYTHES = createTag("scythes");
+	public static final TagKey<Item> SCYTHE_ENCHANTABLE = createTag("scythe_enchantable");
+	public static final TagKey<Item> THIN_LOGS = createTag("thin_logs");
+	public static final TagKey<Item> FLOWERING_OAK_LOGS = createTag("flowering_oak_logs");
+	public static final TagKey<Item> FLOWERING_LEAVES = createTag("flowering_leaves");
+	public static final TagKey<Item> SHARP_TOOLS = createTag("sharp_tools");
 
-	TagKey<Item> C_KNIFE = createCommonTag("tool/knife");
+	public static final TagKey<Item> C_KNIFE = createCommonTag("tool/knife");
 
 	private static TagKey<Item> createTag(String name) {
 		return TagKey.create(Registries.ITEM, ObeseCrops.id(name));

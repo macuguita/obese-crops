@@ -69,25 +69,25 @@ import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
 
-public interface OCWorldgen {
+public final class OCWorldgen {
 
-	GuitaRegistry<TrunkPlacerType<?>> TRUNK_PLACER = GuitaRegistries.create(BuiltInRegistries.TRUNK_PLACER_TYPE, ObeseCrops.MOD_ID);
+	public static final GuitaRegistry<TrunkPlacerType<?>> TRUNK_PLACER = GuitaRegistries.create(BuiltInRegistries.TRUNK_PLACER_TYPE, ObeseCrops.MOD_ID);
 
-	GuitaRegistryEntry<TrunkPlacerType<?>> THIN_TRUNK_PLACER = TRUNK_PLACER.register("thin_trunk_placer", () -> new TrunkPlacerType<>(ThinTrunkPlacer.CODEC));
+	public static final GuitaRegistryEntry<TrunkPlacerType<?>> THIN_TRUNK_PLACER = TRUNK_PLACER.register("thin_trunk_placer", () -> new TrunkPlacerType<>(ThinTrunkPlacer.CODEC));
 
-	ResourceKey<ConfiguredFeature<?, ?>> FLOWERING_OAK_CONFIGURED = registerConfiguredFeature("flowering_oak");
-	ResourceKey<ConfiguredFeature<?, ?>> FLOWERING_OAK_BEES_CONFIGURED = registerConfiguredFeature("flowering_oak_bees");
-	ResourceKey<ConfiguredFeature<?, ?>> OBESE_FLOWERING_OAK_CONFIGURED = registerConfiguredFeature("obese_flowering_oak");
-	ResourceKey<ConfiguredFeature<?, ?>> OBESE_FLOWERING_OAK_BEES_CONFIGURED = registerConfiguredFeature("obese_flowering_oak_bees");
-	ResourceKey<ConfiguredFeature<?, ?>> FLOWERING_OAKS_CONFIGURED = registerConfiguredFeature("flowering_oaks");
+	public static final ResourceKey<ConfiguredFeature<?, ?>> FLOWERING_OAK_CONFIGURED = registerConfiguredFeature("flowering_oak");
+	public static final ResourceKey<ConfiguredFeature<?, ?>> FLOWERING_OAK_BEES_CONFIGURED = registerConfiguredFeature("flowering_oak_bees");
+	public static final ResourceKey<ConfiguredFeature<?, ?>> OBESE_FLOWERING_OAK_CONFIGURED = registerConfiguredFeature("obese_flowering_oak");
+	public static final ResourceKey<ConfiguredFeature<?, ?>> OBESE_FLOWERING_OAK_BEES_CONFIGURED = registerConfiguredFeature("obese_flowering_oak_bees");
+	public static final ResourceKey<ConfiguredFeature<?, ?>> FLOWERING_OAKS_CONFIGURED = registerConfiguredFeature("flowering_oaks");
 
-	ResourceKey<PlacedFeature> FLOWERING_OAK_PLACED = registerPlacedFeature("flowering_oak");
-	ResourceKey<PlacedFeature> FLOWERING_OAK_BEES_PLACED = registerPlacedFeature("flowering_oak_bees");
-	ResourceKey<PlacedFeature> OBESE_FLOWERING_OAK_PLACED = registerPlacedFeature("obese_flowering_oak");
-	ResourceKey<PlacedFeature> OBESE_FLOWERING_OAK_BEES_PLACED = registerPlacedFeature("obese_flowering_oak_bees");
-	ResourceKey<PlacedFeature> FLOWERING_OAKS_PLACED = registerPlacedFeature("flowering_oaks");
+	public static final ResourceKey<PlacedFeature> FLOWERING_OAK_PLACED = registerPlacedFeature("flowering_oak");
+	public static final ResourceKey<PlacedFeature> FLOWERING_OAK_BEES_PLACED = registerPlacedFeature("flowering_oak_bees");
+	public static final ResourceKey<PlacedFeature> OBESE_FLOWERING_OAK_PLACED = registerPlacedFeature("obese_flowering_oak");
+	public static final ResourceKey<PlacedFeature> OBESE_FLOWERING_OAK_BEES_PLACED = registerPlacedFeature("obese_flowering_oak_bees");
+	public static final ResourceKey<PlacedFeature> FLOWERING_OAKS_PLACED = registerPlacedFeature("flowering_oaks");
 
-	TreeDecoratorType<SingleObeseAppleTreeDecorator> APPLE_DECORATOR = Registry.register(BuiltInRegistries.TREE_DECORATOR_TYPE, ObeseCrops.id("single_obese_apple_decorator"), new TreeDecoratorType<>(SingleObeseAppleTreeDecorator.CODEC));
+	public static final TreeDecoratorType<SingleObeseAppleTreeDecorator> APPLE_DECORATOR = Registry.register(BuiltInRegistries.TREE_DECORATOR_TYPE, ObeseCrops.id("single_obese_apple_decorator"), new TreeDecoratorType<>(SingleObeseAppleTreeDecorator.CODEC));
 
 	private static ResourceKey<ConfiguredFeature<?, ?>> registerConfiguredFeature(String id) {
 		return ResourceKey.create(Registries.CONFIGURED_FEATURE, ObeseCrops.id(id));
@@ -97,7 +97,7 @@ public interface OCWorldgen {
 		return ResourceKey.create(Registries.PLACED_FEATURE, ObeseCrops.id(id));
 	}
 
-	static void init() {
+	public static void init() {
 		BiomeModifications.create(ObeseCrops.id("obese_apple_biome_modifications"))
 				.add(ModificationPhase.ADDITIONS,
 						BiomeSelectors.tag(OCBiomeTags.FLOWERING_OAK_TREE),
@@ -105,7 +105,7 @@ public interface OCWorldgen {
 				);
 	}
 
-	static void bootstrapConfiguredFeatures(BootstrapContext<ConfiguredFeature<?, ?>> registerable) {
+	public static void bootstrapConfiguredFeatures(BootstrapContext<ConfiguredFeature<?, ?>> registerable) {
 		HolderGetter<PlacedFeature> placedFeatures = registerable.lookup(Registries.PLACED_FEATURE);
 
 		SingleObeseAppleTreeDecorator appleDecorator = new SingleObeseAppleTreeDecorator();
@@ -138,7 +138,7 @@ public interface OCWorldgen {
 				));
 	}
 
-	static void bootstrapPlacedFeatures(BootstrapContext<PlacedFeature> registerable) {
+	public static void bootstrapPlacedFeatures(BootstrapContext<PlacedFeature> registerable) {
 		HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures = registerable.lookup(Registries.CONFIGURED_FEATURE);
 
 		PlacementUtils.register(registerable, FLOWERING_OAK_PLACED, configuredFeatures.getOrThrow(FLOWERING_OAK_CONFIGURED), PlacementUtils.filteredByBlockSurvival(Blocks.OAK_SAPLING));

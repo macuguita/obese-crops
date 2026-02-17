@@ -24,15 +24,21 @@ package com.macuguita.obese_crops.datagen;
 
 import java.util.concurrent.CompletableFuture;
 
+import com.macuguita.obese_crops.common.ObeseCrops;
+import com.macuguita.obese_crops.common.block.ObeseCropBlock;
 import com.macuguita.obese_crops.common.reg.OCObjects;
+import com.macuguita.obese_crops.common.resourcereloader.ObeseMapResourceReloadListener;
 import com.macuguita.obese_crops.mixin.BlockLootSubProviderAccessor;
 
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CocoaBlock;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.AlternativesEntry;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
@@ -40,6 +46,8 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
+
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 public class OCBlockLootTableProvider extends FabricBlockLootTableProvider {
 
@@ -49,11 +57,11 @@ public class OCBlockLootTableProvider extends FabricBlockLootTableProvider {
 
 	@Override
 	public void generate() {
-		dropSelf(OCObjects.OBESE_APPLE.get());
-		dropSelf(OCObjects.OBESE_BEETROOT.get());
-		dropSelf(OCObjects.OBESE_CARROT.get());
-		dropSelf(OCObjects.OBESE_POISONOUS_POTATO.get());
-		dropSelf(OCObjects.OBESE_POTATO.get());
+		add(OCObjects.OBESE_APPLE.get(),  block -> createObeseBlockDrop(block, Items.APPLE));
+		add(OCObjects.OBESE_BEETROOT.get(), block -> createObeseBlockDrop(block, Items.BEETROOT));
+		add(OCObjects.OBESE_CARROT.get(), block -> createObeseBlockDrop(block, Items.CARROT));
+		add(OCObjects.OBESE_POISONOUS_POTATO.get(), block -> createObeseBlockDrop(block, Items.POISONOUS_POTATO));
+		add(OCObjects.OBESE_POTATO.get(), block -> createObeseBlockDrop(block, Items.POTATO));
 
 		dropSelf(OCObjects.FLOWERING_OAK_LOG.get());
 		dropSelf(OCObjects.STRIPPED_FLOWERING_OAK_LOG.get());
@@ -64,23 +72,42 @@ public class OCBlockLootTableProvider extends FabricBlockLootTableProvider {
 	}
 
 	private LootTable.Builder createOakLeavesDrops(Block block) {
-		return LootTable.lootTable()
-				.withPool(
+		return LootTable.lootTable().withPool(
+				LootPool.lootPool()
+						.setRolls(ConstantValue.exactly(1.0F))
+						.add(this.applyExplosionDecay(
+								block,
+								LootItem.lootTableItem(OCObjects.APPLE_SEED.get())
+										.apply(
+												SetItemCountFunction.setCount(ConstantValue.exactly(1.0F))
+														.when(
+																LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+																		.setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(CocoaBlock.AGE, 2))
+														)
+										)
+						)));
+	}
+
+	private LootTable.Builder createObeseBlockDrop(Block block, Item drop) {
+		return this.applyExplosionDecay(
+				block,
+				LootTable.lootTable().withPool(
 						LootPool.lootPool()
 								.setRolls(ConstantValue.exactly(1.0F))
 								.add(
-										this.applyExplosionDecay(
-												block,
-												LootItem.lootTableItem(OCObjects.APPLE_SEED.get())
-														.apply(
-																SetItemCountFunction.setCount(ConstantValue.exactly(1.0F))
-																		.when(
-																				LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
-																						.setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(CocoaBlock.AGE, 2))
-																		)
-														)
+										AlternativesEntry.alternatives(
+												ObeseCropBlock.CARVED.getPossibleValues(),
+												integer -> {
+													var builder = LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+															.setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(ObeseCropBlock.CARVED, integer));
+
+													return integer == 0
+															? LootItem.lootTableItem(block).when(builder)
+															: LootItem.lootTableItem(drop).when(builder).apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 4.0F)));
+												}
 										)
 								)
-				);
+				)
+		);
 	}
 }

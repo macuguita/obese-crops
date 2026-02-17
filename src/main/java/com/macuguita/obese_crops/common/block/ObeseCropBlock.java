@@ -30,6 +30,9 @@ import com.mojang.serialization.MapCodec;
 
 import net.minecraft.server.level.ServerLevel;
 
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelReader;
@@ -77,9 +80,7 @@ public class ObeseCropBlock extends HorizontalDirectionalBlock implements Boneme
 	};
 
 	public ObeseCropBlock(Properties settings) {
-		super(settings
-				.pushReaction(PushReaction.DESTROY)
-		);
+		super(settings);
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(FACING, Direction.NORTH)
 				.setValue(CARVED, 0));
@@ -96,7 +97,7 @@ public class ObeseCropBlock extends HorizontalDirectionalBlock implements Boneme
 	}
 
 	public void dropPart(Level level, BlockPos pos) {
-		popResource(level, pos, new ItemStack(ObeseCrops.getObeseDrops(this).orElse(Items.AIR), level.getRandom().nextIntBetweenInclusive(2, 4)));
+		popResource(level, pos, new ItemStack(ObeseCrops.getObeseBlockEntry(this).map(ObeseMapResourceReloadListener.ObeseBlockData.Entry::drop).orElse(Items.AIR), level.getRandom().nextIntBetweenInclusive(2, 4)));
 	}
 
 	@Override
@@ -107,6 +108,7 @@ public class ObeseCropBlock extends HorizontalDirectionalBlock implements Boneme
 			} else {
 				level.setBlock(pos, state.setValue(CARVED, state.getValue(CARVED) + 1), Block.UPDATE_ALL);
 			}
+			level.playSound(player, pos, SoundEvents.PUMPKIN_CARVE, SoundSource.BLOCKS, 1.0F, 1.0F);
 			dropPart(level, pos);
 			Item item = stack.getItem();
 			level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);

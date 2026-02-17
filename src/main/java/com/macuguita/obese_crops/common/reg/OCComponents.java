@@ -31,14 +31,14 @@ import com.mojang.serialization.Codec;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 
-public interface OCComponents {
+public final class OCComponents {
 
-	GuitaRegistry<DataComponentType<?>> COMPONENTS = GuitaRegistries.create(BuiltInRegistries.DATA_COMPONENT_TYPE, ObeseCrops.MOD_ID);
+	public static final GuitaRegistry<DataComponentType<?>> COMPONENTS = GuitaRegistries.create(BuiltInRegistries.DATA_COMPONENT_TYPE, ObeseCrops.MOD_ID);
 
-	GuitaRegistryEntry<DataComponentType<Float>> PULLING_SPEED = COMPONENTS.register("pulling_speed",
+	public static final GuitaRegistryEntry<DataComponentType<Float>> PULLING_SPEED = COMPONENTS.register("pulling_speed",
 			() -> DataComponentType.<Float>builder().persistent(Codec.FLOAT).build());
 
-	static void init() {
+	public static void init() {
 		COMPONENTS.init();
 	}
 }
