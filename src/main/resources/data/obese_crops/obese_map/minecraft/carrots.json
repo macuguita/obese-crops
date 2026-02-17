@@ -1,7 +1,7 @@
 {
   "primary": {
-    "block": "obese_crops:obese_carrot",
+    "obese": "obese_crops:obese_carrot",
     "foliage": "obese_crops:obese_carrot_foliage",
-    "chance": 5
+    "drop": "minecraft:carrot"
   }
 }

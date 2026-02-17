@@ -24,25 +24,25 @@ package com.macuguita.obese_crops.common.resourcereloader;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Collections;
 import java.util.List;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import com.macuguita.obese_crops.common.ObeseCrops;
-import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
+
+import net.minecraft.world.level.block.Blocks;
 
 public class ObeseMapResourceReloadListener implements SimpleSynchronousResourceReloadListener {
 
@@ -51,34 +51,74 @@ public class ObeseMapResourceReloadListener implements SimpleSynchronousResource
 
 	@Override
 	public void onResourceManagerReload(ResourceManager manager) {
-		ObeseCrops.OBESE_MAP.clear();
+		ObeseCrops.SOURCE_TO_OBESE_DATA.clear();
+		ObeseCrops.OBESE_TO_ENTRY.clear();
 
 		manager.listResourceStacks(OBESE_MAP_DIR.getPath(), path ->
 				path.getNamespace().equals(ObeseCrops.MOD_ID) && path.getPath().endsWith(".json")
 		).forEach((identifier, resources) -> {
 			for (var resource : resources) {
 				try (InputStream stream = resource.open()) {
-					JsonObject object = JsonParser.parseReader(new JsonReader(new InputStreamReader(stream))).getAsJsonObject();
+					JsonObject object = JsonParser.parseReader(
+							new JsonReader(new InputStreamReader(stream))
+					).getAsJsonObject();
 
 					ResourceLocation cropBlockId = ResourceLocation.parse(
 							identifier.getPath()
 									.substring(identifier.getPath().indexOf("/") + 1, identifier.getPath().length() - 5)
 									.replace("/", ":")
 					);
-					Block cropBlock = BuiltInRegistries.BLOCK.get(cropBlockId);
-					if (cropBlock == BuiltInRegistries.BLOCK.get(BuiltInRegistries.BLOCK.getDefaultKey()) && !cropBlockId.equals(BuiltInRegistries.BLOCK.getDefaultKey())) {
+
+					Source source;
+					if (BuiltInRegistries.BLOCK.containsKey(cropBlockId)) {
+						source = new Source.BlockSource(BuiltInRegistries.BLOCK.get(cropBlockId));
+					} else if (BuiltInRegistries.ITEM.containsKey(cropBlockId)) {
+						source = new Source.ItemSource(BuiltInRegistries.ITEM.get(cropBlockId));
+					} else {
+						ObeseCrops.LOGGER.error(
+								"Unknown source '{}' in obese map file '{}'",
+								cropBlockId, identifier
+						);
 						continue;
 					}
 
-					DataResult<ObeseBlockData> data = ObeseBlockData.CODEC.parse(JsonOps.INSTANCE, object);
-					data.resultOrPartial(error -> ObeseCrops.LOGGER.error("Failed to parse obese crop '{} in file '{}'", cropBlockId, error))
-							.ifPresent(obeseBlockData -> ObeseCrops.OBESE_MAP.put(cropBlock, obeseBlockData));
+					ObeseBlockData.CODEC
+							.parse(JsonOps.INSTANCE, object)
+							.resultOrPartial(error ->
+									ObeseCrops.LOGGER.error(
+											"Failed to parse obese crop '{}' in file '{}'",
+											cropBlockId, error
+									)
+							)
+							.ifPresent(data -> {
+								ObeseCrops.SOURCE_TO_OBESE_DATA.put(source, data);
+
+								registerEntry(data.primary());
+
+								for (var secondary : data.secondaries()) {
+									registerEntry(secondary);
+								}
+							});
 
 				} catch (Exception exception) {
-					ObeseCrops.LOGGER.error("{} in file '{}'", exception.getLocalizedMessage(), identifier);
+					ObeseCrops.LOGGER.error("{} in file '{}'",
+							exception.getLocalizedMessage(), identifier);
 				}
 			}
 		});
+	}
+
+	private static void registerEntry(ObeseBlockData.Entry entry) {
+		Block obese = entry.obese();
+
+		ObeseBlockData.Entry previous = ObeseCrops.OBESE_TO_ENTRY.put(obese, entry);
+
+		if (previous != null) {
+			ObeseCrops.LOGGER.warn(
+					"Duplicate obese block '{}' detected; overriding previous entry",
+					BuiltInRegistries.BLOCK.getKey(obese)
+			);
+		}
 	}
 
 	@Override
@@ -86,43 +126,31 @@ public class ObeseMapResourceReloadListener implements SimpleSynchronousResource
 		return ID;
 	}
 
-	public record ObeseBlockData(BlockAndChance primary, List<BlockAndChance> secondaries) {
+	public record ObeseBlockData(Entry primary, List<Entry> secondaries) {
 
-		private static final Codec<ObeseBlockData> COMPLEX_CODEC = RecordCodecBuilder.create(i -> i.group(
-				BlockAndChance.CODEC.fieldOf("primary").forGetter(ObeseBlockData::primary),
-				BlockAndChance.CODEC.listOf().fieldOf("secondaries").forGetter(ObeseBlockData::secondaries)
+		private static final Codec<ObeseBlockData> CODEC = RecordCodecBuilder.create(i -> i.group(
+				Entry.CODEC.fieldOf("primary").forGetter(ObeseBlockData::primary),
+				Entry.CODEC.listOf().optionalFieldOf("secondaries", List.of()).forGetter(ObeseBlockData::secondaries)
 		).apply(i, ObeseBlockData::new));
 
-		private static final Codec<ObeseBlockData> SIMPLE_CODEC = RecordCodecBuilder.create(i -> i.group(
-				BlockAndChance.CODEC.fieldOf("primary").forGetter(ObeseBlockData::primary)
-		).apply(i, blockAndChance -> new ObeseBlockData(blockAndChance, Collections.emptyList())));
+		public record Entry(Block obese, Block foliage, Item drop, int chance) {
 
-		public static final Codec<ObeseBlockData> CODEC = Codec.either(COMPLEX_CODEC, SIMPLE_CODEC)
-				.xmap(
-						either -> either.map(data -> data, data -> data),
-						data -> data.secondaries().isEmpty()
-								? Either.right(data)
-								: Either.left(data)
-				);
-
-		public record BlockAndChance(Block block, Block foliage, int chance) {
-
-			public static final Codec<Block> BLOCK_CODEC = ResourceLocation.CODEC.flatXmap(
-					rl -> {
-						Block block = BuiltInRegistries.BLOCK.get(rl);
-						if (!BuiltInRegistries.BLOCK.containsKey(rl)) {
-							return DataResult.error(() -> "Unknown block: " + rl);
-						}
-						return DataResult.success(block);
-					},
-					block -> DataResult.success(BuiltInRegistries.BLOCK.getKey(block))
+			public static final Codec<Block> BLOCK_CODEC = ResourceLocation.CODEC.xmap(
+					BuiltInRegistries.BLOCK::get,
+					BuiltInRegistries.BLOCK::getKey
 			);
 
-			public static final Codec<BlockAndChance> CODEC = RecordCodecBuilder.create(i -> i.group(
-					BLOCK_CODEC.fieldOf("block").forGetter(BlockAndChance::block),
-					BLOCK_CODEC.fieldOf("foliage").forGetter(BlockAndChance::foliage),
-					Codec.INT.fieldOf("chance").forGetter(BlockAndChance::chance)
-			).apply(i, BlockAndChance::new));
+			public static final Codec<Item> ITEM_CODEC = ResourceLocation.CODEC.xmap(
+					BuiltInRegistries.ITEM::get,
+					BuiltInRegistries.ITEM::getKey
+			);
+
+			public static final Codec<Entry> CODEC = RecordCodecBuilder.create(i -> i.group(
+					BLOCK_CODEC.fieldOf("obese").forGetter(Entry::obese),
+					BLOCK_CODEC.optionalFieldOf("foliage", Blocks.AIR).forGetter(Entry::foliage),
+					ITEM_CODEC.fieldOf("drop").forGetter(Entry::drop),
+					Codec.INT.optionalFieldOf("chance", 5).forGetter(Entry::chance)
+			).apply(i, Entry::new));
 		}
 	}
 }

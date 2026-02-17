@@ -26,6 +26,7 @@ import com.macuguita.obese_crops.common.reg.OCBlockTags;
 import com.mojang.serialization.MapCodec;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -59,7 +60,7 @@ public class ObeseCropFoliageBlock extends BushBlock {
 
 	@Override
 	protected boolean mayPlaceOn(BlockState state, BlockGetter level, BlockPos pos) {
-		return state.is(BlockTags.DIRT) || state.is(Blocks.FARMLAND) || state.is(OCBlockTags.OBESE_CROP);
+		return state.isFaceSturdy(level, pos, Direction.UP) && state.is(BlockTags.DIRT) || state.is(Blocks.FARMLAND) || state.is(OCBlockTags.OBESE_CROP);
 	}
 
 	@Override

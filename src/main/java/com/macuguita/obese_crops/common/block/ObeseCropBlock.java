@@ -24,8 +24,17 @@ package com.macuguita.obese_crops.common.block;
 
 import com.macuguita.obese_crops.common.ObeseCrops;
 import com.macuguita.obese_crops.common.reg.OCItemTags;
+import com.macuguita.obese_crops.common.resourcereloader.ObeseMapResourceReloadListener;
 import com.macuguita.obese_crops.common.utils.OCUtils;
 import com.mojang.serialization.MapCodec;
+
+import net.minecraft.server.level.ServerLevel;
+
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.BonemealableBlock;
+
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.BlockPos;
@@ -53,7 +62,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class ObeseCropBlock extends HorizontalDirectionalBlock {
+public class ObeseCropBlock extends HorizontalDirectionalBlock implements BonemealableBlock {
 
 	public static final MapCodec<ObeseCropBlock> CODEC = simpleCodec(ObeseCropBlock::new);
 	public static final IntegerProperty CARVED = IntegerProperty.create("carved", 0, 3);
@@ -94,9 +103,9 @@ public class ObeseCropBlock extends HorizontalDirectionalBlock {
 	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
 		if (stack.is(OCItemTags.SHARP_TOOLS)) {
 			if (state.getValue(CARVED) == 3) {
-				level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+				level.setBlock(pos, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
 			} else {
-				level.setBlockAndUpdate(pos, state.setValue(CARVED, state.getValue(CARVED) + 1));
+				level.setBlock(pos, state.setValue(CARVED, state.getValue(CARVED) + 1), Block.UPDATE_ALL);
 			}
 			dropPart(level, pos);
 			Item item = stack.getItem();
@@ -122,5 +131,32 @@ public class ObeseCropBlock extends HorizontalDirectionalBlock {
 	@Override
 	protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
 		return CODEC;
+	}
+
+	@Override
+	public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
+		return state.getValue(CARVED) == 0
+				&& level.getBlockState(pos.above()).canBeReplaced()
+				&& ObeseCrops.getObeseBlockEntry(this)
+					.map(ObeseMapResourceReloadListener.ObeseBlockData.Entry::foliage)
+					.map(it -> !it.defaultBlockState().is(BlockTags.AIR)).orElse(false);
+	}
+
+	@Override
+	public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state) {
+		return true;
+	}
+
+	@Override
+	public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
+		BlockPos abovePos = pos.above();
+		BlockState aboveBlock = level.getBlockState(abovePos);
+		if (aboveBlock.canBeReplaced()) {
+			ObeseCrops.getObeseBlockEntry(this).ifPresent(entry -> {
+				if (entry.obese().equals(this)) {
+					level.setBlock(abovePos, entry.foliage().defaultBlockState(), Block.UPDATE_ALL);
+				}
+			});
+		}
 	}
 }

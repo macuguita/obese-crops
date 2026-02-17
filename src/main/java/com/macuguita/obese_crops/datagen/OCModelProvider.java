@@ -85,62 +85,62 @@ public class OCModelProvider extends FabricModelProvider {
 	}
 
 	private static final ModelTemplate CARVED_BLOCK_1_4 = new ModelTemplate(
-			Optional.of(ObeseCrops.id("block/1_4_carved_block")),
+			Optional.of(ObeseCrops.id("obese/1_4_carved_block")),
 			Optional.of("_1_4"),
 			TextureSlot.SIDE, TextureSlot.TOP, TextureSlot.INSIDE);
 
 	private static final ModelTemplate CARVED_BLOCK_2_4 = new ModelTemplate(
-			Optional.of(ObeseCrops.id("block/2_4_carved_block")),
+			Optional.of(ObeseCrops.id("obese/2_4_carved_block")),
 			Optional.of("_2_4"),
 			TextureSlot.SIDE, TextureSlot.TOP, TextureSlot.INSIDE);
 
 	private static final ModelTemplate CARVED_BLOCK_3_4 = new ModelTemplate(
-			Optional.of(ObeseCrops.id("block/3_4_carved_block")),
+			Optional.of(ObeseCrops.id("obese/3_4_carved_block")),
 			Optional.of("_3_4"),
 			TextureSlot.SIDE, TextureSlot.TOP, TextureSlot.INSIDE);
 
 	private static final ModelTemplate OBESE_CROP = new ModelTemplate(
-			Optional.of(ObeseCrops.id("block/obese_crop")),
+			Optional.of(ObeseCrops.id("obese/obese_crop")),
 			Optional.empty(),
 			TextureSlot.SIDE, TextureSlot.TOP, TextureSlot.INSIDE);
 
 	private static final ModelTemplate THIN_LOG_CORE = new ModelTemplate(
-			Optional.of(ObeseCrops.id("block/thin_log_core")),
+			Optional.of(ObeseCrops.id("obese/thin_log_core")),
 			Optional.of("_core"),
 			TextureSlot.SIDE);
 
 	private static final ModelTemplate THIN_LOG_DOWN = new ModelTemplate(
-			Optional.of(ObeseCrops.id("block/thin_log_down")),
+			Optional.of(ObeseCrops.id("obese/thin_log_down")),
 			Optional.of("_down"),
 			TextureSlot.SIDE, TextureSlot.TOP);
 
 	private static final ModelTemplate THIN_LOG_UP = new ModelTemplate(
-			Optional.of(ObeseCrops.id("block/thin_log_up")),
+			Optional.of(ObeseCrops.id("obese/thin_log_up")),
 			Optional.of("_up"),
 			TextureSlot.SIDE, TextureSlot.TOP);
 
 	private static final ModelTemplate THIN_LOG_INVENTORY = new ModelTemplate(
-			Optional.of(ObeseCrops.id("block/thin_log_inventory")),
+			Optional.of(ObeseCrops.id("obese/thin_log_inventory")),
 			Optional.of("_inventory"),
 			TextureSlot.SIDE, TextureSlot.TOP);
 
 	private static final ModelTemplate FLOWERING_LEAVES = new ModelTemplate(
-			Optional.of(ObeseCrops.id("block/flowering_leaves")),
+			Optional.of(ObeseCrops.id("obese/flowering_leaves")),
 			Optional.of(""),
 			TextureSlot.ALL, TextureSlot.LAYER0);
 
 	private static final ModelTemplate FRUIT_STAGE0 = new ModelTemplate(
-			Optional.of(ObeseCrops.id("block/fruit_stage0")),
+			Optional.of(ObeseCrops.id("obese/fruit_stage0")),
 			Optional.of("_stage0"),
 			TextureSlot.PLANT);
 
 	private static final ModelTemplate FRUIT_STAGE1 = new ModelTemplate(
-			Optional.of(ObeseCrops.id("block/fruit_stage1")),
+			Optional.of(ObeseCrops.id("obese/fruit_stage1")),
 			Optional.of("_stage1"),
 			TextureSlot.PLANT);
 
 	private static final ModelTemplate FRUIT_STAGE2 = new ModelTemplate(
-			Optional.of(ObeseCrops.id("block/fruit_stage2")),
+			Optional.of(ObeseCrops.id("obese/fruit_stage2")),
 			Optional.of("_stage2"),
 			TextureSlot.PLANT);
 
