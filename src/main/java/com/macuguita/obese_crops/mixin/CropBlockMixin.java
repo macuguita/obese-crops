@@ -113,8 +113,9 @@ public abstract class CropBlockMixin {
 			@Share("turnsToObese") LocalBooleanRef turnsToObese,
 			@Share("blockAndChance") LocalRef<ObeseMapResourceReloadListener.ObeseBlockData.Entry> obeseBACRef
 	) {
+		boolean toReturn = original.call(instance, blockPos, blockState, i);
 		obese_crops$transformBlocks(instance, blockPos, turnsToObese.get(), obeseBACRef.get());
-		return original.call(instance, blockPos, blockState, i);
+		return toReturn;
 	}
 
 	@Definition(id = "level", local = @Local(type = Level.class, argsOnly = true))
@@ -166,12 +167,12 @@ public abstract class CropBlockMixin {
 			BlockState newState,
 			int flags,
 			Operation<Boolean> original,
-			@Share("blockState") LocalRef<BlockState> stateRef,
 			@Share("turnsToObese") LocalBooleanRef turnsToObese,
 			@Share("blockAndChance") LocalRef<ObeseMapResourceReloadListener.ObeseBlockData.Entry> obeseBACRef
 	) {
+		boolean toReturn = original.call(instance, pos, newState, flags);;
 		obese_crops$transformBlocks(instance, pos, turnsToObese.get(), obeseBACRef.get());
-		return original.call(instance, pos, newState, flags);
+		return toReturn;
 	}
 
 	@Unique
@@ -199,9 +200,15 @@ public abstract class CropBlockMixin {
 	) {
 		if (turnsToObese) {
 			if (level.getBlockState(pos.below()).getBlock() instanceof FarmBlock) {
-				level.setBlock(pos.below(),
-						blockAndChance.obese().defaultBlockState().is(OCBlockTags.DOUBLE_OBESE_CROP) ? blockAndChance.obese().defaultBlockState() : Blocks.ROOTED_DIRT.defaultBlockState(),
-						Block.UPDATE_CLIENTS);
+				BlockState obese = blockAndChance.obese().defaultBlockState();
+				BlockState below = ObeseCrops.CONFIG.doubleTallCrops && obese.is(OCBlockTags.DOUBLE_OBESE_CROP)
+						? obese
+						: ObeseCrops.CONFIG.rootedDirtUnderCrops
+						? Blocks.ROOTED_DIRT.defaultBlockState()
+						: null;
+				if (below != null) {
+					level.setBlock(pos.below(), below, Block.UPDATE_CLIENTS);
+				}
 				level.setBlock(pos.above(),
 						blockAndChance.foliage().defaultBlockState(),
 						Block.UPDATE_CLIENTS);

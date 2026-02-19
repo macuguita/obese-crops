@@ -67,6 +67,10 @@ public class ObeseCrops implements ModInitializer {
 	public static class OCConfig extends WrappedConfig {
 		@Comment("Whether apple/flowering oak trees should spawn naturally.")
 		public boolean floweringOakSpawn = true;
+		@Comment("Whether double crops defined on the obese_crops:double_obese_crops tag should be double.")
+		public boolean doubleTallCrops = true;
+		@Comment("Whether rooted dirt should appear under newly spawned obese crops.")
+		public boolean rootedDirtUnderCrops = true;
 	}
 
 	public static final Map<Source, ObeseMapResourceReloadListener.ObeseBlockData> SOURCE_TO_OBESE_DATA = new Object2ObjectOpenHashMap<>();
